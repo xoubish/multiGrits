@@ -1,0 +1,5 @@
+- `diagrams/fan-out.mmd` — orchestrator sends the same task shape to four isolated researcher nodes in parallel; each returns only a summary, merged centrally into one brief (Pattern 1).
+- `diagrams/pipeline.mmd` — a single task flows sequentially through planner, implementer, and tester nodes (plan, diff, test report edges), each stage a fresh context, ending in one merged result (Pattern 2).
+- `diagrams/writer-critic.mmd` — a script-owned loop: writer drafts, critic returns a critique or a pass; the script (not the agents) decides whether to send a revise task back to the writer (Pattern 3).
+- `diagrams/parallel-workers.mmd` — orchestrator script launches two workers on separate git worktrees; each returns a diff, merged centrally with no shared file access during work (Pattern 4).
+- `diagrams/meta-pipeline.mmd` — this repo's own build stages driven by `pipeline/run.sh`: research fan-out (x4) → outliner → slide-writer and diagrammer in parallel worktrees → critic loop → fact-checker → notes/Q&A/cost report.

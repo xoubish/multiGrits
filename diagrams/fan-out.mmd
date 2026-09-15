@@ -1,0 +1,9 @@
+flowchart LR
+  O["Orchestrator"] -->|"task"| R1["Researcher 1"]
+  O -->|"task"| R2["Researcher 2"]
+  O -->|"task"| R3["Researcher 3"]
+  O -->|"task"| R4["Researcher 4"]
+  R1 -->|"summary"| M["Merged brief"]
+  R2 -->|"summary"| M
+  R3 -->|"summary"| M
+  R4 -->|"summary"| M

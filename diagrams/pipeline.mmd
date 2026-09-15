@@ -1,0 +1,5 @@
+flowchart LR
+  H["Orchestrator"] -->|"task"| P["Planner"]
+  P -->|"plan"| I["Implementer"]
+  I -->|"diff"| T["Tester"]
+  T -->|"test report"| M["Merged result"]

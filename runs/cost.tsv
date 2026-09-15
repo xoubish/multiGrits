@@ -2,3 +2,11 @@ time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration
 2026-09-15T11:08:00	runs/002-outline	outliner	claude-haiku-4-5-20251001,claude-sonnet-5	22	20	382374	89833	39906	0.8360578000000002	433213	434	False
 2026-09-15T11:11:07	runs/003-outline	outliner	claude-haiku-4-5-20251001,claude-sonnet-5	16	14	224926	61167	13766	0.42846720000000005	133471	134	False
 2026-09-15T13:40:41	runs/004-write/slides	slide-writer	claude-fable-5-1,claude-haiku-4-5-20251001	13	130	89952	51444	26351	2.37132	311495	313	False
+2026-09-15T13:36:52	runs/004-write/diagrams	diagrammer	claude-haiku-4-5-20251001,claude-sonnet-5	16	14	101272	27605	9112	0.22295140000000002	82563	84	False
+2026-09-15T14:10:48	runs/005-critique	critic	claude-fable-5-1,claude-haiku-4-5-20251001	11	98	52674	50415	26929	2.3699795	319401	320	False
+2026-09-15T14:17:38	runs/006-revise	slide-writer	claude-fable-5-1,claude-haiku-4-5-20251001	34	98	71077	49208	37445	3.4481965	409020	410	True
+2026-09-15T14:23:39	runs/007-critique	critic	claude-fable-5-1,claude-haiku-4-5-20251001	22	194	210574	55607	29459	2.6407545	360586	361	False
+2026-09-15T14:26:47	runs/008-revise	slide-writer	claude-fable-5-1,claude-haiku-4-5-20251001	31	130	98004	39380	16360	1.6168100000000003	187676	188	False
+2026-09-15T14:33:42	runs/009-factcheck	fact-checker	claude-haiku-4-5-20251001,claude-sonnet-5	62	24	1216892	177762	34835	1.9529078999999998	345510	346	False
+2026-09-15T14:46:40	runs/010-qa	qa-skeptic	claude-haiku-4-5-20251001,claude-sonnet-5	22	20	480063	92118	25665	0.5908986	270383	271	False
+2026-09-15T14:50:49	runs/010-notes	notes-writer	claude-haiku-4-5-20251001,claude-sonnet-5	33	22	509974	93815	54102	0.8854972999999999	519010	520	False
