@@ -216,3 +216,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# multiGrits pipeline
+.worktrees/
+node_modules/
+slides/build/

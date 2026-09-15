@@ -1,0 +1,5 @@
+Wrote `slides/outline.md` (21 slides, ≤25) and `runs/003-outline/notes.md`.
+
+Structure follows `talk-context.md`'s binding segment table exactly (Why 180s / Patterns 420s / Demo 720s / Gotchas 300s = 1620s content; Q&A 180s; 1800s total) — no timing contradiction was found this run, unlike a prior draft, which I logged. Slide 2 frames the meta-demo. Slides 6–9 (one per pattern) are marked **[DIAGRAM]**. The demo segment (slides 11–15) gives minute-by-minute on-screen content across 0:00–12:00, with fallbacks stated for both the terminal walkthrough and the one live critic call. Every slide message carries a URL from `research/brief.md` or a repo path. Ends with a six-item "Cuts if running long" list, ordered to protect slide 2, the diagrams, and the live critic call.
+
+Notes.md logs five thin spots: the weakly-evidenced "script the orchestration" gotcha, an unverified MAST sub-statistic deliberately omitted, a judgment-call time estimate for the live critic slide, the deliberately-excluded tool-comparison table (non-goals conflict), and Pattern 3's evidence skewing toward failure modes rather than validated wins.

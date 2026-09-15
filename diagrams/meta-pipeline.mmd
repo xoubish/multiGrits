@@ -1,0 +1,9 @@
+flowchart LR
+  H["Human + orchestrator"] -->|4 topics| R["Researchers x4 (parallel)"]
+  R -->|briefs| M["Merged brief"]
+  M --> O["Outliner"]
+  O --> W["Slide-writer (worktree)"]
+  O --> D["Diagrammer (worktree)"]
+  W & D -->|merge| C["Critic ⇄ Revise (script-owned loop)"]
+  C --> F["Fact-checker (web)"]
+  F --> S["Deck + notes + Q&A + cost report"]
