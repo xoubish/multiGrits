@@ -26,7 +26,8 @@
 # --budget    per-stage cap passed to claude --max-budget-usd (default 3)
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SELF="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+ROOT="$(dirname "$(dirname "$SELF")")"
 cd "$ROOT"
 
 STAGE="${1:-}"; shift || true
@@ -39,7 +40,7 @@ while [[ $# -gt 0 ]]; do
     *) echo "unknown option $1" >&2; exit 2 ;;
   esac; shift
 done
-[[ -z "$STAGE" ]] && { sed -n '2,25p' "$0"; exit 2; }
+[[ -z "$STAGE" ]] && { sed -n '2,25p' "$SELF" | sed 's/^# \{0,1\}//'; exit 2; }
 
 log() { printf '\033[1;34m[pipeline]\033[0m %s\n' "$*" >&2; }
 
