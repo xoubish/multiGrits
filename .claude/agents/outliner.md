@@ -11,7 +11,7 @@ Produce `slides/outline.md`: one entry per slide with title, one-line message, t
 on (URL), a time budget in seconds, and which segment of the fixed structure it belongs to.
 
 Constraints
-- At most 25 slides. Time budgets for content slides sum to 1620 seconds (27 min); Q&A and hand-off take the remaining 180 s. The segment minutes in talk-context.md are binding; if you find a contradiction in the spec, log it and use the table.
+- At most 30 presented slides. Time budgets for content slides sum to 1620 seconds (27 min); Q&A and hand-off take the remaining 180 s. The segment minutes in talk-context.md are binding; if you find a contradiction in the spec, log it and use the table.
 - Slide 2 frames the meta-demo: this deck was built by the pipeline about to be shown.
 - Mark the four slides that carry pattern diagrams.
 - For the demo segment, write what is on screen minute by minute.

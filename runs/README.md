@@ -20,4 +20,4 @@ from every `result.json`; nothing appends to a shared file, because run 004 show
 four researcher subagents with the Agent tool), so it has `prompts/` and `returns/` instead of
 `result.json`. Its cost is recorded by hand in its README from the session's `/cost` output.
 
-These logs are the demo. Show the audience a prompt, the return, and the diff the stage produced.
+These logs are the demo: `pipeline/capture.py` screenshots them for the recorded demo slides. Show the audience a prompt, the return, and the diff the stage produced.

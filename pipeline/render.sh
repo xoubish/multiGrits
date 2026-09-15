@@ -4,6 +4,7 @@
 # from deck.html in a browser with network access. For PDF, pre-render .mmd to SVG first (see README).
 set -euo pipefail
 cd "$(dirname "$0")/.."
+python3 pipeline/render_diagrams.py   # static SVGs via installed Chrome; falls back to the live loader
 python3 pipeline/inline_diagrams.py || echo "continuing with missing diagrams" >&2
 # Prefer an installed or npx-cached marp; `npx -y pkg@4` re-resolves the version against the registry on every
 # call and hung for minutes once during the build. Fall back to npx only when nothing is cached.

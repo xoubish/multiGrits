@@ -75,8 +75,14 @@ Gotchas to land:
 
 ## The meta-demo
 
-This deck is itself built by a multi-agent pipeline in this repo. The demo shows the repo,
-the logged runs, and one live stage (critic or fact-checker) run against the deck being presented.
+This deck is itself built by a multi-agent pipeline in this repo.
+
+Demo mode: **recorded**. Nothing runs live on stage. The 12-minute demo segment walks through terminal
+screenshots of the pipeline's real runs and logs, captured from this repo by `pipeline/capture.py` and placed on
+ten slides, one screenshot each, by the `demo-editor` agent (`pipeline/run.sh shots`). The slides say plainly that these are captures. The first demo slide shows the repository layout; an appendix
+after Sources shows every agent definition file as a screenshot.
+Failures that happened during the build (spec contradiction, worktree merge conflict, budget exhaustion) are
+shown, not hidden.
 
 Stages:
 1. Research fan-out (4 researchers in parallel, web access) → `research/briefs/*.md` → merged `research/brief.md`
@@ -90,7 +96,8 @@ Stages:
 
 - Every factual claim carries a citation with a URL. Unverifiable claims go under an "Unverified" heading.
 - Plain language, no hype. Prefer numbers with sources.
-- Slides: Marp markdown. At most 25 slides. One idea per slide. At most 40 words of body text per slide.
+- Slides: Marp markdown. At most 30 presented slides; an appendix after the Sources slides (agent files,
+  repo layout) is allowed and not counted. Screenshot slides carry exactly one screenshot each, full width. One idea per slide. At most 40 words of body text per slide.
   Speaker notes go in HTML comments below each slide.
 - Diagrams: Mermaid, one per pattern, at most 8 nodes each.
 - Astronomy flavor is welcome but secondary.

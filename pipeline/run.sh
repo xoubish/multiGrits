@@ -6,7 +6,7 @@
 #
 # Usage:
 #   pipeline/run.sh <stage> [--commit] [--budget USD] [--rounds N]
-#   stages: outline | write | critique | revise | loop | factcheck | notes | qa | cost | all
+#   stages: outline | write | critique | revise | loop | factcheck | notes | qa | cost | shots | all
 #
 #   outline    outliner reads research/brief.md, writes slides/outline.md
 #   write      slide-writer and diagrammer run IN PARALLEL in two git worktrees, then merge
@@ -17,6 +17,8 @@
 #   notes      notes-writer writes slides/speaker-script.md and handout/handout.md
 #   qa         qa-skeptic writes handout/qa.md          (notes and qa run in parallel under 'all')
 #   cost       python3 pipeline/cost_report.py -> runs/cost-report.md   (no LLM needed)
+#   shots      recorded demo: capture.py renders terminal screenshots of real runs, demo-editor rewrites
+#              the five demo slides around them so nothing runs live on stage
 #   all        outline, write, loop, factcheck, notes+qa, cost
 #
 # Every stage logs to runs/NNN-<stage>/: prompt.md (exact prompt sent), result.json (full
@@ -150,6 +152,17 @@ stage_notes()     { run_agent notes-writer "$(next_run_dir notes)" pipeline/prom
 stage_qa()        { run_agent qa-skeptic   "$(next_run_dir qa)"    pipeline/prompts/qa.md    "Read,Glob,Grep,Write"; }
 stage_cost()      { python3 pipeline/cost_report.py; log "runs/cost-report.md written"; }
 
+# Recorded demo. Deterministic capture first, one agent edits the demo slides, capture again in case the agent
+# added shots to pipeline/captures.json. The script owns the loop; the agent never runs commands.
+stage_shots() {
+  local run_dir; run_dir=$(next_run_dir shots); mkdir -p "$run_dir"
+  python3 pipeline/capture.py
+  cp slides/deck.md "$run_dir/deck-before.md"
+  run_agent demo-editor "$run_dir" pipeline/prompts/shots.md "Read,Write,Edit,Glob,Grep"
+  python3 pipeline/capture.py
+  log "recorded demo written; render with pipeline/render.sh --pdf"
+}
+
 case "$STAGE" in
   outline)   stage_outline ;;
   write)     stage_write ;;
@@ -160,6 +173,7 @@ case "$STAGE" in
   notes)     stage_notes ;;
   qa)        stage_qa ;;
   cost)      stage_cost ;;
+  shots)     stage_shots ;;
   all)
     stage_outline
     [[ $COMMIT -eq 1 ]] || { git add -A && git commit -qm "pipeline: outline" || true; }

@@ -1,7 +1,7 @@
 # Multi-agent workflows — handout
 
 Shooby Hemmati, IPAC · GRITS AI workshop, Day 2 · repo: this deck was built by the pipeline it
-describes. Full citations are on the deck's Sources slides (22–25) and in `research/brief.md`.
+describes. Full citations are on the deck's Sources slides (27–30) and in `research/brief.md`.
 
 ## The four patterns
 

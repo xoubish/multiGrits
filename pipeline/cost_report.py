@@ -44,4 +44,10 @@ pathlib.Path("runs/cost-report.md").write_text("\n".join(out) + "\n")
 tsv = ["run_dir\tmodels\tturns\tinput\tcache_read\toutput\tusd\tseconds"]
 tsv += ["\t".join(str(r[k]) for k in ("run", "models", "turns", "in", "cache_read", "out", "usd", "sec")) for r in rows]
 pathlib.Path("runs/cost.tsv").write_text("\n".join(tsv) + "\n")  # generated, never appended to
+def short_model(m):  # drop the helper-model noise and the vendor prefix for the compact view
+    return ",".join(x.replace("claude-", "") for x in m.split(",") if "haiku" not in x) or "haiku"
+txt = [f"{'run':<26}{'model':<12}{'turns':>6}{'output tok':>12}{'USD':>8}{'sec':>6}"]
+txt += [f"{r['run']:<26}{short_model(r['models']):<12}{r['turns']:>6}{r['out']:>12,}{r['usd']:>8.2f}{r['sec']:>6}" for r in rows]
+txt += [f"{'total':<26}{'':<12}{'':>6}{tot['out']:>12,}{tot['usd']:>8.2f}{tot['sec']:>6}"]
+pathlib.Path("runs/cost-summary.txt").write_text("\n".join(txt) + "\n")
 print(f"{len(rows)} runs, total ${tot['usd']:.2f}")

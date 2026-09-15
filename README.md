@@ -9,14 +9,16 @@ what the audience sees. Every pattern the talk teaches is used at least once to 
 
 ```
 talk-context.md        single source of truth: audience, schedule, non-goals, thesis, style rules
-.claude/agents/        eight subagent definitions (researcher, outliner, slide-writer, diagrammer,
-                       critic, fact-checker, qa-skeptic, notes-writer), each with its own model and tools
+.claude/agents/        nine subagent definitions (researcher, outliner, slide-writer, diagrammer, critic,
+                       fact-checker, qa-skeptic, notes-writer, demo-editor), each with its own model and tools
 pipeline/run.sh        deterministic orchestration: stages, the critic loop, worktree isolation
 pipeline/prompts/      the prompt template for each stage
-pipeline/render.sh     Marp render with Mermaid diagrams inlined
+pipeline/render.sh     Marp render with diagrams pre-rendered to SVG and screenshots inlined
+pipeline/capture.py    terminal-style screenshots of read-only commands (pipeline/captures.json) -> slides/shots/
+pipeline/tree.sh       repo layout listing used by one of the screenshots
 pipeline/cost_report.py  per-stage, per-model cost table from the run logs
 research/briefs/       one cited brief per researcher; research/brief.md is the orchestrator's merge
-slides/                outline.md, deck.md (Marp), speaker-script.md
+slides/                outline.md, deck.md (Marp), speaker-script.md, shots/ (demo screenshots)
 diagrams/              one Mermaid file per pattern, inlined into the deck at build time
 handout/               handout.md, qa.md
 runs/                  one directory per stage: exact prompt, full JSON result, return text, outputs
@@ -60,32 +62,42 @@ Two ways to isolate parallel workers, both shown in the talk: the script creates
 `write` stage, and in an interactive session the Agent tool accepts `isolation: "worktree"` (or a subagent's
 frontmatter can declare `isolation: worktree`) so Claude Code creates and cleans up the worktree for you.
 
-## Demo plan for the 12-minute segment
+## Demo mode: recorded, nothing runs on stage
 
-| Minutes | On screen |
-|---|---|
-| 2 | The repo: `.claude/agents/`, `pipeline/run.sh`, `runs/` |
-| 3 | `runs/001-research-fanout/`: four prompts, four returns, the merged brief |
-| 5 | Live: `pipeline/run.sh critique` or `factcheck` against the deck being presented |
-| 2 | One real failure from the build, from `runs/` |
+The 12-minute demo segment is five slides of terminal screenshots taken from this repo's real runs. Nothing is
+executed during the talk, so there is no network, timing, or budget risk on stage.
 
-Fallback: a screen recording of the full `run.sh all`, kept outside the repo.
+- `pipeline/capture.py` runs every read-only command in `pipeline/captures.json` (agent files, the repo tree, run
+  logs, `git log`, the critique, the fact-check tally, the cost report) and renders each as a terminal-window PNG
+  in `slides/shots/` using the installed Chrome. Deterministic; re-run it after any pipeline stage to refresh.
+- `pipeline/run.sh shots` runs that capture, then the `demo-editor` agent rewrites the five demo slides around
+  the screenshots, adds an appendix with one slide per agent file, updates the speaker script, and captures again.
+- The slides say plainly that these are captures. The three real failures from the build are shown on purpose.
 
-## Requirements
+To go back to a live demo, restore the earlier deck from `runs/0NN-shots/deck-before.md` or from git history.
 
-Claude Code 2.1 or newer, Node 22 (Marp runs via `npx`, nothing to install), Python 3. PDF export
-needs the Mermaid diagrams pre-rendered to SVG; `npx -y @mermaid-js/mermaid-cli mmdc -i diagrams/x.mmd -o diagrams/x.svg`
-does that but downloads a headless Chromium on first use.
+## Requirements and rendering
+
+Claude Code 2.1 or newer, Node 22 (Marp runs from the npx cache, nothing to install), Python 3, and Google Chrome
+(or Chromium/Edge) for PDF export and diagram pre-rendering.
+
+`pipeline/render.sh` does three things: `render_diagrams.py` turns each `diagrams/*.mmd` into a static SVG with
+plain text labels using the installed Chrome and a cached copy of Mermaid; `inline_diagrams.py` embeds those SVGs
+into the deck (falling back to a live Mermaid loader only if no SVG exists); Marp converts to `slides/build/deck.html`
+and, with `--pdf`, `deck.pdf`. Present from `deck.html` in any browser, offline. Press `p` for presenter view with
+speaker notes and a timer.
+
+Why pre-render: Mermaid's live renderer draws labels as HTML inside SVG, which Safari clips, and it needs network
+at talk time. Static SVGs render identically in Safari, Chrome, and PDF. Marp is called with `--no-stdin` because
+it otherwise waits forever for piped input when stdin is not a terminal (CI, cron, backgrounded runs).
 
 ## Status (2026-09-15, end of day)
 
-All stages have run once: research fan-out (001), outline (002 found a spec contradiction, 003 clean), parallel
-write (004, whose merge conflicted on a shared cost log; fixed, see `runs/004-write/README.md`), two critic and
-revise rounds (005 to 008; 006 hit the budget cap), fact-check (009: 44 confirmed, 2 partial, 0 not found),
-speaker script, handout, and hostile Q&A (010). The fact-checker's four corrections and the critic's two
-diagram fixes were applied by hand. Headless spend: $17.36, about 72% of it on the session-model stages
-(slide-writer and critic).
+All stages have run: research fan-out (001), outline (002 found a spec contradiction, 003 clean), parallel write
+(004, merge conflict on a shared cost log, fixed), two critic and revise rounds (005 to 008; 006 hit the budget
+cap), fact-check (009: 44 confirmed, 2 partial, 0 not found), speaker script, handout, hostile Q&A (010), and the
+recorded demo (011: screenshots plus the demo-editor agent; the human then split its two-per-slide layout into one
+screenshot per slide, see `runs/011-shots/README.md`). Deck: 30 presented slides plus a 10-slide appendix of agent
+files, renders to HTML and PDF offline. Headless spend: $19.32.
 
-Remaining before the talk: rehearse from `slides/speaker-script.md`; run `pipeline/run.sh critique --budget 5`
-once as a timed dry run for the live demo; decide whether to keep Mermaid loading from a CDN or pre-render
-SVGs for offline use; record the fallback video.
+Remaining before the talk: rehearse from `slides/speaker-script.md`; commit.

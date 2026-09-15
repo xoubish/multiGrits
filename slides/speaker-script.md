@@ -111,8 +111,8 @@ evaluation, or fabricated results; Stargazer found agents that achieve a good st
 fail to recover correct physical parameters. A good chi-squared is not a good answer — the critic
 needs to run the physics check, not read the summary. A critic isn't free, either: Jamshidi and
 colleagues found chaining a reviewer cut the hallucination score from 0.422 to 0.272, while factual
-accuracy also slipped from 0.789 to 0.769. Reviewers edit true things too. This is the pattern we'll
-run live in the demo.
+accuracy also slipped from 0.789 to 0.769. Reviewers edit true things too. This is the pattern the
+recorded demo shows next, against this deck.
 **Transition:** One more shape: isolating agents that work at the same time.
 *(~204 words — if short on time here, keep only the gwBenchmarks sentence and drop the Jamshidi
 number.)*
@@ -143,96 +143,70 @@ is task shape. Returns also diminish once the single agent is already strong.
 
 ---
 
-## Segment 3 — Live demo of one pattern (10:00–22:00)
+## Segment 3 — Recorded demo: the pipeline that built this talk (10:00–22:00)
 
-Note for this whole segment: the time budget includes screen-watching and terminal wait time, not
-continuous talking, so the scripted words below run well under the 140-wpm ceiling on purpose.
+Note for this whole segment: nothing runs live. Every image is a screenshot already committed to this repo,
+captured by `pipeline/capture.py` before the talk. Ten slides, one screenshot each, 720 s in total. Words run
+under the 140-wpm ceiling on purpose, leaving room to read a real number or finding off the screen.
 
-### Slide 11 — Live: the pipeline builds — and checks — this talk (10:00 · ceiling 140 words)
-**Say:** For the next twelve minutes, the demo is the repo, not slides. I've got three terminal
-tabs open. In tab two, I'm starting the critic right now — `pipeline/run.sh critique`, budget five
-dollars — and it'll run in the background while we look at what's already logged. In tab one:
-`ls runs/` — these numbered directories are every stage that's already run: scaffold verification,
-the research fan-out, two outline passes, the write stage, critique and revise rounds, and now the
-new one the critic just created. Each one holds the prompt, the JSON return, and a readme. If
-anything fails, I'll say so and switch to a fallback tab with logs already committed.
-**Transition:** First: the fan-out that already ran.
-*(~133 words)*
+### Slide 11 — Recorded from this repo · the layout (10:00 · 60 s · ceiling 140 words)
+**Say:** For the next twelve minutes nothing runs live. Everything on screen is a screenshot of a real, finished run in this repo, captured by a script and placed on these slides by another agent. This is the repo, two levels deep. Agents are the markdown files in `.claude/agents`. `pipeline` is the script that calls them in order. `research`, `slides`, and `diagrams` are what those calls write. `runs` is a receipt for every call. `handout` is what is left over for you.
+**Transition:** One of those agent files, up close.
+*(~88 words)*
 
-### Slide 12 — Already run · Pattern 1, the research fan-out (11:00 · ceiling 420 words)
-**Say:** Open the run-001 readme. Four researchers, each with web access, ran in parallel:
-literature, tools, context-and-cost, astronomy. Two hundred seventy tool calls total, about six
-hundred two thousand subagent tokens, ten point nine minutes wall-clock — because they ran at once
-— versus about thirty-eight minutes if run one after another. Now the briefs folder: four files,
-each roughly eighteen hundred words. Then the merged brief — this is the one the orchestrator
-actually reads. Three things worth saying out loud. First: the four researchers wrote about
-seventy-one hundred words combined but returned only about eight hundred words of summary to the
-orchestrator, which then read the full briefs from disk on its own schedule — that's the
-compression from the context slide, working in practice. Second: two researchers cited the same
-Anthropic post under two different URLs. The merge caught it — independent agents disagree on
-details, so the merge has to happen in one place. Third: the instructions asked for six hundred to
-twelve hundred words; all four ran over, from about twelve sixty to twenty-five hundred, and only
-one of them said why. Agents drift on soft limits — JSON schemas hold better. The hand merge you're
-looking at is the centralizing step Pattern one's slide called for.
-**Transition:** The same repo used the same isolation pattern to write these slides — already run,
-next.
-*(~250 words — plenty of margin here if a finding needs a second read-aloud pass)*
+### Slide 12 — An agent is a markdown file (11:00 · 60 s · ceiling 140 words)
+**Say:** This is the critic. A name, a description, the tools it may use, the model it runs on, and then instructions in plain English. That is the entire agent. What is not in this file is any orchestration: it does not decide when it runs or what happens to its verdict. The script does. There are nine of these; they are all in the appendix.
+**Transition:** Now what those calls leave behind.
+*(~71 words)*
 
-### Slide 13 — Already run · Pattern 4, parallel worktrees (14:00 · ceiling 280 words)
-**Say:** Open `pipeline/run.sh`, and scroll to the write-stage function. For each of two workers —
-slides and diagrams — it runs `git worktree add`, on branch `wt/slides` or `wt/diagrams`, changes
-into that directory, runs the slide-writer or diagrammer agent with a restricted tool list, commits
-— both in the background — then waits for both. Then it merges each branch back and removes the
-worktree. Now `git log --oneline`: two "pipeline: merge worktree" commits, side by side. The point
-to land: this is a shell script. The agents didn't decide to spawn each other. The script decided
-the topology, the order, the tool lists, and the budget cap — that's deterministic orchestration in
-practice.
-**Transition:** Now the one call we're not pre-running — the critic, live, against this deck.
-*(~150 words)*
-**If cutting (fallback option, not one of the two marked cuts):** fold into slide 12 as one sentence
-— "the write stage that made this deck used the same worktree pattern" — and skip the terminal
-detour.
+### Slide 13 — Already run · one directory per stage (12:00 · 60 s · ceiling 140 words)
+**Say:** Every stage that has run is a numbered directory: scaffold check, research fan-out, two outline passes, the write stage, critique and revise rounds, fact-check, notes, Q&A, and the edit that produced these slides. Inside one: the exact prompt sent, the JSON result with tokens and cost, the text the agent returned, its exit code, and its output. Nothing here gets re-run today. Every one already has a receipt.
+**Transition:** The first of those: four researchers at once.
+*(~76 words)*
 
-### Slide 14 — Live now · Pattern 3, the critic vs. this deck (16:00 · ceiling 560 words)
-**Say:** This one's live — I started it back on slide eleven, so it's had about six minutes
-already. Switching to tab two now. If the file exists, here's `runs/`, the critique file. What
-you're looking at: `.claude/agents/critic.md` — an agent with a fixed rubric and four tools: Read,
-Glob, Grep, Write. It reads everything — the context file, the outline, the deck, the diagrams —
-and writes only its own critique — it never edits the deck. It scores seven named criteria, zero to
-ten, and returns PASS or REVISE — REVISE if any criterion is below seven. Criterion six is "demo
-segment: concrete, minute by minute, with a stated fallback" — so this exact slide was scored a few
-minutes ago, while you watched. Let me read one or two findings aloud, whatever they are. If it
-says REVISE — good, that's the loop working; the writer would take these findings as input on the
-next pass, and the revise runs already in this repo show that happening to earlier versions of this
-deck. If it's not done yet by now, I'll show you the prompt file instead and talk through the
-rubric while we wait — but if there's still nothing by minute nine, I'll say so, leave it running,
-and switch to the fallback tab, where an earlier critique is already open, and read its findings
-instead, noting which ones this version already fixed.
-**Transition:** Whatever it found, here's what all this actually costs.
-*(~280 words — the large unused margin is deliberate: the rest of the four minutes is reading actual
-findings aloud, which can't be scripted in advance)*
+### Slide 14 — Already run · the research fan-out (13:00 · 90 s · ceiling 210 words)
+**Say:** Four researchers, one topic each, literature, tools, context and cost, astronomy, each with web access. Two hundred seventy tool calls, about six hundred thousand tokens, ten point nine minutes wall-clock because they ran together, against about thirty-eight minutes one after another. Three things to notice. They wrote about seven thousand words of briefs but returned only about eight hundred words of summary; the orchestrator read the briefs from disk on its own schedule. That is the compression from the context slide. Two of them cited the same Anthropic post under two different URLs; the merge caught it. And the brief asked for six hundred to twelve hundred words; all four ran over, and only one said why. Agents drift on soft limits.
+**Transition:** Then the write stage, which ran two agents at once in separate worktrees.
+*(~135 words)*
 
-### Slide 15 — What that cost (20:00 · ceiling 280 words)
-**Say:** First, in tab one, run `pipeline/run.sh cost` — that appends the critique stage's row and
-rebuilds the cost report; without this step, the report misses the run we just watched. Now
-`runs/cost-report.md`: total cost, turns, duration, and token counts, per stage. [Read the total
-aloud.] And the per-stage lines. Then the smallest receipt in the whole repo: the run-000 smoke
-test asked the outliner to reply "OK from outliner" — nine output tokens, cost about two cents,
-because the system prompt itself is about forty-four hundred tokens, cached after the first call,
-and every single spawn pays that before it does any work. Lesson: there's a fixed per-agent tax —
-don't fan out trivially small tasks. The larger point: this is how you audit a multi-agent pipeline
-instead of trusting it — prompt in, return out, tokens and dollars, per stage, all committed to
-git.
-**Transition:** That's the demo. Now the gotchas — starting with what a subagent can't see.
-*(~182 words)*
-**If cutting (fallback option):** if slide 14 ran over, compress this whole slide to one spoken
-number — "that run cost $X so far" — and skip opening the file on screen.
+### Slide 15 — Already run · stage_write, two worktrees (14:30 · 75 s · ceiling 175 words)
+**Say:** This is the loop from the script. For each of two workers, slides and diagrams, it creates a git worktree on its own branch, runs the writer or the diagrammer inside it with a restricted tool list, commits, both in the background, then waits for both. The merge and cleanup follow. The point: this is a shell script. The agents did not decide to spawn each other, to run in parallel, or which files they may touch. The script decided all of that.
+**Transition:** And here is what happened when it merged.
+*(~91 words)*
+
+### Slide 16 — Already run · the merge conflict (15:45 · 90 s · ceiling 210 words)
+**Say:** Both agents finished cleanly and touched only their own files. Perfectly isolated. The collision came from the script's own bookkeeping: both worktrees appended a row to one shared cost log, and the merge stopped on a real conflict. This is the two-agents-one-file failure, caught by git exactly because the work was isolated, not despite it. Nobody had thought of the cost log as the agents' file. The fix was to give each run its own cost row and rebuild the shared report from all of them. I kept this slide because a real failure teaches more than a clean run.
+**Transition:** Next, the critic on an earlier version of this deck.
+*(~110 words)*
+
+### Slide 17 — Already run · the critic's verdict (17:15 · 90 s · ceiling 210 words)
+**Say:** This is the critic's output on an earlier version of this very deck. Seven named criteria scored zero to ten, a PASS or REVISE verdict, REVISE if anything is below seven. The critic reads everything and writes only its own critique; it cannot edit the deck. Read the scores off the screen. Here it found a body claim with no citation and two spoken claims that the repo's own files contradicted. REVISE. [Read one finding aloud, verbatim.] A finding without a slide number and a fix is not a finding. These have both.
+**Transition:** And the writer's answer.
+*(~97 words)*
+
+### Slide 18 — Already run · the writer's response (18:45 · 75 s · ceiling 175 words)
+**Say:** The slide-writer's response, item by item. Every must-fix is marked CHANGED with what changed. Two are marked DECLINED, out of scope, because they belong to the diagrams, a file this agent is not allowed to write, so it flagged them for the diagrammer instead. That refusal is the point: each agent writes only its assigned files and says so when a fix belongs to someone else. The loop, critique then revise then critique again, was run by the script, twice.
+**Transition:** Then every citation got checked.
+*(~85 words)*
+
+### Slide 19 — Already run · the fact-check (20:00 · 60 s · ceiling 140 words)
+**Say:** The fact-checker opened every URL on the Sources slides and checked every number against the source, never against its own memory. Forty-four confirmed, two partial, zero not found, zero fabricated. The two partials were precision issues, a mislabeled baseline and two true numbers from different rows of one paper paired as one. Not invented sources. Its corrected wording is in the deck you are looking at.
+**Transition:** Last: the bill.
+*(~69 words)*
+
+### Slide 20 — Already run · what it cost (21:00 · 60 s · ceiling 140 words)
+**Say:** Nineteen dollars and thirty-two cents for every logged headless stage, outline through the edit that made these slides. The research fan-out ran interactively and is not in this table. Look at the model column: the expensive rows are the writer and the critic on the big model; the outliner, fact-checker, and demo editor ran on a smaller one for a fraction of the cost. That is model tiering; pricing beyond that is Nick's talk. Every stage left a prompt, a return, tokens, and dollars. That is how you audit a pipeline instead of trusting it.
+**Transition:** That is the demo. Now the gotchas, starting with what a subagent cannot see.
+*(~109 words)*
+
+**If cutting:** drop slides 13 and 18 (the receipts listing and the writer's response) and say their one-line
+point while on the neighbouring slide.
 
 ---
 
 ## Segment 4 — Gotchas and cost (22:00–27:00)
 
-### Slide 16 — Gotcha · Subagents are context-blind (22:00 · ceiling 152 words)
+### Slide 21 — Gotcha · Subagents are context-blind (22:00 · ceiling 152 words)
 **Say:** A fresh subagent starts with its own system prompt, the message you send it, the project
 CLAUDE.md, and the repository state. It does not get your conversation history, the files you've
 opened, or anything you said three turns ago. Every time someone tells me a subagent "ignored"
@@ -244,7 +218,7 @@ stayed small, which was the whole point of the context slide.
 **Transition:** Next gotcha: cost.
 *(~146 words)*
 
-### Slide 17 — Gotcha · Cost multiplies with agent count (23:05 · ceiling 163 words)
+### Slide 22 — Gotcha · Cost multiplies with agent count (23:05 · ceiling 163 words)
 **Say:** Anthropic's own June-2025 post measured agents at about four times a chat's tokens, and
 multi-agent at about fifteen times. Their January-2026 guidance says three to ten times, and adds:
 don't split sequential phases of one job across agents. Both numbers come from a vendor promoting
@@ -252,12 +226,12 @@ multi-agent, which has no reason to overstate its own cost. The mitigation is ti
 subagents to cheaper or local models, keep the frontier model on the orchestrator — the thread
 making judgment calls. That's first-party guidance in the Claude Code subagent docs. In this repo,
 the researcher agent file pins Sonnet, but the logged fan-out run actually ran on the parent model,
-because that session hadn't picked up the pin — a fresh session, like today's, does. Nick covered
+because that session hadn't picked up the pin. A fresh session would; this run predates the fix. Nick covered
 model selection and pricing this morning; I'm not repeating his tables.
 **Transition:** Next: the classic failure — two agents, one file.
 *(~161 words)*
 
-### Slide 18 — Gotcha · Isolate the files, centralize the merge (24:15 · ceiling 163 words)
+### Slide 23 — Gotcha · Isolate the files, centralize the merge (24:15 · ceiling 163 words)
 **Say:** Two agents, one file, last write wins, and nobody notices until the tests fail or the deck
 has half of each version. Worktrees fix the mechanical half: each agent gets its own checkout, so
 the collision becomes a merge conflict, not a silent overwrite — that's the write stage you saw in
@@ -270,7 +244,7 @@ is good.
 **Transition:** One more gotcha, short: script the orchestration.
 *(~163 words)*
 
-### Slide 19 — Gotcha · Script the orchestration (25:25 · ceiling 128 words)
+### Slide 24 — Gotcha · Script the orchestration (25:25 · ceiling 128 words)
 **Say:** Two ways to get four agents running: ask an agent to spawn the others, or write a script
 that calls each with a fixed prompt and budget, and logs the return. The first is more impressive;
 the second is reproducible — for pipeline and archive work, pick the second. Claude Code's own
@@ -281,7 +255,7 @@ science-specific guardrails yet.
 **Transition:** One more slide on how this fails, then questions.
 *(~124 words)*
 
-### Slide 20 — How it actually fails (26:20 · ceiling 93 words) — **CUT #1 CANDIDATE**
+### Slide 25 — How it actually fails (26:20 · ceiling 93 words) — **CUT #1 CANDIDATE**
 **Say:** MAST annotated over sixteen hundred execution traces across seven multi-agent frameworks:
 system design failures, forty-four percent; inter-agent misalignment, thirty-two percent; task
 verification, twenty-three point five percent. Most failures are design problems — the fixes are
@@ -289,14 +263,14 @@ the gotchas we just went through. And the fixes are partial: their interventions
 nine to sixteen points. Multi-agent is engineering, not magic.
 **Transition:** Let's open it up for questions.
 *(~73 words)*
-**If cutting:** skip this slide; while moving from slide 19 to Q&A, say only: "Multi-agent fails in
+**If cutting:** skip this slide; while moving from slide 24 to Q&A, say only: "Multi-agent fails in
 specific, catalogued ways, not vague risk — the fixes are the gotchas we just covered."
 
 ---
 
 ## Segment 5 — Q&A and hand-off to BJ (27:00–30:00, mostly open floor)
 
-### Slide 21 — Questions (27:00 · 180 s, ~168 s of it unscripted)
+### Slide 26 — Questions (27:00 · 180 s, ~168 s of it unscripted)
 **Say (opening, before the floor):** To close in one breath: go multi-agent for context, not
 intelligence — most tasks need one agent. Questions?
 *(~17 words)*
@@ -317,5 +291,5 @@ That's BJ's talk, next.
 
 ---
 
-Slides 22–25 (Sources 1 of 4 through 4 of 4) are reference-only and not presented aloud; leave them
+Slides 27–30 (Sources 1 of 4 through 4 of 4) are reference-only and not presented aloud; leave them
 on screen briefly at the very end, or skip straight to them only if someone asks for a citation.

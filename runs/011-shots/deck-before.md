@@ -8,9 +8,6 @@ style: |
   footer { font-size: 16px; color: #888; }
   section.sources { font-size: 17px; }
   section.sources h1 { font-size: 30px; }
-  section.shot h1 { font-size: 34px; margin: 0 0 10px; }
-  section.shot p { font-size: 22px; margin: 8px 0 0; }
-  section.shot img { display: block; margin: 0 auto; max-width: 100%; }
 footer: "Multi-agent workflows · GRITS AI workshop · IPAC"
 ---
 
@@ -96,7 +93,7 @@ Independent subtasks in parallel; the orchestrator merges the summaries in one p
 
 <!--
 90 s.
-Shape: an orchestrator splits work into independent pieces, sends each to its own subagent, and merges the returns in one place. The merge being central matters; we will see why on slide 23.
+Shape: an orchestrator splits work into independent pieces, sends each to its own subagent, and merges the returns in one place. The merge being central matters; we will see why on slide 18.
 This is the one case the literature agrees on: breadth-first work over more sources than fit in one window. Anthropic's research system, an Opus lead with Sonnet subagents, beat single-agent Opus by 90.2 percent on their internal eval, and they say it used roughly 15 times the tokens of a chat. Vendor numbers, so treat them as an upper bound on both the gain and the cost.
 Independent measurement of the trade, spoken only: Xu, Tian and Jiang on GAIA, a general-assistant benchmark, got 15 to 40 percent less wall-clock while tokens rose by roughly 60 to 90 percent depending on task level [Xu 2026]. You are buying time with tokens.
 Astronomy shape: a target list checked against IRSA, NED, and the Exoplanet Archive in parallel via astroquery, one agent per archive, merged into one table. Independent by construction.
@@ -130,10 +127,10 @@ Task verification failures are 23.5% of multi-agent failures [Cemri 2025].
 <!--
 90 s.
 Shape: one agent produces, a second reviews adversarially and sends findings back; loop once or twice, then stop.
-The key design decision is what the critic can touch. A critic with the test suite, the schema, and the data can actually check. In MAST, the failure taxonomy on slide 25, task verification failures are 23.5 percent of all failed traces; verification is where multi-agent systems break most often after design and coordination.
+The key design decision is what the critic can touch. A critic with the test suite, the schema, and the data can actually check. In MAST, the failure taxonomy on slide 20, task verification failures are 23.5 percent of all failed traces; verification is where multi-agent systems break most often after design and coordination.
 Two astronomy benchmarks show why this matters for us. gwBenchmarks, gravitational-wave coding tasks, found agents "relied on proxy metrics, partial evaluation, or fabricated results" [gwBench 2026]. Stargazer found agents that "achieve a good statistical fit" but "fail to recover correct physical system parameters" [Stargazer 2026]. A good chi-squared is not a good answer. The critic needs to run the physics check, not read the summary.
 A critic is not free: Jamshidi et al. found chaining a reviewer cut the hallucination score from 0.422 to 0.272 while factual accuracy also slipped from 0.789 to 0.769 [Jamshidi 2026]. Reviewers edit true things too. If short on time, say only the gwBenchmarks line.
-This is the pattern the recorded demo shows next, against this deck.
+This is the pattern we will run live in the demo.
 -->
 
 ---
@@ -169,146 +166,92 @@ If running long, drop this slide and say the numbers once during Pattern 2.
 -->
 
 ---
-<!-- _class: shot -->
 
-# Recorded from this repo · the layout
+# Live: the pipeline builds — and checks — this talk
 
-![h:470](shots/repo-tree.png)
+On screen: terminal at the repo root.
 
-Screenshots of real runs in this repo, captured by a script. Nothing here runs live.
+Tab 2: `pipeline/run.sh critique --budget 5` — start it now; it runs while we look at earlier runs.
+Tab 1: `ls runs/`
+
+From here on, the demo is the repo, not slides.
 
 <!--
-60 s.
-Segment 3 begins, slide 1 of 10. Say it once, plainly: for the next twelve minutes nothing runs live. Every image is a screenshot of a real, finished run in this repo, captured by `pipeline/capture.py` and placed on these slides by another agent, the demo-editor.
-The repo, two levels deep, in two columns. Name the folders as you point: `.claude/agents` holds the nine agent definitions; `pipeline/` is the script that calls them in a fixed order; `research/`, `slides/`, `diagrams/` are what those calls write; `runs/` is a receipt for every call; `handout/` is what is left over for the audience. That is the whole talk, as files.
+Segment 3, demo. 0:00–1:00 of 12 min.
+Three terminal tabs are open at the repo root before the talk starts. Tab 1: browsing. Tab 2: the live critic. Tab 3: fallback, with `runs/005-critique/critique.md` already open in a pager.
+0:00: in tab 2, run `pipeline/run.sh critique --budget 5` and leave it. The dry run cost $2.37 against the $3 cap in force at the time, so run with a $5 cap [run 005]. It creates a new `runs/0NN-critique/` directory at once, writes `prompt.md`, and takes several minutes to return. We come back to it at 6:00.
+0:20: tab 1, `ls runs/`. The numbered stage directories: 000 scaffold verification, 001 research fan-out, 002 and 003 outline, 004 write, the critique and revise runs, and the new directory the critic just created. Each holds the prompt sent, the JSON return, and a README or return.md.
+Say: each of these is one agent call with a receipt. We will look at two that already ran, then read the one running now.
+FALLBACK for the whole segment: if the terminal, network, or any live call fails at any point, switch to tab 3 and narrate the committed logs in runs/000-scaffold-verification/ and runs/001-research-fanout/ using the same minute-by-minute script. Say out loud that you are on the fallback.
 -->
+
 ---
-<!-- _class: shot -->
 
-# An agent is a markdown file
+# Already run · Pattern 1, the research fan-out
 
-![h:470](shots/agent-file.png)
+On screen: `runs/001-research-fanout/README.md` → `research/briefs/` → `research/brief.md`
 
-Frontmatter: a name, a tool list, a model. Then a system prompt in plain English.
+Four researchers in parallel: 10.9 min wall-clock vs about 38 min sequential; ~7,100 words of briefs, ~800 words returned [run 001]. The orchestrator merged by hand.
 
 <!--
-60 s.
-`ls .claude/agents/` and the top of `critic.md`. An agent is a markdown file: a frontmatter block with a name, a description, the tools it may use, and the model it runs on, then instructions in plain English. Nothing more.
-Point out what is not here: no orchestration logic. This file does not decide when the critic runs or what happens with its verdict. The script does. Nine such files exist; the appendix shows every one.
+1:00–4:00.
+Open the run-001 README. Point at the table: four researchers (literature, tools, context and cost, astronomy), each with web access, 270 tool calls total, about 602k subagent tokens, 10.9 minutes wall-clock because they ran at once; about 38 minutes if run one after another.
+Open research/briefs/ and show the four files. Then open research/brief.md, the merged one. Three observations from the README worth saying aloud:
+1. The four researchers wrote about 7,100 words but returned only about 800 words of summaries to the orchestrator, which read the briefs from disk on its own schedule. That is the compression from slide 3 working.
+2. Two researchers cited the same Anthropic post under two different URLs. The merge caught it. Independent agents disagree on details, so the merge has to be one place.
+3. The instructions said 600 to 1,200 words. All four ran over, from about 1,260 to 2,500 words, and only one of them (B) said why. Agents drift on soft limits; JSON schemas hold better.
+The hand merge is the centralizing step from Pattern 1.
 -->
+
 ---
-<!-- _class: shot -->
 
-# Already run · one directory per stage
+# Already run · Pattern 4, parallel worktrees
 
-![h:470](shots/runs-ls.png)
+On screen: `pipeline/run.sh`, function `stage_write`; then `git log --oneline`
 
-Every agent call leaves a receipt: the prompt sent, the JSON result, the return text.
+Two worktrees, `.worktrees/slides` and `.worktrees/diagrams`, on branches `wt/slides` and `wt/diagrams`, launched together, merged, removed. The script owns the loop, not the agents [pipeline/run.sh].
 
 <!--
-60 s.
-`ls runs/`: numbered directories, one per stage, in the order they ran: scaffold check, research fan-out, two outline passes, the write stage, critique and revise rounds, fact-check, notes, Q&A, and the demo edit that produced these slides.
-Inside one, `runs/007-critique/`: the exact prompt sent, the full JSON result with tokens and cost, the text the agent returned, its exit code, and its output file. The write stage has two subdirectories, one per worktree. None of these are re-run today. Every one already has a receipt.
+4:00–6:00.
+Open pipeline/run.sh and scroll to stage_write. Walk the loop: for each of `slides` and `diagrams`, `git worktree add` on branch wt/slides or wt/diagrams, cd into it, run the slide-writer or diagrammer agent with a restricted tool list, commit; both in the background, then `wait`; then merge each branch back and remove the worktree.
+Then `git log --oneline`. The slides branch fast-forwarded, so it shows as the worktree commit itself; the diagrams branch shows as a merge commit whose message records a real conflict: both worktrees appended a row to one shared cost log, runs/cost.tsv. That is the two-agents-one-file failure from slide 18, caught by git exactly as slide 9 promised, and fixed by giving each run its own cost file. Say so; a real failure teaches more than a clean run.
+The point to land: this is a shell script. The agents did not decide to spawn each other. The script decided the topology, the order, the tool lists, and the budget cap. That is slide 19 in practice: deterministic orchestration.
+If running long, fold this into slide 12's narration as one sentence.
 -->
+
 ---
-<!-- _class: shot -->
 
-# Already run · the research fan-out
+# Live now · Pattern 3, the critic vs. this deck
 
-![h:470](shots/fanout-readme.png)
+Started at demo minute 0 in tab 2; now we read `runs/0NN-critique/critique.md`.
 
-Four researchers in parallel: 10.9 min wall-clock vs about 38 min sequential [run 001].
+A PASS/REVISE verdict against named criteria, including "demo segment: concrete, minute by minute, with a stated fallback". This slide was graded while you watched.
 
 <!--
-90 s.
-The run-001 README. Four researchers, one topic each: literature, tools, context and cost, astronomy, each with web access. 270 tool calls, about 602k subagent tokens, 10.9 minutes wall-clock because they ran at once, against about 38 minutes one after another [run 001].
-Three things to say aloud. First: the four wrote about 7,100 words of briefs but returned only about 800 words of summary to the orchestrator, which read the full briefs from disk on its own schedule. That is the compression from the context slide, working in practice. Second: two researchers cited the same Anthropic post under two different URLs; the merge caught it, because independent agents disagree on details. Third: the brief asked for 600 to 1,200 words each; all four ran over, and only one said why. Agents drift on soft limits; schemas hold better.
+6:00–10:00. The one live call, launched at 0:00 on slide 11.
+6:00: switch to tab 2. Expected state: the script has printed its verdict line and `runs/0NN-critique/critique.md` exists. Open it. Timing margin: the dry run, run 005, took 319 s and cost $2.37 against the $3 cap in force at the time [run 005], which is why the call started at 0:00 with `--budget 5` and why 6:00 is the earliest sensible read time.
+With the file on screen, say what the critic is: .claude/agents/critic.md, an agent with a fixed rubric and four tools: Read, Glob, Grep, Write. It reads everything and writes only its own critique.md; it never edits the deck. It scores seven named criteria from 0 to 10 and returns PASS or REVISE; REVISE if any criterion is below 7. Criterion 6 is "demo segment: concrete, minute by minute, with a stated fallback," so this slide was scored a few minutes ago.
+Read one or two findings aloud, whatever they are. If it says REVISE, good: that is the loop working, and the writer gets these findings as input on the next pass. The revise runs in runs/ show that happening to earlier versions of this deck.
+IF STILL RUNNING at 6:00: show `runs/0NN-critique/prompt.md`, the exact text sent, and explain the rubric while waiting. Hard cutoff: no critique.md by 9:00 means say so, leave it running, and go to the fallback.
+FALLBACK: switch to tab 3, where `runs/005-critique/critique.md` is already open. Read its findings aloud instead, and say which of them this version of the deck fixed. Use the same fallback if the script logs an error or a budget-cap warning; it prints that warning when the result reports budget_exhausted, which happened once during the build, run 006 [pipeline/run.sh].
 -->
+
 ---
-<!-- _class: shot -->
 
-# Already run · stage_write, two worktrees
+# What that cost
 
-![h:470](shots/stage-write.png)
+On screen: `pipeline/run.sh cost`, then `runs/cost-report.md`
 
-The script creates the worktrees, runs both agents, waits, then merges. The agents decide nothing here [pipeline/run.sh].
-
-<!--
-75 s.
-The loop from `pipeline/run.sh`. For each of two workers, slides and diagrams, it creates a git worktree on its own branch, runs the slide-writer or diagrammer agent inside it with a restricted tool list, commits, both in the background, then waits for both. The merge and cleanup follow.
-Land the point: this is a shell script. The agents did not decide to spawn each other, to run in parallel, or which files they may touch. The script decided the topology, the order, the tool lists, and the budget cap. That is the "script the orchestration" gotcha, in practice.
--->
----
-<!-- _class: shot -->
-
-# Already run · the merge conflict
-
-![h:470](shots/conflict-readme.png)
-
-Both worktrees appended a row to one shared cost log. Git caught it. Two agents, one file.
+Every stage left a receipt: prompt, return, tokens, dollars. Smallest line item: $0.019 for a 9-token reply, because each spawn pays about 4,400 tokens of system prompt [run 000].
 
 <!--
-90 s.
-The README for that run. Both agents finished cleanly and touched only their own files, `slides/` and `diagrams/`, perfectly isolated. The collision came from the script's own bookkeeping: both worktrees appended a row to one shared file, `runs/cost.tsv`, and the merge stopped on a real conflict.
-This is the two-agents-one-file failure from the gotchas, caught by git exactly because the work was isolated, not despite it. Nobody had thought of the cost log as "the agents' file". The fix: each run writes its own cost row, and the shared report is rebuilt from all of them. A real failure teaches more than a clean run, which is why it is on a slide.
+10:00–12:00.
+First run `pipeline/run.sh cost` in tab 1. Each stage leaves a result.json and its own cost-row.tsv; only the cost stage rebuilds runs/cost.tsv and runs/cost-report.md from them, so without this step the report misses the run you just watched [pipeline/run.sh]. Then open runs/cost-report.md: total_cost_usd, num_turns, duration_ms, and the token counts per stage. Read the total for the whole talk so far aloud, and the per-stage lines.
+Then the smallest receipt: the run-000 smoke test asked the outliner to reply "OK from outliner." Nine output tokens cost $0.019, because the system prompt is about 4,400 tokens, cached after the first call, and every spawn pays that before it does any work. Lesson: there is a fixed per-agent tax; do not fan out trivially small tasks.
+The larger point: this is how you audit a multi-agent pipeline instead of trusting it. Prompt in, return out, tokens and dollars per stage, all in git.
+If the live critic ran over, compress this to one spoken number.
 -->
----
-<!-- _class: shot -->
 
-# Already run · the critic's verdict
-
-![h:470](shots/critique.png)
-
-Seven criteria scored 0 to 10; REVISE if any is below 7. The critic never edits the deck.
-
-<!--
-90 s.
-`runs/007-critique/critique.md`, the critic's output on an earlier version of this very deck. A fixed rubric, seven named criteria scored 0 to 10, a PASS or REVISE verdict, REVISE if any score is below 7. The critic has four tools, Read, Glob, Grep, Write, so it reads everything and writes only its own critique. It never touches the deck.
-Read the scores off the screen. Here it found a body claim with no citation, and two spoken claims contradicted by files the audience would see. REVISE. Read one finding aloud, verbatim: a finding without a slide number and a fix is not a finding, and these have both.
--->
----
-<!-- _class: shot -->
-
-# Already run · the writer's response
-
-![h:470](shots/changes.png)
-
-Every must-fix marked CHANGED. Two DECLINED as out of scope and flagged for the diagrammer.
-
-<!--
-75 s.
-`runs/008-revise/changes.md`, the slide-writer's answer to that critique, item by item. Every must-fix item is marked CHANGED, with what changed. Two are marked DECLINED, out of scope, because they belong to a file this agent is not allowed to write, the diagrams, and are flagged for the diagrammer instead.
-That refusal is the point. Each agent writes only its assigned files and says so when a fix belongs to someone else. The loop itself, critique then revise then critique again, was run by the script, twice, and stopped on the round limit.
--->
----
-<!-- _class: shot -->
-
-# Already run · the fact-check
-
-![h:470](shots/factcheck.png)
-
-44 citations confirmed, 2 partial, 0 not found, 0 fabricated.
-
-<!--
-60 s.
-`runs/009-factcheck/factcheck.md`. The fact-checker opens every URL on the Sources slides and checks every number against the source, never against its own memory. Tally: 44 confirmed, 2 partial, 0 not found, 0 fabricated.
-The two partial rows are precision issues: a mislabeled baseline name, and two true numbers from different rows of one paper paired as if from one. Not invented sources. The required-edits list gives corrected wording for each, and those edits are in the deck you are looking at.
--->
----
-<!-- _class: shot -->
-
-# Already run · what it cost
-
-![h:470](shots/cost-report.png)
-
-$19.32 for the logged headless stages. Every stage left a prompt, a return, tokens, and dollars.
-
-<!--
-60 s.
-`runs/cost-report.md`, rebuilt from every stage's own result file. Read the total aloud: $19.32 across the logged, non-interactive stages, outline through the recorded-demo edit. The interactive research fan-out billed to an interactive session and is not in this table.
-Notice the model column: the expensive rows are the slide-writer and critic on the session model; the outliner, researchers, fact-checker, and demo-editor ran on Sonnet for a fraction of the cost. That is model tiering, and pricing beyond that is Nick's talk. Every stage left a prompt, a return, tokens, and dollars. That is how you audit a pipeline instead of trusting it.
-Transition: that is the demo. Now the gotchas.
--->
 ---
 
 # Gotcha · Subagents are context-blind
@@ -335,7 +278,7 @@ Cheap or local models on subagents, frontier model on the orchestrator [Claude C
 <!--
 70 s.
 Anthropic's June 2025 post measured agents at about 4x a chat's tokens and multi-agent at about 15x. Their January 2026 guidance says 3 to 10 times and adds: do not split sequential phases of the same work across agents. Both numbers come from a vendor promoting multi-agent, which has no reason to overstate its cost.
-The mitigation is tiering. Route subagents to cheaper or local models and keep the frontier model on the orchestrator, the thread that has to make judgment calls. This is first-party guidance in the Claude Code subagent docs. In this repo the researcher agent file pins Sonnet, but the logged run 001 actually ran on the parent model because that session had not picked up the pinned agent; the README you saw on slide 14 says so. A fresh session picks up the pin; the recorded run on slide 12 predates that fix.
+The mitigation is tiering. Route subagents to cheaper or local models and keep the frontier model on the orchestrator, the thread that has to make judgment calls. This is first-party guidance in the Claude Code subagent docs. In this repo the researcher agent file pins Sonnet, but the logged run 001 actually ran on the parent model because that session had not picked up the pinned agent; the README you saw on slide 12 says so. A fresh session, like today's demo, picks up the pin.
 Nick covered model selection and pricing this morning; I am not repeating the tables. Point at his slides for the numbers.
 -->
 
@@ -367,7 +310,7 @@ Claude Code workflows forbid clock and random calls, so a relaunch repeats the s
 Two ways to get four agents running. One: ask an agent to spawn the others, and let it decide how many, in what order, with what instructions. Two: write a script that calls each agent with a fixed prompt and a fixed budget, and logs the return. The first is more impressive. The second is reproducible. For pipeline and archive work, pick the second.
 Claude Code's own workflow feature makes the same choice: the plan lives in a script, and the runtime makes clock and random-number calls throw an error, so a relaunched run issues the same calls in the same order.
 This matters here specifically. NASA SMD's 2025–2030 data and computing strategy asks for reproducibility practices for agentic workflows and says plainly that there are no established science-specific guardrails or factuality-checking mechanisms yet. We will be asked to show our work.
-If running long, compress this into one sentence at the end of slide 23.
+If running long, compress this into one sentence at the end of slide 18.
 -->
 
 ---
@@ -478,129 +421,4 @@ Jamshidi 2026: hallucination score 0.422 to 0.272 against factual accuracy 0.789
 
 <!--
 Claude Code workflows and agent teams: official docs pages; the roughly 7x token figure for agent teams in plan mode is on the Claude Code costs page. NASA SMD 2026: Science Mission Directorate Data and Computing Strategy 2025–2030 (PDF, published April 2026; the tag uses the publication year). The last four are files in this repository; the repo URL goes here once it is public. Run 005 is the critic dry run: 319 s wall-clock, $2.37, against the $3 default budget. The [pipeline/run.sh] tag covers the worktree names in stage_write, the per-run cost row written by log_result.py, and the budget-cap warning in run_agent.
--->
-
----
-
-# Appendix · The agents, as files
-
-<!--
-Appendix, not presented and not counted against the 30-slide cap. If anyone asks after the talk, or if there is spare time, walk through these; otherwise go straight from the last Sources slide to Q&A. These nine slides are every file in `.claude/agents/`, one screenshot each, in pipeline order.
--->
-
----
-<!-- _class: shot -->
-
-# researcher
-
-![h:470](shots/agent-researcher.png)
-
-Web researcher for one assigned topic, run in parallel with others in a fan-out; writes a cited brief.
-
-<!--
-Runs on Sonnet with WebSearch, WebFetch, Read, Write, Glob, and Grep.
--->
-
----
-<!-- _class: shot -->
-
-# outliner
-
-![h:470](shots/agent-outliner.png)
-
-Turns the merged research brief and `talk-context.md` into a timed, slide-by-slide outline.
-
-<!--
-Runs on Sonnet with Read, Write, Glob, and Grep — no web access.
--->
-
----
-<!-- _class: shot -->
-
-# slide-writer
-
-![h:470](shots/agent-slide-writer.png)
-
-Writes or revises the Marp deck from the outline and brief; also the critic loop's revise half.
-
-<!--
-Runs on whatever model the parent session is using, with Read, Write, Edit, Glob, and Grep.
--->
-
----
-<!-- _class: shot -->
-
-# diagrammer
-
-![h:470](shots/agent-diagrammer.png)
-
-Produces the Mermaid diagrams for the four patterns and the repo's own pipeline.
-
-<!--
-Runs on Sonnet with Read, Write, Glob, and Grep.
--->
-
----
-<!-- _class: shot -->
-
-# critic
-
-![h:470](shots/agent-critic.png)
-
-Adversarial reviewer against a fixed rubric; never edits the deck, only writes a PASS/REVISE critique.
-
-<!--
-Runs on the parent model with Read, Glob, Grep, and Write — no Edit tool, so it cannot touch the deck.
--->
-
----
-<!-- _class: shot -->
-
-# fact-checker
-
-![h:470](shots/agent-fact-checker.png)
-
-Verifies every citation and number by fetching the source; never edits the deck, only reports status.
-
-<!--
-Runs on Sonnet with WebFetch, WebSearch, Read, Glob, Grep, and Write.
--->
-
----
-<!-- _class: shot -->
-
-# notes-writer
-
-![h:470](shots/agent-notes-writer.png)
-
-Writes the speaker script with a running clock, and the one-page handout; never touches slide content.
-
-<!--
-Runs on Sonnet with Read, Glob, Grep, and Write; no Edit tool, so it cannot change the deck.
--->
-
----
-<!-- _class: shot -->
-
-# qa-skeptic
-
-![h:470](shots/agent-qa-skeptic.png)
-
-Plays a skeptical IPAC astronomer, drafting the hardest likely audience questions with grounded answers.
-
-<!--
-Runs on Sonnet with Read, Glob, Grep, and Write, the same restricted set as the notes-writer.
--->
-
----
-<!-- _class: shot -->
-
-# demo-editor
-
-![h:470](shots/agent-demo-editor.png)
-
-Converts the live demo into a recorded one built from pre-captured screenshots — the agent that made this segment.
-
-<!--
-Runs on Sonnet with Read, Write, Edit, Glob, and Grep — the agent that wrote this appendix and the five slides before it.
 -->
