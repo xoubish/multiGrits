@@ -1,9 +1,9 @@
 flowchart LR
-  H["pipeline/run.sh"] -->|"4 topics"| R["Research fan-out (x4)"]
-  R -->|"briefs, merged"| O["Outliner"]
-  O -->|"outline"| W["Slide-writer (worktree)"]
-  O -->|"outline"| D["Diagrammer (worktree)"]
-  W -->|"deck"| C["Critic loop (review, revise)"]
+  H["Orchestrator, then run.sh"] -->|"4 topics"| R["Researchers x4"]
+  R -->|"merged brief"| O["Outliner"]
+  O -->|"outline"| W["Slide-writer"]
+  O -->|"outline"| D["Diagrammer"]
+  W -->|"deck"| C["Critic loop"]
   D -->|"diagrams"| C
-  C -->|"pass"| FC["Fact-checker (web)"]
-  FC -->|"verified deck"| N["Notes, Q&A, cost report"]
+  C -->|"pass"| F["Fact-checker"]
+  F --> N["Notes, Q&A, cost"]

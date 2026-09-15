@@ -23,7 +23,8 @@
 # headless output), return.md (what the agent returned). The logs ARE the demo material.
 #
 # --commit    git commit after each sequential stage (the 'write' stage always commits: worktrees need it)
-# --budget    per-stage cap passed to claude --max-budget-usd (default 3)
+# --budget    per-stage cap passed to claude --max-budget-usd (default 5; a slide-writer revise on the session model
+#             exhausted a $3 cap in run 006, which surfaced as exit 1 with terminal_reason budget_exhausted)
 set -euo pipefail
 
 SELF="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
@@ -31,7 +32,7 @@ ROOT="$(dirname "$(dirname "$SELF")")"
 cd "$ROOT"
 
 STAGE="${1:-}"; shift || true
-COMMIT=0; BUDGET="${BUDGET_USD:-3}"; ROUNDS=2
+COMMIT=0; BUDGET="${BUDGET_USD:-5}"; ROUNDS=2
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --commit) COMMIT=1 ;;
@@ -72,8 +73,11 @@ run_agent() {
   set -e
   echo "$rc" > "$run_dir/exit-code"
   python3 "$ROOT/pipeline/log_result.py" "$run_dir" "$agent" "$(( $(date +%s) - start ))"
-  [[ $rc -eq 2 ]] && log "WARNING: $agent hit the --max-budget-usd ceiling (exit 2); output may be partial"
-  [[ $rc -ne 0 && $rc -ne 2 ]] && log "WARNING: claude exited $rc for $agent; see $run_dir/result.json"
+  if grep -qE '"terminal_reason": *"budget_exhausted"|"subtype": *"error_max_budget_usd"' "$run_dir/result.json" 2>/dev/null; then
+    log "WARNING: $agent hit the --max-budget-usd ceiling (\$$BUDGET); output may be partial. Re-run with --budget N"
+  elif [[ $rc -ne 0 ]]; then
+    log "WARNING: claude exited $rc for $agent; see $run_dir/result.json"
+  fi
   if [[ $COMMIT -eq 1 ]]; then git add -A && git commit -qm "pipeline: $agent ($run_dir)" && log "committed"; fi
   return 0
 }
@@ -104,7 +108,11 @@ stage_write() {
   wait
   for w in slides diagrams; do
     log "merging wt/$w"
-    git merge -q --no-edit -m "pipeline: merge $w worktree" "wt/$w"
+    if ! git merge -q --no-edit -m "pipeline: merge $w worktree" "wt/$w"; then
+      log "MERGE CONFLICT on wt/$w. Fix the files git lists, then run:"
+      log "  git add -A && git commit --no-edit && git worktree remove --force .worktrees/$w && git branch -D wt/$w"
+      exit 1
+    fi
     git worktree remove --force ".worktrees/$w"
     git branch -qD "wt/$w"
   done

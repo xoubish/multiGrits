@@ -41,4 +41,7 @@ if by_model:
 out += ["", "Interactive stages run inside a Claude Code session (the research fan-out) are not captured here;",
         "check `/cost` in that session and record it in `runs/001-research-fanout/README.md`."]
 pathlib.Path("runs/cost-report.md").write_text("\n".join(out) + "\n")
+tsv = ["run_dir\tmodels\tturns\tinput\tcache_read\toutput\tusd\tseconds"]
+tsv += ["\t".join(str(r[k]) for k in ("run", "models", "turns", "in", "cache_read", "out", "usd", "sec")) for r in rows]
+pathlib.Path("runs/cost.tsv").write_text("\n".join(tsv) + "\n")  # generated, never appended to
 print(f"{len(rows)} runs, total ${tot['usd']:.2f}")

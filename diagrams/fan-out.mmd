@@ -3,7 +3,8 @@ flowchart LR
   O -->|"task"| R2["Researcher 2"]
   O -->|"task"| R3["Researcher 3"]
   O -->|"task"| R4["Researcher 4"]
-  R1 -->|"summary"| M["Merged brief"]
-  R2 -->|"summary"| M
-  R3 -->|"summary"| M
-  R4 -->|"summary"| M
+  R1 -->|"summary"| O
+  R2 -->|"summary"| O
+  R3 -->|"summary"| O
+  R4 -->|"summary"| O
+  O -->|"merge"| M["Merged brief"]

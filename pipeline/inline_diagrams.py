@@ -24,9 +24,9 @@ text = re.sub(r"\{\{diagram:([\w-]+)\}\}", sub, text)
 loader = """
 <script type="module">
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });
+mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose', flowchart: { nodeSpacing: 30, rankSpacing: 45, padding: 8 }, themeVariables: { fontSize: '22px' } });
 </script>
-<style>pre.mermaid{background:none;border:none;text-align:center} pre.mermaid svg{max-height:60vh}</style>
+<style>pre.mermaid{background:none;border:none;text-align:center;margin:0.2em 0} pre.mermaid svg{max-height:44vh;max-width:100%;height:auto}</style>
 """
 dst.write_text(text.rstrip() + "\n\n" + loader)
 print(f"wrote {dst}" + (f"; MISSING diagrams: {', '.join(missing)}" if missing else ""))

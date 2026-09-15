@@ -77,11 +77,15 @@ Claude Code 2.1 or newer, Node 22 (Marp runs via `npx`, nothing to install), Pyt
 needs the Mermaid diagrams pre-rendered to SVG; `npx -y @mermaid-js/mermaid-cli mmdc -i diagrams/x.mmd -o diagrams/x.svg`
 does that but downloads a headless Chromium on first use.
 
-## Status (2026-09-15)
+## Status (2026-09-15, end of day)
 
-Done: scaffold, docs verification (run 000), research fan-out of four parallel researchers (run 001, ~602k
-tokens, 10.9 min wall-clock), orchestrator merge into `research/brief.md`, outline stage run twice (002 found
-a contradiction in the spec, 003 after the fix). Nothing is committed yet.
+All stages have run once: research fan-out (001), outline (002 found a spec contradiction, 003 clean), parallel
+write (004, whose merge conflicted on a shared cost log; fixed, see `runs/004-write/README.md`), two critic and
+revise rounds (005 to 008; 006 hit the budget cap), fact-check (009: 44 confirmed, 2 partial, 0 not found),
+speaker script, handout, and hostile Q&A (010). The fact-checker's four corrections and the critic's two
+diagram fixes were applied by hand. Headless spend: $17.36, about 72% of it on the session-model stages
+(slide-writer and critic).
 
-Next: commit, then `pipeline/run.sh write` (needs a clean tree because it merges worktree branches), then
-`pipeline/run.sh loop`, `factcheck`, `notes & qa`, `cost`, `render.sh`.
+Remaining before the talk: rehearse from `slides/speaker-script.md`; run `pipeline/run.sh critique --budget 5`
+once as a timed dry run for the live demo; decide whether to keep Mermaid loading from a CDN or pre-render
+SVGs for offline use; record the fallback video.

@@ -139,7 +139,7 @@ Message: The script opens both worktrees, runs both agents at once, and merges b
 script owns the loop, not the agents.
 Evidence: `pipeline/run.sh` (`stage_write` function); `runs/README.md`. Time: 120 s.
 
-**14. Live now: the critic vs. this deck** (on screen 6:00–10:00)
+**14. Live now: the critic vs. this deck** (launched at 0:00 on slide 11; on screen 6:00–10:00)
 On screen: run `pipeline/run.sh critique` in the terminal; watch `runs/0NN-critique/prompt.md` get
 written, `result.json` populate, then open `critique.md` — a PASS/REVISE verdict scored against
 named criteria, including "demo segment: concrete, minute by minute, with a stated fallback" (this

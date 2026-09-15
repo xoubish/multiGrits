@@ -13,7 +13,8 @@ runs/NNN-<stage>/
 
 The parallel `write` stage nests two subdirectories, `slides/` and `diagrams/`, one per worktree.
 
-`cost.tsv` gets one row per stage. `pipeline/cost_report.py` turns it, plus the JSON, into `cost-report.md`.
+Each run directory gets its own `cost-row.tsv`. `pipeline/cost_report.py` regenerates `cost.tsv` and `cost-report.md`
+from every `result.json`; nothing appends to a shared file, because run 004 showed why (see its README).
 
 `001-research-fanout/` was run interactively inside a Claude Code session (the orchestrator spawned
 four researcher subagents with the Agent tool), so it has `prompts/` and `returns/` instead of

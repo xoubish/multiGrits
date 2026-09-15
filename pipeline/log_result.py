@@ -33,9 +33,12 @@ row = [
     wall,
     str(data.get("is_error", "")),
 ]
-cost = pathlib.Path("runs/cost.tsv")
-if not cost.exists():
-    cost.write_text("time\trun_dir\tagent\tmodels\tturns\tinput\tcache_read\tcache_write\toutput\tusd\tduration_ms\twall_s\tis_error\n")
-with cost.open("a") as f:
-    f.write("\t".join(row) + "\n")
+# One row per run directory. Parallel worktrees appending to a single shared runs/cost.tsv produced a
+# merge conflict in run 004 (the "two agents, one file" failure). cost_report.py now regenerates the
+# shared table from every result.json instead.
+(run_dir / "cost-row.tsv").write_text(
+    "time\trun_dir\tagent\tmodels\tturns\tinput\tcache_read\tcache_write\toutput\tusd\tduration_ms\twall_s\tis_error\n"
+    + "\t".join(row) + "\n")
+if data.get("terminal_reason") == "budget_exhausted" or data.get("subtype") == "error_max_budget_usd":
+    print(f"[log_result] WARNING: {run_dir} hit the --max-budget-usd ceiling (${data.get('total_cost_usd', 0):.2f}); output may be partial. Re-run the stage with a higher --budget.")
 print(f"[log_result] {run_dir}: turns={row[4]} in={row[5]} out={row[8]} usd={row[9]} models={models}")
