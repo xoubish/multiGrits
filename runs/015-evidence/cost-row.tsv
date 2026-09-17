@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T16:48:26	runs/015-evidence	evidence-finder	claude-haiku-4-5-20251001,claude-sonnet-5	37	28	696274	82011	13751	0.7285878	167841	171	False
