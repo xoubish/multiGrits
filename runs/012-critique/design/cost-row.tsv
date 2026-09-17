@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T10:52:23	runs/012-critique/design	design-critic	claude-haiku-4-5-20251001,claude-sonnet-5	49	24	593057	92584	18937	0.6794834	227328	229	False

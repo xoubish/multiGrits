@@ -73,6 +73,14 @@ Gotchas to land:
 - Prefer deterministic orchestration (a script that calls agents) over agents spawning agents. Reproducibility.
 - Unsupervised agents need sandboxing. Hand-off to BJ.
 
+## Learning objectives (what an attendee can do afterwards; the teaching critic scores against these)
+
+1. State when multi-agent helps and when it hurts, with one measured number for each side.
+2. Write a subagent as a markdown file and call it from a script, headless, with a budget cap.
+3. Pick one of the four patterns for a given task by its shape, and say why in one sentence.
+4. Isolate parallel workers and merge with a verification step; recognise the two-agents-one-file failure.
+5. Read a run's logs to audit what an agent did, what it returned, and what it cost.
+
 ## The meta-demo
 
 This deck is itself built by a multi-agent pipeline in this repo.
@@ -88,7 +96,7 @@ Stages:
 1. Research fan-out (4 researchers in parallel, web access) → `research/briefs/*.md` → merged `research/brief.md`
 2. Outline planner → `slides/outline.md`
 3. Slide writer and diagrammer in parallel (separate worktrees) → `slides/deck.md`, `diagrams/*.mmd`
-4. Critic loop (review → revise, twice) → `runs/*/critique.md`
+4. Critic loop: three critics in parallel (content, visual design, teaching) → `runs/*/<critic>/critique.md`; revise; repeat
 5. Fact-checker with web tools → `runs/*/factcheck.md`
 6. Speaker notes, hostile Q&A, handout, cost report
 

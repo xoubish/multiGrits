@@ -11,4 +11,9 @@ runs/009-factcheck        sonnet-5        62      34,835    1.95   346
 runs/010-notes            sonnet-5        33      54,102    0.89   519
 runs/010-qa               sonnet-5        22      25,665    0.59   270
 runs/011-shots            sonnet-5        44      79,701    1.96   777
-total                                            393,631   19.32  4149
+runs/012-critique/content fable-5-1       12      31,051    2.78   372
+runs/012-critique/design  sonnet-5        49      18,937    0.68   227
+runs/012-critique/teachingsonnet-5         8      19,450    0.45   218
+runs/013-revise           fable-5-1       26      52,062    4.71   609
+runs/014-notes            sonnet-5        34      63,438    1.28   594
+total                                            578,569   29.22  6169

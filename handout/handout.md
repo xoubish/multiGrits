@@ -1,74 +1,84 @@
 # Multi-agent workflows — handout
 
-Shooby Hemmati, IPAC · GRITS AI workshop, Day 2 · repo: this deck was built by the pipeline it
-describes. Full citations are on the deck's Sources slides (27–30) and in `research/brief.md`.
+Shooby Hemmati, IPAC · GRITS AI workshop, Day 2. This deck was built by the pipeline it describes,
+in the repo below. Full citations are on the deck's Sources slides (27–30 of 30) and in
+`research/brief.md`.
 
 ## The four patterns
 
-1. **Fan-out and merge** — independent subtasks run in parallel on separate subagents; one
-   orchestrator merges the returns in a single place.
-2. **Pipeline** — planner, implementer, tester run in sequence; each stage starts with a fresh,
-   clean context and a file handoff. Do not fan out a sequential job.
-3. **Writer and critic** — one agent produces, a second reviews adversarially with tools in hand
-   (tests, schema, data) and sends findings back for one or two revision rounds.
-4. **Parallel isolated workers** — each agent works in its own git worktree on its own branch;
-   a single merge step reconciles them at the end.
+1. **Fan-out and merge** — shape: independent pieces. Send each piece to its own subagent in
+   parallel; one orchestrator merges the returns in a single place.
+2. **Pipeline** — shape: sequential steps. Planner, implementer, tester run in order, each stage
+   starting with a fresh context and a file hand-off. Do not fan out a sequential job.
+3. **Writer and critic** — shape: needs verifying. One agent produces; a second reviews
+   adversarially with tools in hand (tests, schema, data) and sends findings back for a round or two.
+4. **Parallel isolated workers** — shape: shared repo. Each agent works in its own git worktree on
+   its own branch; a single merge step reconciles them at the end.
 
-## Agents in `.claude/agents/`
+## Try this on your own repo — a three-line recipe
 
-- **researcher.md** — one assigned topic, web search/fetch, writes a cited brief to
-  `research/briefs/`, returns a ≤200-word summary. Run several in parallel for a fan-out.
-- **outliner.md** — reads `research/brief.md` and `talk-context.md`, writes the timed,
-  slide-by-slide `slides/outline.md`.
-- **slide-writer.md** — writes or revises `slides/deck.md` (Marp) from the outline and brief;
-  runs in its own worktree during the parallel write stage and during revisions.
-- **diagrammer.md** — writes the five Mermaid diagrams in `diagrams/*.mmd`; runs in its own
-  worktree in parallel with slide-writer.
-- **critic.md** — adversarial reviewer; scores the deck against a fixed rubric, writes
-  `critique.md` with a PASS/REVISE verdict, never edits the deck.
-- **fact-checker.md** — fetches every citation in the deck, writes `factcheck.md`: a status table
-  (CONFIRMED / PARTIAL / NOT FOUND / CONTRADICTED) plus required edits. Never edits the deck.
-- **notes-writer.md** — reads the finished deck, writes `slides/speaker-script.md` and this
-  handout. Never changes slide content.
-- **qa-skeptic.md** — plays a skeptical IPAC astronomer, writes the ten hardest likely audience
-  questions with draft answers to `handout/qa.md`.
-
-## Two commands to run the pipeline
-
+**1. Frontmatter skeleton** for a subagent file (e.g. `.claude/agents/my-agent.md`):
 ```
-pipeline/run.sh all       # outline -> write (parallel worktrees) -> critic/revise loop
-                          # -> fact-check -> notes+QA (parallel) -> cost report
-pipeline/render.sh        # inline the diagrams and render slides/deck.md to
-                          # slides/build/deck.html (add --pdf for a PDF)
+---
+name: my-agent
+description: one sentence — what it does and when to launch it
+tools: Read, Grep, Glob, Write
+model: sonnet
+---
+Plain-English instructions: the goal, the input files, the output path, and what to return.
 ```
 
-Individual stages (`outline`, `write`, `critique`, `revise`, `loop`, `factcheck`, `notes`, `qa`,
-`cost`) can each be run on their own via `pipeline/run.sh <stage>`; see the header comment in
-`pipeline/run.sh` for flags (`--commit`, `--budget`, `--rounds`).
+**2. Headless call with a budget cap** (copied from the deck's "A subagent is a markdown file"
+slide):
+```
+claude -p --agent critic --allowedTools Read,Glob,Grep,Write --max-budget-usd 5 "$(cat prompt.md)"
+```
 
-## Where the logs and cost report live
+**3. One check on the return:** read the text the call prints back and confirm it is a short
+summary — roughly 200 to 2,000 tokens — not a dump of every file the agent read.
 
-- `runs/NNN-<stage>/` — one numbered directory per stage, in execution order. Each holds
-  `prompt.md` (exact prompt sent), `result.json` (full headless output: text, tokens, cost,
-  turns), `return.md` (what the agent returned), `exit-code`, and the stage's own output file
-  (e.g. `critique.md`, `factcheck.md`). The parallel `write` stage nests `slides/` and
-  `diagrams/` subdirectories, one per worktree. See `runs/README.md`.
-- `runs/cost-report.md` — built from `runs/cost.tsv` by `pipeline/run.sh cost`
-  (`pipeline/cost_report.py`); totals and per-stage rows of tokens and USD. As of this run it
-  only reflects stages through `003-outline` — later stages (004–010) haven't had `cost` rerun
-  against them, and `runs/cost.tsv` currently has an unresolved git merge-conflict marker
-  (`<<<<<<<` / `=======` / `>>>>>>>`) sitting in it from the parallel write stage, which will need
-  fixing before the report can be rebuilt correctly.
+## First step to try
 
-## Five links
+From the deck's closing slide: put one bounded, read-only subtask in its own agent file. Run it
+once. Check summary length.
 
-1. Anthropic, "How we built our multi-agent research system" —
-   https://www.anthropic.com/engineering/built-multi-agent-research-system
-2. Claude Code docs, subagents —
-   https://code.claude.com/docs/en/sub-agents
-3. Claude Code docs, worktrees —
-   https://code.claude.com/docs/en/worktrees
-4. Kim et al., "Towards a science of scaling agent systems" (arXiv) —
-   https://arxiv.org/abs/2512.08296
-5. Cemri et al., "Why do multi-agent LLM systems fail?" (MAST, arXiv) —
-   https://arxiv.org/abs/2503.13657
+## This repo's pipeline
+
+| Agent | Model | Role |
+|---|---|---|
+| researcher | sonnet | One assigned topic, web search/fetch, writes a cited brief; run several in parallel for a fan-out |
+| outliner | sonnet | Turns the merged research brief + `talk-context.md` into a timed, slide-by-slide outline |
+| slide-writer | inherit | Writes or revises the Marp deck; also the critic loop's revise half; runs in its own worktree |
+| diagrammer | sonnet | Produces the Mermaid diagrams for the four patterns and the pipeline itself |
+| critic | inherit | Adversarial content reviewer against a fixed rubric; PASS/REVISE; never edits the deck |
+| fact-checker | sonnet | Verifies every citation/number by fetching the source; never edits the deck |
+| notes-writer | sonnet | Writes the speaker script and this handout; never touches slide content |
+| qa-skeptic | sonnet | Drafts the ten hardest likely audience questions with grounded answers |
+| demo-editor | sonnet | Converts the live demo into a recorded one built from pre-captured screenshots |
+| design-critic | sonnet | Reviews rendered slide PNGs for readability and layout; never edits the deck |
+| teaching-critic | sonnet | Scores the deck against the learning objectives; never edits the deck |
+
+**Two commands to run the pipeline:**
+```
+pipeline/run.sh all     # outline -> write (2 worktrees) -> critic/revise loop
+                         # -> fact-check -> notes+QA (parallel) -> cost report
+pipeline/run.sh shots   # captures terminal screenshots and rewrites the 10 demo slides around them
+```
+Any single stage can also be run on its own: `pipeline/run.sh <stage>` (see the header comment in
+`pipeline/run.sh` for the full stage list and the `--commit`/`--budget`/`--rounds` flags).
+
+**Where the logs and cost report live:** every stage writes one directory under
+`runs/NNN-<stage>/` — `prompt.md` (exact prompt sent), `result.json` (full headless output: text,
+tokens, cost, turns), `return.md` (what the agent returned), `exit-code`, and the stage's own output
+file (`runs/README.md` has the layout; the parallel `write` and `critique` stages nest one
+subdirectory per worker or critic). `runs/cost-report.md` and `runs/cost.tsv` are rebuilt from every
+`result.json` by `pipeline/cost_report.py`; no stage appends to a shared file, so parallel runs
+cannot collide on the log. As verified today: 16 logged stages, $27.94 total.
+
+**Repository:** https://github.com/xoubish/multiGrits
+
+## Links
+
+1. Repo above.
+2. Claude Code, subagents — https://code.claude.com/docs/en/sub-agents
+3. Claude Code, worktrees — https://code.claude.com/docs/en/worktrees

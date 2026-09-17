@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T10:54:47	runs/012-critique/content	critic	claude-fable-5-1,claude-haiku-4-5-20251001	12	130	115935	59889	31051	2.781686750000001	372034	373	False

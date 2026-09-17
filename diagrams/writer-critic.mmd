@@ -1,6 +1,7 @@
 flowchart LR
   S["Script (loop owner)"] -->|"task"| W["Writer"]
   W -->|"draft"| C["Critic"]
+  T["Tests, schema, data"] -.->|"read by"| C
   C -->|"critique"| S
   S -->|"revise"| W
   C -->|"pass"| F["Approved artifact"]

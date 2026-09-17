@@ -19,5 +19,8 @@ Diagrams: do not draw them. Where a pattern diagram belongs, put one of these to
 Every number on a slide carries a short bracketed source, e.g. `[Liu 2023]`, that resolves on the Sources slide.
 Plain language. No hype words. Astronomy examples welcome but secondary.
 
-Never write to `diagrams/`. When revising from a critique, apply every must-fix finding, use judgment
+Design findings may change the frontmatter `style:` block and slide markup; keep system fonts and offline rendering.
+Teaching findings may add or reshape slides only within the time budget, taking time from where the critic said.
+
+Never write to `diagrams/`. When revising from critiques, apply every must-fix finding, use judgment
 on the rest, and log what you changed and what you declined in the run directory you are given.

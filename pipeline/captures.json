@@ -81,54 +81,66 @@
   "name": "agent-critic",
   "title": ".claude/agents/critic.md",
   "command": "cat .claude/agents/critic.md",
-  "max_lines": 40
+  "max_lines": 24
  },
  {
   "name": "agent-demo-editor",
   "title": ".claude/agents/demo-editor.md",
   "command": "cat .claude/agents/demo-editor.md",
-  "max_lines": 40
+  "max_lines": 24
  },
  {
   "name": "agent-diagrammer",
   "title": ".claude/agents/diagrammer.md",
   "command": "cat .claude/agents/diagrammer.md",
-  "max_lines": 40
+  "max_lines": 24
  },
  {
   "name": "agent-fact-checker",
   "title": ".claude/agents/fact-checker.md",
   "command": "cat .claude/agents/fact-checker.md",
-  "max_lines": 40
+  "max_lines": 24
  },
  {
   "name": "agent-notes-writer",
   "title": ".claude/agents/notes-writer.md",
   "command": "cat .claude/agents/notes-writer.md",
-  "max_lines": 40
+  "max_lines": 24
  },
  {
   "name": "agent-outliner",
   "title": ".claude/agents/outliner.md",
   "command": "cat .claude/agents/outliner.md",
-  "max_lines": 40
+  "max_lines": 24
  },
  {
   "name": "agent-qa-skeptic",
   "title": ".claude/agents/qa-skeptic.md",
   "command": "cat .claude/agents/qa-skeptic.md",
-  "max_lines": 40
+  "max_lines": 24
  },
  {
   "name": "agent-researcher",
   "title": ".claude/agents/researcher.md",
   "command": "cat .claude/agents/researcher.md",
-  "max_lines": 40
+  "max_lines": 24
  },
  {
   "name": "agent-slide-writer",
   "title": ".claude/agents/slide-writer.md",
   "command": "cat .claude/agents/slide-writer.md",
-  "max_lines": 40
+  "max_lines": 24
+ },
+ {
+  "name": "agent-design-critic",
+  "title": ".claude/agents/design-critic.md",
+  "command": "cat .claude/agents/design-critic.md",
+  "max_lines": 24
+ },
+ {
+  "name": "agent-teaching-critic",
+  "title": ".claude/agents/teaching-critic.md",
+  "command": "cat .claude/agents/teaching-critic.md",
+  "max_lines": 24
  }
 ]

@@ -14,8 +14,8 @@
     "title": "An agent is a markdown file",
     "command": "ls .claude/agents/ && echo && sed -n '1,7p' .claude/agents/critic.md",
     "png": "slides/shots/agent-file.png",
-    "lines": 17,
-    "height_px": 550,
+    "lines": 19,
+    "height_px": 598,
     "ok": true,
     "markdown": "![h:470](shots/agent-file.png)"
   },
@@ -24,8 +24,8 @@
     "title": "The script owns the stages",
     "command": "pipeline/run.sh | sed -n '5,22p'",
     "png": "slides/shots/run-usage.png",
-    "lines": 17,
-    "height_px": 526,
+    "lines": 18,
+    "height_px": 550,
     "ok": true,
     "markdown": "![h:470](shots/run-usage.png)"
   },
@@ -34,8 +34,8 @@
     "title": "One directory per stage, receipts inside",
     "command": "ls -C -w 96 runs/ && echo && ls -C -w 96 runs/007-critique/ && echo && ls -C -w 96 runs/004-write/slides/",
     "png": "slides/shots/runs-ls.png",
-    "lines": 12,
-    "height_px": 430,
+    "lines": 13,
+    "height_px": 454,
     "ok": true,
     "markdown": "![h:470](shots/runs-ls.png)"
   },
@@ -64,8 +64,8 @@
     "title": "The merge commit records a real conflict",
     "command": "git log --format='%h  %s' | head -8",
     "png": "slides/shots/git-log.png",
-    "lines": 7,
-    "height_px": 286,
+    "lines": 8,
+    "height_px": 310,
     "ok": true,
     "markdown": "![h:470](shots/git-log.png)"
   },
@@ -124,8 +124,8 @@
     "title": "What the deck cost",
     "command": "cat runs/cost-summary.txt",
     "png": "slides/shots/cost-report.png",
-    "lines": 14,
-    "height_px": 454,
+    "lines": 18,
+    "height_px": 550,
     "ok": true,
     "markdown": "![h:470](shots/cost-report.png)"
   },
@@ -144,8 +144,8 @@
     "title": ".claude/agents/demo-editor.md",
     "command": "cat .claude/agents/demo-editor.md",
     "png": "slides/shots/agent-demo-editor.png",
-    "lines": 41,
-    "height_px": 1174,
+    "lines": 25,
+    "height_px": 766,
     "ok": true,
     "markdown": "![h:470](shots/agent-demo-editor.png)"
   },
@@ -174,8 +174,8 @@
     "title": ".claude/agents/notes-writer.md",
     "command": "cat .claude/agents/notes-writer.md",
     "png": "slides/shots/agent-notes-writer.png",
-    "lines": 17,
-    "height_px": 550,
+    "lines": 25,
+    "height_px": 742,
     "ok": true,
     "markdown": "![h:470](shots/agent-notes-writer.png)"
   },
@@ -214,9 +214,29 @@
     "title": ".claude/agents/slide-writer.md",
     "command": "cat .claude/agents/slide-writer.md",
     "png": "slides/shots/agent-slide-writer.png",
-    "lines": 23,
-    "height_px": 694,
+    "lines": 25,
+    "height_px": 742,
     "ok": true,
     "markdown": "![h:470](shots/agent-slide-writer.png)"
+  },
+  {
+    "name": "agent-design-critic",
+    "title": ".claude/agents/design-critic.md",
+    "command": "cat .claude/agents/design-critic.md",
+    "png": "slides/shots/agent-design-critic.png",
+    "lines": 25,
+    "height_px": 766,
+    "ok": true,
+    "markdown": "![h:470](shots/agent-design-critic.png)"
+  },
+  {
+    "name": "agent-teaching-critic",
+    "title": ".claude/agents/teaching-critic.md",
+    "command": "cat .claude/agents/teaching-critic.md",
+    "png": "slides/shots/agent-teaching-critic.png",
+    "lines": 25,
+    "height_px": 790,
+    "ok": true,
+    "markdown": "![h:470](shots/agent-teaching-critic.png)"
   }
 ]

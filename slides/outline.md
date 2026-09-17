@@ -1,5 +1,11 @@
 # Outline — Multi-agent workflows (GRITS Day 2, 11:15–11:45)
 
+> **Status note (2026-09-17, orchestrator):** this outline is the run-003 planning artifact and is kept as written.
+> The deck has since moved on: the demo segment is recorded (ten screenshot slides, run 011), the deck has 30
+> presented slides plus an appendix, and cuts are listed in `slides/speaker-script.md`. Treat `slides/deck.md` as
+> current where the two disagree. Flagged by the content critic in run 012; annotated rather than regenerated so
+> the planning record stays intact.
+
 21 slides (≤25 limit). Segment order and content follow the fixed structure in `talk-context.md`.
 
 ## Timing check (read this first)

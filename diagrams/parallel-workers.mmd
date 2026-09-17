@@ -1,5 +1,5 @@
 flowchart LR
   S["Orchestrator script"] -->|"task"| W1["Worker A (worktree)"]
   S -->|"task"| W2["Worker B (worktree)"]
-  W1 -->|"diff"| M["Merge"]
+  W1 -->|"diff"| M["Merge + verify"]
   W2 -->|"diff"| M

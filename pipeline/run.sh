@@ -10,8 +10,9 @@
 #
 #   outline    outliner reads research/brief.md, writes slides/outline.md
 #   write      slide-writer and diagrammer run IN PARALLEL in two git worktrees, then merge
-#   critique   critic writes runs/NNN-critique/critique.md with a PASS or REVISE verdict
-#   revise     slide-writer applies the latest critique
+#   critique   three critics in parallel (content, design, teaching) -> runs/NNN-critique/<critic>/critique.md;
+#              verdict is PASS only if all three pass. Renders PNGs first so the design critic can look at slides
+#   revise     slide-writer applies every critique from the latest critique run
 #   loop       critique -> revise until PASS or --rounds exhausted (default 2)
 #   factcheck  fact-checker fetches every citation, writes runs/NNN-factcheck/factcheck.md
 #   notes      notes-writer writes slides/speaker-script.md and handout/handout.md
@@ -121,17 +122,28 @@ stage_write() {
   log "write stage merged; logs in $run_dir/{slides,diagrams}"
 }
 
+# Three critics in parallel (pattern 1 applied to pattern 3): content, visual design, teaching. Each writes its own
+# critique.md in its own subdirectory, so no shared file. The design critic looks at rendered PNGs, so render first.
 stage_critique() {
-  local run_dir; run_dir=$(next_run_dir critique)
-  run_agent critic "$run_dir" pipeline/prompts/critique.md "Read,Glob,Grep,Write"
-  LAST_CRITIQUE="$run_dir/critique.md"
-  if [[ -f "$LAST_CRITIQUE" ]] && grep -qiE '^\s*\**verdict\**:?\s*\**PASS' "$LAST_CRITIQUE"; then VERDICT=PASS; else VERDICT=REVISE; fi
-  log "critic verdict: $VERDICT ($LAST_CRITIQUE)"
+  local run_dir; run_dir=$(next_run_dir critique); mkdir -p "$run_dir"
+  pipeline/render.sh --png >/dev/null 2>&1 || log "WARNING: PNG render failed; the design critic will have no images"
+  COMMIT=0 run_agent critic          "$run_dir/content"  pipeline/prompts/critique.md          "Read,Glob,Grep,Write" &
+  COMMIT=0 run_agent design-critic   "$run_dir/design"   pipeline/prompts/critique-design.md   "Read,Glob,Grep,Write" &
+  COMMIT=0 run_agent teaching-critic "$run_dir/teaching" pipeline/prompts/critique-teaching.md "Read,Glob,Grep,Write" &
+  wait
+  VERDICT=PASS; local c v summary=""
+  for c in content design teaching; do
+    if [[ -f "$run_dir/$c/critique.md" ]] && grep -qiE '^\s*\**verdict\**:?\s*\**PASS' "$run_dir/$c/critique.md"; then v=PASS; else v=REVISE; VERDICT=REVISE; fi
+    summary+="$c=$v "
+  done
+  LAST_CRITIQUE="$run_dir"
+  log "critics: $summary-> $VERDICT ($run_dir)"
+  if [[ $COMMIT -eq 1 ]]; then git add -A && git commit -qm "pipeline: critique ($run_dir)" || true; fi
 }
 
 stage_revise() {
-  local critique="${LAST_CRITIQUE:-$(ls runs/*-critique/critique.md 2>/dev/null | tail -1)}"
-  [[ -f "$critique" ]] || { echo "no critique found; run critique first" >&2; exit 1; }
+  local critique="${LAST_CRITIQUE:-$(ls -d runs/*-critique 2>/dev/null | tail -1)}"
+  [[ -d "$critique" ]] || { echo "no critique run found; run critique first" >&2; exit 1; }
   run_agent slide-writer "$(next_run_dir revise)" pipeline/prompts/revise.md "Read,Write,Edit,Glob,Grep" "CRITIQUE=$critique"
 }
 

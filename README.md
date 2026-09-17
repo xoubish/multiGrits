@@ -9,8 +9,8 @@ what the audience sees. Every pattern the talk teaches is used at least once to 
 
 ```
 talk-context.md        single source of truth: audience, schedule, non-goals, thesis, style rules
-.claude/agents/        nine subagent definitions (researcher, outliner, slide-writer, diagrammer, critic,
-                       fact-checker, qa-skeptic, notes-writer, demo-editor), each with its own model and tools
+.claude/agents/        eleven subagent definitions (researcher, outliner, slide-writer, diagrammer, critic,
+                       design-critic, teaching-critic, fact-checker, qa-skeptic, notes-writer, demo-editor)
 pipeline/run.sh        deterministic orchestration: stages, the critic loop, worktree isolation
 pipeline/prompts/      the prompt template for each stage
 pipeline/render.sh     Marp render with diagrams pre-rendered to SVG and screenshots inlined
@@ -30,7 +30,7 @@ runs/                  one directory per stage: exact prompt, full JSON result, 
 |---|---|
 | Fan-out and merge | four `researcher` subagents in parallel, merged into `research/brief.md` |
 | Pipeline | outliner, then writers, then critic, then fact-checker, each with a fresh context |
-| Writer and critic | `critic` scores the deck; `slide-writer` revises; the shell script owns the loop |
+| Writer and critic | three critics in parallel (`critic` for content, `design-critic` on the rendered PNGs, `teaching-critic` against the learning objectives); `slide-writer` revises from all three; the script owns the loop |
 | Parallel isolated workers | `slide-writer` and `diagrammer` in two git worktrees, merged by the script |
 
 ## Running it
@@ -91,13 +91,18 @@ Why pre-render: Mermaid's live renderer draws labels as HTML inside SVG, which S
 at talk time. Static SVGs render identically in Safari, Chrome, and PDF. Marp is called with `--no-stdin` because
 it otherwise waits forever for piped input when stdin is not a terminal (CI, cron, backgrounded runs).
 
-## Status (2026-09-15, end of day)
+## Status (2026-09-17)
 
-All stages have run: research fan-out (001), outline (002 found a spec contradiction, 003 clean), parallel write
-(004, merge conflict on a shared cost log, fixed), two critic and revise rounds (005 to 008; 006 hit the budget
-cap), fact-check (009: 44 confirmed, 2 partial, 0 not found), speaker script, handout, hostile Q&A (010), and the
-recorded demo (011: screenshots plus the demo-editor agent; the human then split its two-per-slide layout into one
-screenshot per slide, see `runs/011-shots/README.md`). Deck: 30 presented slides plus a 10-slide appendix of agent
-files, renders to HTML and PDF offline. Headless spend: $19.32.
+Two critics added on request: `design-critic` (reviews the rendered PNGs) and `teaching-critic` (scores against the
+learning objectives now in `talk-context.md`). The critique stage runs all three critics in parallel; PASS requires
+all three. First three-critic round (012) returned REVISE from all three; the writer applied 30 findings (013). The
+orchestrator applied the out-of-scope items by hand (diagrams, captures, appendix slides, outline note) and re-ran the
+notes stage so the handout no longer describes a fixed bug. See `runs/012-critique/README.md`.
 
-Remaining before the talk: rehearse from `slides/speaker-script.md`; commit.
+Earlier: research fan-out (001), outline (002 spec contradiction, 003 clean), parallel write (004, merge conflict on
+a shared cost log, fixed), critic rounds (005 to 008; 006 hit the budget cap), fact-check (009: 44 confirmed, 2
+partial, 0 not found), notes and Q&A (010), recorded demo (011). Deck: 30 presented slides plus an appendix of
+agent files, renders to HTML and PDF offline.
+
+Remaining before the talk: decide whether the repo is public (the Sources slide and handout point into it);
+rehearse from `slides/speaker-script.md`; commit.
