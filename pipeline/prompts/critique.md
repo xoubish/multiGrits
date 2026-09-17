@@ -1,7 +1,8 @@
-Read `talk-context.md`, `slides/outline.md`, `slides/deck.md`, and every file in `diagrams/`.
+Read `talk-context.md`, `slides/outline.md`, and `slides/deck.md` with its notes, then look at every image in
+`slides/build/png/` (`deck.001.png` is slide 1) with the Read tool.
 
-Review the deck against the seven-criterion rubric in your agent instructions.
-Write `{{RUN_DIR}}/critique.md`. The first line must be exactly `Verdict: PASS` or `Verdict: REVISE`.
-Then the seven scores, then the findings (slide number, problem, fix, severity).
+Review as described in your agent instructions: does each slide earn its time, can I read it from the back, is
+every citation complete on the slide, would I be able to do this afterwards. Write `{{RUN_DIR}}/review.md`; first line exactly `Verdict: PASS` or
+`Verdict: REVISE`. Structural problems go under `## For the speaker` and do not affect the verdict.
 
-Do not edit any other file. Return the verdict and the three most important findings.
+Do not edit any other file. Return the verdict and the three findings that matter most.

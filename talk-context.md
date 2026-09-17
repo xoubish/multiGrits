@@ -44,69 +44,70 @@ Day 2: Advanced Workflows & Local Models
 - Do not cover sandboxing or permissions in depth. (BJ, immediately after.)
   End with a one-line hand-off: many unsupervised agents means you need sandboxing.
 
-## Thesis and fixed structure
+## Thesis
 
-Thesis: the main reason to go multi-agent is **context**, not intelligence. One agent's
-context window fills up and quality degrades, so you delegate to keep the main thread clean.
-Parallelism and specialization come second. Most tasks do not need multiple agents, and
-coordination overhead is real.
+The main reason to go multi-agent is **context**, not intelligence. Two copies of one model know the same things;
+adding agents adds attention (a fresh context window), time (parallel wall-clock), and independence (a reviewer
+not anchored to the draft). Most tasks do not need multiple agents, and coordination overhead is real.
 
-| Segment | Minutes |
-|---|---|
-| Why, and when not to | 3 |
-| Four patterns, one diagram each | 7 |
-| Live demo of one pattern | 12 |
-| Gotchas and cost | 5 |
-| Q&A and hand-off to BJ | 3 |
-| **Total** | **30** |
+## Structure: the outline is the spec
 
-The four patterns:
+`slides/outline.md` is written by the speaker, by hand, and is the single source of structure: slide order,
+per-slide message, time budgets, and the cuts list. No agent generates or reorders it. Agents draft slides,
+diagrams, evidence, notes, and reviews *for* that outline. If an agent finds a structural problem, it reports it
+to the speaker (a `## For the speaker` section) and does not fix it.
+
+Why: the first pipeline in this repo generated its own outline from a research brief and a segment table, then
+optimised a deck against a rubric of citations, word counts, and seconds. Every constraint was met and the deck was
+a wall of cited percentages nobody wanted to present. Agents optimise what you measure; taste has to be a human's.
+That outcome is part of the talk.
+
+The four patterns the talk names, in the outline's order:
 1. **Fan-out and merge** — orchestrator sends independent subtasks to subagents, merges summaries.
 2. **Pipeline** — planner, implementer, tester in sequence; each stage gets a fresh context.
 3. **Writer and critic** — one agent produces, another reviews adversarially with tools in hand.
 4. **Parallel isolated workers** — several agents on separate git worktrees, merged at the end.
 
-Gotchas to land:
+Points to weave in where the outline places them (not a segment of their own):
 - Subagents do not see your conversation. Pass what they need; have them return summaries, not dumps.
 - Cost multiplies with agent count. Cheap or local models on subagents, frontier model on the orchestrator.
 - Two agents editing one file is the classic failure. Isolation via worktrees fixes it.
-- Prefer deterministic orchestration (a script that calls agents) over agents spawning agents. Reproducibility.
-- Unsupervised agents need sandboxing. Hand-off to BJ.
+- Prefer deterministic orchestration (a script that calls agents) over agents spawning agents.
+- Unsupervised agents need sandboxing. One-line hand-off to BJ at the end.
 
-## Learning objectives (what an attendee can do afterwards; the teaching critic scores against these)
+## What an attendee can do afterwards
 
-1. State when multi-agent helps and when it hurts, with one measured number for each side.
+1. Say when multi-agent helps and when it hurts, with one number for each side.
 2. Write a subagent as a markdown file and call it from a script, headless, with a budget cap.
-3. Pick one of the four patterns for a given task by its shape, and say why in one sentence.
-4. Isolate parallel workers and merge with a verification step; recognise the two-agents-one-file failure.
-5. Read a run's logs to audit what an agent did, what it returned, and what it cost.
+3. Pick one of the four patterns for a task by its shape, in one sentence.
+4. Recognise the two-agents-one-file failure and know that worktrees plus a verified merge fix it.
 
-## The meta-demo
+## The meta-example
 
-This deck is itself built by a multi-agent pipeline in this repo.
+This deck's slides, diagrams, evidence, notes, and Q&A are drafted by the agents in `.claude/agents/`, called in a
+fixed order by `pipeline/run.sh`, with every call logged under `runs/`. The talk tells this as a recipe, so that
+someone who sees only the slides can replicate the workflow: the first attempt from scratch and why it failed (a
+spec contradiction, a merge conflict on a shared log, a budget cap hit mid-revision, and a deck that met every
+constraint and was not presentable), then the hand-written outline and each stage of the second attempt in order,
+with the real files as text: the folder layout, one complete agent file, one outline entry, the exact headless
+command, the stage order, and what each cost. The source for all of it is `research/build-log.md`, written by the
+chronicler from the run logs; slides copy it and never reconstruct history themselves. No screenshot walkthrough.
+Nothing runs live unless the speaker decides otherwise in the outline.
 
-Demo mode: **recorded**. Nothing runs live on stage. The 12-minute demo segment walks through terminal
-screenshots of the pipeline's real runs and logs, captured from this repo by `pipeline/capture.py` and placed on
-ten slides, one screenshot each, by the `demo-editor` agent (`pipeline/run.sh shots`). The slides say plainly that these are captures. The first demo slide shows the repository layout; an appendix
-after Sources shows every agent definition file as a screenshot.
-Failures that happened during the build (spec contradiction, worktree merge conflict, budget exhaustion) are
-shown, not hidden.
-
-Stages:
-1. Research fan-out (4 researchers in parallel, web access) → `research/briefs/*.md` → merged `research/brief.md`
-2. Outline planner → `slides/outline.md`
-3. Slide writer and diagrammer in parallel (separate worktrees) → `slides/deck.md`, `diagrams/*.mmd`
-4. Critic loop: three critics in parallel (content, visual design, teaching) → `runs/*/<critic>/critique.md`; revise; repeat
-5. Fact-checker with web tools → `runs/*/factcheck.md`
-6. Speaker notes, hostile Q&A, handout, cost report
+Stages: `evidence` (one source per claim in the outline) → `example` (build and run the take-home example) →
+`chronicle` (the build log so far) → `write` (slide-writer, diagrammer and illustrator in parallel worktrees) → `loop` (one reviewer, then revise) → `chronicle` again and one `revise` to place it → `factcheck` →
+`notes` and `qa` in parallel → `cost`.
 
 ## Style constraints for all outputs
 
-- Every factual claim carries a citation with a URL. Unverifiable claims go under an "Unverified" heading.
-- Plain language, no hype. Prefer numbers with sources.
-- Slides: Marp markdown. At most 30 presented slides; an appendix after the Sources slides (agent files,
-  repo layout) is allowed and not counted. Screenshot slides carry exactly one screenshot each, full width. One idea per slide. At most 40 words of body text per slide.
-  Speaker notes go in HTML comments below each slide.
-- Diagrams: Mermaid, one per pattern, at most 8 nodes each.
-- Astronomy flavor is welcome but secondary.
-- Write only to your assigned output path. Never modify another agent's files.
+- The speaker reads from the slides. Slides are complete: full sentences in the first person that read well aloud.
+- Marp markdown. One or more slides per outline entry, in outline order; split rather than shrink. At most about
+  60 words of body per slide so it stays readable at 24px from the back. Graphics welcome alongside text.
+- Citations appear on the slide in full: authors and year, title, venue or arXiv id, and the finding in plain
+  words with its number and condition. URLs on the Sources slides. The fact-checker verifies every one.
+- Speaker notes in an HTML comment under each slide carry the time budget and the transition, not the content.
+- Diagrams: Mermaid, at most 7 nodes, shared theme, legible when sharing a slide with three sentences.
+- Illustrations: at most five in the deck, flat two-colour SVG, no text inside, for moments not mechanisms.
+- Code on slides is real text from this repo or `examples/`, copied exactly.
+- Plain language, no hype. Astronomy examples come from the speaker's outline.
+- Write only to your assigned output path. Never modify another agent's files. Never modify `slides/outline.md`.

@@ -29,6 +29,7 @@ def sub(m):
 
 text = re.sub(r"\{\{diagram:([\w-]+)\}\}", sub, text)
 text = text.replace("](shots/", "](../shots/")  # screenshots: slides/shots/ seen from slides/build/deck.md
+text = text.replace("](illustrations/", "](../illustrations/")  # SVGs from the illustrator, same layout
 loader = """
 <style>.diagram{text-align:center;margin:0.2em 0} .diagram svg{max-height:44vh;max-width:100%;height:auto}</style>
 """ + ("" if not live_used else """

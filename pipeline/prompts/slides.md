@@ -1,8 +1,8 @@
-Read `talk-context.md`, `slides/outline.md`, and `research/brief.md`.
+Read `talk-context.md`, `slides/outline.md`, and `research/evidence.md`.
 
-Write `slides/deck.md` as a Marp deck following your agent instructions and every style constraint in
-talk-context.md. Replace the skeleton entirely. Use the diagram placeholder tokens; do not draw diagrams.
-Every number on a slide gets a short bracketed source that resolves on the final Sources slide.
+Write `slides/deck.md` following your agent instructions: the speaker reads from the slides, so full sentences,
+complete citations on the slide, at most about 60 words per slide, split rather than shrink. Use diagram tokens;
+do not draw. Real code only.
 
-Write `{{RUN_DIR}}/notes.md` with: slide count, the three slides you are least confident in and why.
-Return a summary of at most 150 words.
+Write `{{RUN_DIR}}/notes.md`: slides per outline entry, every `TODO evidence:` item, the two slides you are least
+sure of. Return at most 120 words.

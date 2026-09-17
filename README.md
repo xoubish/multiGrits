@@ -2,107 +2,92 @@
 
 Material for the **Multi-agent workflows** session at the GRITS AI workshop (IPAC, Day 2, 11:15–11:45).
 
-The talk's demo is this repo: the deck is built by a multi-agent pipeline, and the pipeline's logs are
-what the audience sees. Every pattern the talk teaches is used at least once to build the talk.
+The speaker writes the outline. Agents draft everything downstream of it (slides, diagrams, evidence, the
+take-home example, notes, Q&A) and one reviewer checks the result. A shell script calls them in a fixed order
+and logs every call. The first version of this repo let agents write the outline too; the deck that came out
+met every constraint and was unpresentable. That story is in the talk.
 
 ## Layout
 
 ```
-talk-context.md        single source of truth: audience, schedule, non-goals, thesis, style rules
-.claude/agents/        eleven subagent definitions (researcher, outliner, slide-writer, diagrammer, critic,
-                       design-critic, teaching-critic, fact-checker, qa-skeptic, notes-writer, demo-editor)
-pipeline/run.sh        deterministic orchestration: stages, the critic loop, worktree isolation
-pipeline/prompts/      the prompt template for each stage
-pipeline/render.sh     Marp render with diagrams pre-rendered to SVG and screenshots inlined
-pipeline/capture.py    terminal-style screenshots of read-only commands (pipeline/captures.json) -> slides/shots/
-pipeline/tree.sh       repo layout listing used by one of the screenshots
+talk-context.md          audience, schedule, non-goals, thesis, style rules for every agent
+slides/outline.md        HUMAN-WRITTEN. Slide order, per-slide message, time budgets, cuts. No agent edits it.
+.claude/agents/          ten subagent definitions (see table below)
+pipeline/run.sh          deterministic orchestration: stages, the review loop, worktree isolation
+pipeline/prompts/        the prompt template for each stage
+pipeline/render.sh       Marp render with diagrams pre-rendered to SVG
 pipeline/cost_report.py  per-stage, per-model cost table from the run logs
-research/briefs/       one cited brief per researcher; research/brief.md is the orchestrator's merge
-slides/                outline.md, deck.md (Marp), speaker-script.md, shots/ (demo screenshots)
-diagrams/              one Mermaid file per pattern, inlined into the deck at build time
-handout/               handout.md, qa.md
-runs/                  one directory per stage: exact prompt, full JSON result, return text, outputs
+research/evidence.md     one source per claim in the outline (written by evidence-finder)
+research/build-log.md    how this deck was built, step by step, with pointers into runs/ (written by chronicler)
+research/briefs/         the four briefs from the first pipeline's research fan-out; evidence-finder reuses them
+examples/                the take-home example, built and actually run by example-builder
+slides/deck.md           Marp deck; speaker-script.md; illustrations/ (SVGs); build/ (rendered, untracked)
+diagrams/                Mermaid, one file per diagram token in the deck
+handout/                 handout.md, qa.md
+runs/                    one directory per agent call: exact prompt, full JSON result, return text, cost row
 ```
+
+## The agents
+
+| Agent | Model | Tools | Job |
+|---|---|---|---|
+| `evidence-finder` | sonnet | web, read, write | For each claim the outline makes, find one source and the exact number. Reuses verified briefs first. |
+| `example-builder` | sonnet | read, write, **bash** | Build the "try this Monday" example under `examples/` and run it headless with a $1 cap. Records the real return and cost. |
+| `chronicler` | sonnet | read, write | Writes research/build-log.md, the step-by-step account of how this deck was built, from runs/ and the cost table, with the real files as text. Runs before the draft and again after the review loop. |
+| `slide-writer` | inherit | read, write, edit | One or more slides per outline entry. Full sentences the speaker can read aloud, complete citations on the slide, about 60 words max. Also applies reviews. |
+| `diagrammer` | sonnet | read, write | Mermaid diagrams with a shared theme, at most 7 nodes, legible beside text. Runs in its own worktree. |
+| `illustrator` | inherit | read, write | At most five flat SVG illustrations for the moments a diagram cannot carry (title, why teams, the failure, the close). Writes only to slides/illustrations/, in its own worktree. |
+| `reviewer` | inherit | read, write | Sits in the audience. Reads the deck and looks at the rendered PNGs. Asks whether each slide earns its time. PASS or REVISE. |
+| `fact-checker` | sonnet | web, read, write | Opens every source in the notes and checks the number said matches the number published. |
+| `notes-writer` | sonnet | read, write | Speaker script with a running clock; one-page handout with the copyable recipe. |
+| `qa-skeptic` | sonnet | read, write | Ten hardest audience questions with grounded answers. |
+
+Retired: `outliner` (the speaker owns the outline), four `researcher`s (push-mode briefs nobody used; replaced by
+pull-mode `evidence-finder`), `critic`, `design-critic`, `teaching-critic` (three rubrics that rewarded compliance;
+replaced by one `reviewer`), `demo-editor` (the screenshot demo is gone).
 
 ## How the pipeline maps to the four patterns
 
 | Pattern | Where it is used |
 |---|---|
-| Fan-out and merge | four `researcher` subagents in parallel, merged into `research/brief.md` |
-| Pipeline | outliner, then writers, then critic, then fact-checker, each with a fresh context |
-| Writer and critic | three critics in parallel (`critic` for content, `design-critic` on the rendered PNGs, `teaching-critic` against the learning objectives); `slide-writer` revises from all three; the script owns the loop |
-| Parallel isolated workers | `slide-writer` and `diagrammer` in two git worktrees, merged by the script |
+| Fan-out and merge | `notes-writer` and `qa-skeptic` in parallel; earlier, four `researcher`s |
+| Pipeline | evidence → example → chronicle → write → review → chronicle → fact-check → notes, each with a fresh context, files as hand-off |
+| Writer and critic | `reviewer` writes a review, `slide-writer` revises; the script owns the loop and the round limit |
+| Parallel isolated workers | `slide-writer`, `diagrammer`, and `illustrator` in three git worktrees on disjoint folders, merged by the script |
 
 ## Running it
 
-Stage 1, the research fan-out, is run interactively in Claude Code so the audience sees subagents spawn:
+Write `slides/outline.md` first. Then:
 
 ```
-claude
-> Read talk-context.md. Launch four researcher agents in parallel, one per prompt in
-> runs/001-research-fanout/prompts/, then merge their briefs into research/brief.md.
-```
-
-Stages 2 onward run headlessly from the script. Each stage is one `claude -p --agent <name>` call.
-
-```
-pipeline/run.sh outline
-pipeline/run.sh write            # slide-writer + diagrammer in parallel worktrees, then merge (commits)
-pipeline/run.sh loop --rounds 2  # critique -> revise until PASS
+pipeline/run.sh evidence         # research/evidence.md
+pipeline/run.sh example          # examples/<name>/, run for real
+pipeline/run.sh chronicle        # research/build-log.md, from the runs so far
+pipeline/run.sh write            # slide-writer + diagrammer + illustrator in parallel worktrees, then merge (commits)
+pipeline/run.sh loop --rounds 2  # render, review, revise until PASS
+pipeline/run.sh chronicle && pipeline/run.sh revise   # record the runs above, place the update in the deck
 pipeline/run.sh factcheck
 pipeline/run.sh notes & pipeline/run.sh qa & wait
 pipeline/run.sh cost
 pipeline/render.sh               # -> slides/build/deck.html
 ```
 
-Or `pipeline/run.sh all --commit`. Per-stage spend is capped with `--budget USD` (default 3); a stage that hits
-the cap exits with code 2 and the script logs it.
-
-Two ways to isolate parallel workers, both shown in the talk: the script creates git worktrees itself in the
-`write` stage, and in an interactive session the Agent tool accepts `isolation: "worktree"` (or a subagent's
-frontmatter can declare `isolation: worktree`) so Claude Code creates and cleans up the worktree for you.
-
-## Demo mode: recorded, nothing runs on stage
-
-The 12-minute demo segment is five slides of terminal screenshots taken from this repo's real runs. Nothing is
-executed during the talk, so there is no network, timing, or budget risk on stage.
-
-- `pipeline/capture.py` runs every read-only command in `pipeline/captures.json` (agent files, the repo tree, run
-  logs, `git log`, the critique, the fact-check tally, the cost report) and renders each as a terminal-window PNG
-  in `slides/shots/` using the installed Chrome. Deterministic; re-run it after any pipeline stage to refresh.
-- `pipeline/run.sh shots` runs that capture, then the `demo-editor` agent rewrites the five demo slides around
-  the screenshots, adds an appendix with one slide per agent file, updates the speaker script, and captures again.
-- The slides say plainly that these are captures. The three real failures from the build are shown on purpose.
-
-To go back to a live demo, restore the earlier deck from `runs/0NN-shots/deck-before.md` or from git history.
+Or `pipeline/run.sh all --commit`. Per-stage spend is capped with `--budget USD` (default 5); a stage that hits
+the cap is flagged from its result file, not its exit code (run 006 taught that).
 
 ## Requirements and rendering
 
-Claude Code 2.1 or newer, Node 22 (Marp runs from the npx cache, nothing to install), Python 3, and Google Chrome
-(or Chromium/Edge) for PDF export and diagram pre-rendering.
+Claude Code 2.1 or newer, Node 22 (Marp runs from the npx cache), Python 3, and Google Chrome (or Chromium/Edge)
+for PDF export and diagram pre-rendering.
 
-`pipeline/render.sh` does three things: `render_diagrams.py` turns each `diagrams/*.mmd` into a static SVG with
-plain text labels using the installed Chrome and a cached copy of Mermaid; `inline_diagrams.py` embeds those SVGs
-into the deck (falling back to a live Mermaid loader only if no SVG exists); Marp converts to `slides/build/deck.html`
-and, with `--pdf`, `deck.pdf`. Present from `deck.html` in any browser, offline. Press `p` for presenter view with
-speaker notes and a timer.
+`pipeline/render.sh` turns each `diagrams/*.mmd` into a static SVG, inlines them into the deck, and runs Marp to
+`slides/build/deck.html` (and `deck.pdf` with `--pdf`, per-slide PNGs with `--png`). Present from `deck.html`
+offline; press `p` for presenter view with notes and a timer.
 
-Why pre-render: Mermaid's live renderer draws labels as HTML inside SVG, which Safari clips, and it needs network
-at talk time. Static SVGs render identically in Safari, Chrome, and PDF. Marp is called with `--no-stdin` because
-it otherwise waits forever for piped input when stdin is not a terminal (CI, cron, backgrounded runs).
+## History
 
-## Status (2026-09-17)
-
-Two critics added on request: `design-critic` (reviews the rendered PNGs) and `teaching-critic` (scores against the
-learning objectives now in `talk-context.md`). The critique stage runs all three critics in parallel; PASS requires
-all three. First three-critic round (012) returned REVISE from all three; the writer applied 30 findings (013). The
-orchestrator applied the out-of-scope items by hand (diagrams, captures, appendix slides, outline note) and re-ran the
-notes stage so the handout no longer describes a fixed bug. See `runs/012-critique/README.md`.
-
-Earlier: research fan-out (001), outline (002 spec contradiction, 003 clean), parallel write (004, merge conflict on
-a shared cost log, fixed), critic rounds (005 to 008; 006 hit the budget cap), fact-check (009: 44 confirmed, 2
-partial, 0 not found), notes and Q&A (010), recorded demo (011). Deck: 30 presented slides plus an appendix of
-agent files, renders to HTML and PDF offline.
-
-Remaining before the talk: decide whether the repo is public (the Sources slide and handout point into it);
-rehearse from `slides/speaker-script.md`; commit.
+Runs 001 to 014 are the first pipeline: research fan-out, generated outline (002 caught a spec contradiction),
+parallel write (004, merge conflict on a shared cost log), critic rounds (006 hit its budget cap), fact-check
+(009: 44 confirmed, 2 partial, 0 not found), notes, recorded demo, a three-critic round and revise. About $29 in
+logged stages. The deck it produced is in git history at commit 707ad48; one slide of it is kept as a screenshot
+for the talk. The roster and stages were rewritten on 2026-09-17; runs from 015 onward use the new agents.

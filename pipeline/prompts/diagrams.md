@@ -1,9 +1,6 @@
-Read `talk-context.md` and `slides/outline.md`.
+Read `talk-context.md`, `slides/outline.md`, and `pipeline/run.sh`.
 
-Write the five Mermaid files in `diagrams/` described in your agent instructions:
-`fan-out.mmd`, `pipeline.mmd`, `writer-critic.mmd`, `parallel-workers.mmd`, `meta-pipeline.mmd`.
-For `meta-pipeline.mmd`, use the stages listed under "The meta-demo" in talk-context.md and the
-scripts in `pipeline/run.sh` if present.
+Write every diagram the outline names as a `{{diagram:name}}` token, plus the five standard ones, to `diagrams/`,
+following your agent instructions (shared init line, at most 7 nodes, fills a slide on its own).
 
-Write `{{RUN_DIR}}/notes.md` with one line per diagram: file and what it shows.
-Return that same list.
+Write `{{RUN_DIR}}/notes.md` with one line per diagram. Return that list.

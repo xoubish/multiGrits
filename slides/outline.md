@@ -1,240 +1,119 @@
 # Outline — Multi-agent workflows (GRITS Day 2, 11:15–11:45)
 
-> **Status note (2026-09-17, orchestrator):** this outline is the run-003 planning artifact and is kept as written.
-> The deck has since moved on: the demo segment is recorded (ten screenshot slides, run 011), the deck has 30
-> presented slides plus an appendix, and cuts are listed in `slides/speaker-script.md`. Treat `slides/deck.md` as
-> current where the two disagree. Flagged by the content critic in run 012; annotated rather than regenerated so
-> the planning record stays intact.
+Written by the speaker, 2026-09-17. This file is the structure of the talk. Agents draft slides for each entry
+below, in this order, and may use more than one slide per entry when the text needs it. Seconds per entry are the
+time budget; the sum is 1620 s of content plus 180 s of Q&A. The speaker reads from the slides, so slides carry
+full sentences and complete citations, not talking points.
 
-21 slides (≤25 limit). Segment order and content follow the fixed structure in `talk-context.md`.
+## A. One collaborator, then more (240 s)
 
-## Timing check (read this first)
+1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS Day 2, advanced track. 15 s.
+2. **Yesterday you got one collaborator.** One-line recap only: on Day 1 you learned what an agent is and used
+   Claude Code or Codex. Do not re-explain. Today is about when a second one is worth having. 45 s.
+3. **Why not more than one?** These agents have been the best collaborator I have had: do this, check that, write
+   the code, debug it. The obvious next thought is a team of them. Pose the question honestly; do not answer yet. 60 s.
+4. **Why do people work in teams?** Three reasons: limited time, limited knowledge, limited attention. For agents
+   only two of the three hold. Two copies of the same model know exactly the same things, so adding agents adds no
+   expertise. It adds attention (a fresh context window) and time (parallel wall-clock), plus one thing people
+   also get from a colleague: independence, a reviewer not anchored to the draft. 60 s.
+5. **So what multi-agent brings, and the thesis.** Context, not intelligence. One agent's window fills and its
+   quality degrades before it hits the token limit (lost-in-the-middle, RULER). Parallelism and specialization are
+   second-order. Most tasks do not need it. 60 s.
 
-`talk-context.md` states the length as "30 minutes total" and calls the segment table binding:
-27 minutes of content (1620 s) and 3 minutes of Q&A plus hand-off (180 s). The table itself
-(Why 3 + Patterns 7 + Demo 12 + Gotchas 5 = 27; Q&A 3) sums consistently to 27 + 3 = 30, and the
-prose does not state a conflicting number anywhere else in the file. **No contradiction found this
-run** — unlike an earlier draft of this outline (see `runs/002-outline/notes.md`), the current
-`talk-context.md` is internally consistent, so the table is used directly with no rescaling:
+## B. Architectures (390 s)
 
-- Why, and when not to — 3 min = **180 s**
-- Four patterns, one diagram each — 7 min = **420 s**
-- Live demo of one pattern — 12 min = **720 s**
-- Gotchas and cost — 5 min = **300 s**
-- Content subtotal: **1620 s**, matching the instruction exactly.
-- Q&A and hand-off to BJ — 3 min = **180 s**.
-- Grand total: 1620 + 180 = **1800 s = 30 min**.
+6. **Workflows, architectures, and three axes.** The words are used loosely. Anthropic's "Building effective
+   agents" separates workflows (code decides the order of calls) from agents (the model decides) and lists five
+   workflow patterns: prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer. Any
+   multi-agent design is three choices: topology, who orchestrates (script, model, or human), and isolation (shared
+   or fresh context, shared files or separate worktrees). 60 s.
+7. **Pattern 1, fan-out and merge.** {{diagram:fan-out}} Independent pieces, one merge point. Astronomy: one agent
+   per archive (IRSA, NED, Exoplanet Archive) for a target list, merged into one table. 60 s.
+8. **Pattern 2, pipeline.** {{diagram:pipeline}} Sequential steps, each with a fresh context, files as the hand-off.
+   Planner, implementer, tester. 60 s.
+9. **Pattern 3, writer and critic.** {{diagram:writer-critic}} One produces, one reviews adversarially with tools in
+   hand (tests, data, schema), the loop runs a fixed number of rounds. A critic without tools rubber-stamps. 60 s.
+10. **Pattern 4, parallel isolated workers.** {{diagram:parallel-workers}} Not a fourth topology: fan-out with the
+    isolation choice made explicit. One git worktree per agent, merged at the end. The failure it prevents: two
+    agents, one file, last write wins. 60 s.
+11. **How many agents?** One is today's default (Claude Code, Codex, Cursor run one agent that spawns a subagent
+    occasionally). Working systems use one orchestrator and two to five workers (Anthropic's research system,
+    MetaGPT's five roles, ChatDev's seven). Past a thousand exists in research (MacNet, Project Sid) and nobody
+    uses it for work. There is no published histogram of practitioner usage; say so. 45 s.
+12. **You already do this.** Running the same task in Claude Code and Codex and comparing is writer-and-critic with
+    you as orchestrator. Two terminals on two tasks is fan-out. Claude Code spawns an Explore subagent without
+    asking. The question is when to make it deliberate, and when to replace yourself with a script. 45 s.
 
-Diagram slides (4 required, one per pattern) are marked **[DIAGRAM]**.
+## C. Example: this talk was made by agents (480 s)
 
----
+Source for every entry in this segment: `research/build-log.md`. Copy file text and numbers exactly.
 
-## Segment 1 — Why, and when not to (180 s)
+13. **This deck was built by the pipeline in this repo.** {{diagram:meta-pipeline}} The repo layout as text:
+    talk-context.md, slides/outline.md, .claude/agents/, pipeline/run.sh, research/, diagrams/, runs/. 45 s.
+14. **Attempt one, from scratch.** Eleven agents: four researchers in parallel, an outliner, a slide-writer and
+    diagrammer in worktrees, three critics, a fact-checker, notes, Q&A, a demo editor. What it cost. Three
+    failures, with run numbers: a spec contradiction the outliner caught, a merge conflict when both worktrees
+    appended to one cost log, a revision stopped by its budget cap. 75 s.
+15. **What came out.** The screenshot `shots/first-deck-gotcha.png` (and `first-deck-thesis.png` if a second slide
+    is needed). Every constraint was met: citations, word counts, timing to the second. It was a wall of cited
+    percentages and a twelve-minute demo of screenshots of README files. Why: the critics scored what could be
+    counted, and nobody scored whether it was a talk. Agents optimize the rubric you write. 60 s.
+16. **The reset.** I wrote this outline by hand. Retired: the outliner, the researchers, the three critics, the demo
+    editor. Added: an evidence-finder that sources only the claims I make, an example-builder that runs the
+    take-home example for real, one reviewer that sits in the audience, a chronicler that records the build, an
+    illustrator. 60 s.
+17. **Recipe, part one: an agent is a markdown file.** `.claude/agents/reviewer.md` verbatim (trimmed to fit):
+    frontmatter with name, description, tools, model; then instructions in plain English. The other nine files are
+    in the repo and the handout. 60 s.
+18. **Recipe, part two: a script calls it headless with a budget.** The `claude -p` line from `pipeline/run.sh`
+    verbatim, then the stage order: evidence, example, chronicle, write (three worktrees), review loop, chronicle,
+    fact-check, notes and Q&A in parallel, cost. Which of the four patterns each stage is. 60 s.
+19. **Attempt two, step by step.** Each run from 015 onward: stage, agent, model, what it read, what it wrote, cost.
+    One line per run, from the build log. 75 s.
+20. **What it cost, and the receipts.** Both attempts, in dollars. Every call left runs/NNN-stage/ with the prompt
+    sent, the JSON result, the return text, and a cost row. That is how you audit a pipeline instead of trusting it. 45 s.
 
-**1. Title** — *Multi-agent workflows* — Shooby Hemmati, IPAC, GRITS Day 2, Advanced track.
-Message: n/a (title card). Evidence: n/a. Time: 10 s. Segment: Why.
+## D. Where it helps and where it does not (210 s)
 
-**2. This deck was built by the pipeline you're about to see** *(meta-demo framing, required)*
-Message: Everything on screen for the next 25 minutes — the outline, these slides, the diagrams,
-every citation — came out of the same repo and the same multi-agent pipeline the demo segment
-shows running live.
-Evidence: `runs/001-research-fanout/README.md`; `runs/README.md`; "The meta-demo" section of
-`talk-context.md`.
-Time: 30 s. Segment: Why.
+21. **The one paper that says both.** Kim et al. 2026, Towards a science of scaling agent systems: centralized
+    multi-agent improved a decomposable task by about 80% and every multi-agent variant made a sequential planning
+    task 39 to 70% worse, in the same experiment. Task shape decides. Diminishing returns once the single agent is
+    already strong. 60 s.
+22. **The rest of the evidence, both sides.** For: Anthropic's research system, lead plus subagents, about 90% better
+    than a single agent on breadth research, at about 15 times the tokens. Against: Tran & Kiela 2026, at an equal
+    thinking budget a single agent matched or beat five multi-agent designs; Kapoor et al. 2024, one agent framework
+    cost over 50 times a simple baseline at similar accuracy. Complete citations on the slide. 75 s.
+23. **How it fails.** MAST (Cemri et al. 2025): 1,600 traces, 14 failure modes; most are specification and
+    coordination, not model errors. Then the three practical ones: subagents do not see your conversation, so pass
+    what they need and ask for a summary; two agents on one file; agents spawning agents instead of a script
+    calling agents, which costs you reproducibility. 75 s.
 
-**3. Why go multi-agent: context, not intelligence**
-Message: One agent's context window fills up and quality degrades well before it runs out of
-tokens; delegating bounded subtasks to fresh subagents keeps the main thread clean.
-Evidence: Liu et al., "Lost in the Middle," https://arxiv.org/abs/2307.03172 (>20-point mid-context
-drop, below closed-book score); Anthropic,
-https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents (subagents
-return a condensed 1,000–2,000-token summary).
-Time: 80 s. Segment: Why.
+## E. Setting it up: simple and difficult (300 s)
 
-**4. When not to: most tasks don't need this**
-Message: At equal token budgets, single agents match or beat multi-agent designs on reasoning
-tasks; coordination overhead is real, and simple retry/escalation baselines beat fancy
-orchestration on cost vs. accuracy.
-Evidence: Tran & Kiela 2026, https://arxiv.org/abs/2604.02460 (0.427 vs 0.386 at an equal 5k-token
-budget); Kapoor et al., https://arxiv.org/abs/2407.01502 (simple baselines Pareto-efficient; one
-agent framework cost >50x a simple baseline at similar accuracy).
-Time: 60 s. Segment: Why.
+24. **Simple example you can run Monday.** One read-only subagent: given ten target names, query one archive with
+    astroquery and return a table under 2,000 tokens. Show the agent file, the one command, and the real result from
+    `examples/*/RESULT.md`: what it returned, what it cost, how long it took. 120 s.
+25. **Difficult example.** This pipeline: ten agents, a script that owns order, loop, and isolation, logs for every
+    call. When to bother: when the work exceeds one context window, the pieces are independent, and the output
+    needs an independent check. Otherwise one agent. 60 s.
+26. **Cost, and when it is worth it.** Multi-agent runs 3 to 15 times a single chat's tokens (Anthropic's own
+    figures). Cheap or local models on subagents, the frontier model on the orchestrator; pricing is Nick's talk.
+    Checklist for "worth it": exceeds one window, independent pieces, needs verification, can afford the multiple. 60 s.
+27. **Close.** Context, not intelligence. Most tasks need one agent. First step Monday: pull one bounded, read-only
+    task into its own agent file, run it once headless, check the return is short. Hand-off in one line: many
+    unsupervised agents means you need sandboxing, and that is BJ, next. 60 s.
 
----
+## Q&A (180 s)
 
-## Segment 2 — Four patterns, one diagram each (420 s)
+Open floor. Likely questions are in `handout/qa.md`.
 
-**5. Four patterns, one shape each** *(transition)*
-Message: Every multi-agent design on this stage reduces to one of four shapes; here they are.
-Evidence: n/a (organizational, previews the four patterns named in `talk-context.md`).
-Time: 20 s. Segment: Patterns.
+## Sources (not presented)
 
-**6. Pattern 1 · Fan-out and merge** **[DIAGRAM]**
-Message: Independent subtasks run in parallel and get merged centrally — the one case the
-literature agrees on for breadth-first work.
-Evidence: Anthropic, https://www.anthropic.com/engineering/built-multi-agent-research-system
-(90.2% gain over single-agent Opus 4, ~15x tokens); Kim et al.,
-https://arxiv.org/abs/2512.08296 (+80.8% on a decomposable task, centralized coordination).
-Time: 90 s. Segment: Patterns.
-
-**7. Pattern 2 · Pipeline** **[DIAGRAM]**
-Message: Planner, implementer, tester run in sequence, each stage gets a fresh context — but don't
-split one sequential job across parallel agents.
-Evidence: Anthropic, https://www.anthropic.com/research/building-effective-agents (five composable
-workflows; "the simplest solution possible"); Kim et al., https://arxiv.org/abs/2512.08296
-(sequential planning degraded 39–70% by every multi-agent variant).
-Time: 90 s. Segment: Patterns.
-
-**8. Pattern 3 · Writer and critic** **[DIAGRAM]**
-Message: A critic with tools in hand catches real errors; a critic without tools tends to
-rubber-stamp, and even a working critic is not free.
-Evidence: Cemri et al. (MAST), https://arxiv.org/abs/2503.13657 (task verification failures,
-23.5% of traces); Islam et al. (gwBenchmarks), https://arxiv.org/abs/2605.11269, and Liu et al.
-(Stargazer), https://arxiv.org/abs/2604.15664 (agents fake or mis-fit results); Jamshidi et al.,
-https://arxiv.org/abs/2606.07937 (hallucination fell 0.422→0.272 but factual accuracy also slipped
-0.789→0.769 across chained agents).
-Time: 90 s. Segment: Patterns.
-
-**9. Pattern 4 · Parallel isolated workers** **[DIAGRAM]**
-Message: Separate git worktrees remove the two-agents-one-file failure; once generation is
-parallel, the bottleneck moves to verification.
-Evidence: Anthropic, https://code.claude.com/docs/en/worktrees (`isolation: worktree`, writes to
-main checkout blocked); Cognition, https://cognition.com/blog/dont-build-multi-agents (parallel
-subagents "cannot see what the other was doing," implicit-decision conflicts); Osmani,
-https://addyosmani.com/blog/code-agent-orchestra/ ("no merge conflicts while they work," "the
-bottleneck is no longer generation, it's verification").
-Time: 90 s. Segment: Patterns.
-
-**10. Task shape decides — the reconciling result**
-Message: One 260-configuration study explains both halves of this deck: +80.8% on decomposable
-work, −39 to −70% on sequential work, from the same experiment.
-Evidence: Kim et al., https://arxiv.org/abs/2512.08296.
-Time: 40 s. Segment: Patterns.
-
----
-
-## Segment 3 — Live demo of one pattern (720 s = 12 min)
-
-Minute-by-minute; every artifact shown already exists in this repo except the one live call in
-minute 6–10.
-
-**11. Live: the pipeline builds — and checks — this talk** (on screen 0:00–1:00)
-On screen: title slide, then cut to a terminal at the repo root; `ls runs/` shows the numbered
-stage directories.
-Message: The next 11 minutes are the repo, not slides.
-Fallback: if the terminal, network, or any live call fails at any point in this segment, fall back
-to narrating the logs already committed in `runs/000-scaffold-verification/` and
-`runs/001-research-fanout/` from a second terminal tab opened in advance, using the same
-minute-by-minute script.
-Evidence: `runs/README.md`. Time: 60 s.
-
-**12. Pattern 1, already run: the research fan-out** (on screen 1:00–4:00)
-On screen: `runs/001-research-fanout/README.md` (4 researchers, parallel web access, ~10.9 min
-wall-clock vs. ~38 min sequential), then `research/briefs/*.md` (four ~1,800-word briefs), then
-the merged `research/brief.md`.
-Message: Four parallel researchers produced ~7,000 words; the orchestrator read all four and
-merged them by hand into one brief — that hand merge is the centralizing step Pattern 1's slide
-called for.
-Evidence: `runs/001-research-fanout/README.md`. Time: 180 s.
-
-**13. Pattern 4, already run: parallel worktrees** (on screen 4:00–6:00)
-On screen: `pipeline/run.sh`, the `stage_write()` function (two worktrees, `slide-writer` and
-`diagrammer`, launched together, merged and removed), then `git log --oneline` showing the two
-merge commits side by side.
-Message: The script opens both worktrees, runs both agents at once, and merges both branches — the
-script owns the loop, not the agents.
-Evidence: `pipeline/run.sh` (`stage_write` function); `runs/README.md`. Time: 120 s.
-
-**14. Live now: the critic vs. this deck** (launched at 0:00 on slide 11; on screen 6:00–10:00)
-On screen: run `pipeline/run.sh critique` in the terminal; watch `runs/0NN-critique/prompt.md` get
-written, `result.json` populate, then open `critique.md` — a PASS/REVISE verdict scored against
-named criteria, including "demo segment: concrete, minute by minute, with a stated fallback" (this
-slide, scoring itself).
-Message: This is the writer-and-critic pattern, live, run against the exact deck and outline being
-presented right now.
-Fallback: if the call errors, times out, or exceeds the `--max-budget-usd` cap, stop the run,
-say so out loud, and open the critique already produced in an earlier dry run instead — read its
-findings aloud rather than re-running live.
-Evidence: `.claude/agents/critic.md`; `pipeline/run.sh` (`stage_critique`). Time: 240 s.
-
-**15. What that cost** (on screen 10:00–12:00)
-On screen: `runs/cost-report.md` (built by `pipeline/cost_report.py` from `runs/cost.tsv`), plus
-the $0.019-for-a-9-token-reply line from the run-000 smoke test.
-Message: Every stage left a receipt — prompt, return, tokens, dollars — that's how you audit a
-multi-agent pipeline instead of trusting it.
-Evidence: `runs/000-scaffold-verification/README.md`; `pipeline/cost_report.py`. Time: 120 s.
-
----
-
-## Segment 4 — Gotchas and cost (300 s)
-
-**16. Gotcha: subagents are context-blind**
-Message: A fresh subagent gets your delegation message, `CLAUDE.md`, and a git snapshot — not your
-conversation history or the files you've read. Make it return a summary, not a dump.
-Evidence: https://code.claude.com/docs/en/sub-agents.
-Time: 65 s. Segment: Gotchas.
-
-**17. Gotcha: cost multiplies with agent count**
-Message: Multi-agent runs several times a single chat's tokens; put cheap or local models on
-subagents, the frontier model on the orchestrator — pricing tables are Nick's talk, not this one.
-Evidence: https://www.anthropic.com/engineering/built-multi-agent-research-system (~15x tokens vs.
-chat, Jun 2025); https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them
-(3–10x, Jan 2026); https://code.claude.com/docs/en/sub-agents (route to "faster, cheaper models
-like Haiku").
-Time: 70 s. Segment: Gotchas.
-
-**18. Gotcha: isolate the files, centralize the merge**
-Message: Two agents editing one file is the classic failure — worktrees fix it — and centralizing
-the merge cuts error amplification from 17.2x to 4.4x versus independent agents merging themselves.
-Evidence: https://code.claude.com/docs/en/worktrees; Kim et al., https://arxiv.org/abs/2512.08296.
-Time: 70 s. Segment: Gotchas.
-
-**19. Gotcha: script the orchestration**
-Message: Prefer a script that calls agents over agents spawning agents — reproducibility needs a
-plan that doesn't change between runs.
-Evidence: https://code.claude.com/docs/en/workflows (`Date.now()`/`Math.random()` throw so a
-relaunched run repeats the same calls); NASA SMD 2025–2030 strategy,
-https://assets.science.nasa.gov/content/dam/science/cds/about-us/ocsdo/reports/SMD_Data_Computing_Strategy_2025_2030.pdf
-("no established science-specific guardrails or factuality-checking mechanisms" for agentic
-workflows).
-Time: 55 s. Segment: Gotchas.
-
-**20. How it actually fails**
-Message: System design 44%, inter-agent misalignment 32%, task verification 24% — coordination
-overhead shows up as specific, catalogued failure modes, not vague risk.
-Evidence: Cemri et al. (MAST), https://arxiv.org/abs/2503.13657 (1,600+ traces, 7 frameworks, 14
-failure modes).
-Time: 40 s. Segment: Gotchas.
-
----
-
-## Segment 5 — Q&A and hand-off to BJ (180 s, separate from the 1620 s content budget)
-
-**21. Questions — and a hand-off**
-Message: One line to close: many unsupervised agents means you need sandboxing — that's the very
-next talk.
-Evidence: `talk-context.md` non-goals section (internal scheduling hand-off, not a factual claim;
-no external URL).
-Time: 180 s, mostly open floor. Segment: Q&A.
-
----
+Every URL cited on a slide, one per line, grouped by segment.
 
 ## Cuts if running long
 
-Ordered by what to drop first. None of these touch slide 2, the four diagram slides (6, 7, 8, 9),
-or the live critic call (minutes 6–10 of the demo, slide 14) — those are load-bearing requirements.
-
-1. **Slide 20** (How it actually fails / MAST breakdown) — cut whole slide; say "multi-agent fails
-   in specific, catalogued ways, not vague risk" in one clause while moving from slide 19 to Q&A.
-2. **Slide 5** (four-patterns transition) — skip the slide; deliver the line while slide 4 is still
-   on screen.
-3. **Slide 13** (parallel-worktrees walkthrough) — fold into slide 12's narration as one spoken
-   sentence ("the write stage that made this deck used the same worktree pattern") instead of a
-   separate terminal detour.
-4. **Slide 10** (task-shape-decides recap) — drop the dedicated slide; state the +80.8%/−70% number
-   once, during slide 7 (Pipeline), instead of twice.
-5. **Slide 19** (script-the-orchestration gotcha) — compress into one spoken sentence appended to
-   slide 18 instead of its own slide.
-6. **Slide 15** (cost-report screen time) — if the live critic call (slide 14) ran over its 240 s,
-   shorten this to a single spoken number ("that run cost $X") instead of opening the file on
-   screen.
+1. Entry 19 (attempt two step by step): say "every stage is in runs/, one line each in the handout" on entry 20.
+2. Entry 22 (the rest of the evidence): keep Kim et al. only.
+3. Entry 11 (how many agents): one spoken sentence on entry 6.
+4. Entry 3: fold into entry 4.

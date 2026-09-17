@@ -1,6 +1,4 @@
-Read `talk-context.md`, `slides/deck.md`, and `research/briefs/*.md`.
+Read `talk-context.md`, `slides/deck.md` with its notes, `research/evidence.md`, and `runs/cost-report.md`.
 
-Write `handout/qa.md` as described in your agent instructions: ten hard questions with grounded
-answers, then the three the speaker cannot answer well yet.
-
-Copy the list of question titles to `{{RUN_DIR}}/questions.md`. Return that list.
+Write `handout/qa.md` as described in your agent instructions. Copy the question titles to
+`{{RUN_DIR}}/questions.md`. Return that list.

@@ -6,21 +6,24 @@
 #
 # Usage:
 #   pipeline/run.sh <stage> [--commit] [--budget USD] [--rounds N]
-#   stages: outline | write | critique | revise | loop | factcheck | notes | qa | cost | shots | all
+#   stages: evidence | example | chronicle | write | critique | revise | loop | factcheck | notes | qa | cost | all
 #
-#   outline    outliner reads research/brief.md, writes slides/outline.md
-#   write      slide-writer and diagrammer run IN PARALLEL in two git worktrees, then merge
-#   critique   three critics in parallel (content, design, teaching) -> runs/NNN-critique/<critic>/critique.md;
-#              verdict is PASS only if all three pass. Renders PNGs first so the design critic can look at slides
-#   revise     slide-writer applies every critique from the latest critique run
+#   The outline (slides/outline.md) is written by the speaker, by hand. No stage generates it. The last pipeline
+#   that did produced a rubric-compliant deck nobody wanted to present; that lesson is in the talk.
+#
+#   evidence   evidence-finder reads the outline, finds one source per claim -> research/evidence.md
+#   example    example-builder builds and RUNS the take-home example under examples/ (the only agent with Bash)
+#   chronicle  chronicler writes research/build-log.md: how this deck was built, step by step, from runs/ and git.
+#              Runs before write and again after the loop, so the deck can describe its own build honestly
+#   write      slide-writer, diagrammer and illustrator run IN PARALLEL in three git worktrees, then merge
+#   critique   renders PNGs, then ONE reviewer reads the deck and looks at the images -> runs/NNN-critique/review.md
+#   revise     slide-writer applies the latest review
 #   loop       critique -> revise until PASS or --rounds exhausted (default 2)
-#   factcheck  fact-checker fetches every citation, writes runs/NNN-factcheck/factcheck.md
+#   factcheck  fact-checker fetches every source in the notes, writes runs/NNN-factcheck/factcheck.md
 #   notes      notes-writer writes slides/speaker-script.md and handout/handout.md
 #   qa         qa-skeptic writes handout/qa.md          (notes and qa run in parallel under 'all')
 #   cost       python3 pipeline/cost_report.py -> runs/cost-report.md   (no LLM needed)
-#   shots      recorded demo: capture.py renders terminal screenshots of real runs, demo-editor rewrites
-#              the five demo slides around them so nothing runs live on stage
-#   all        outline, write, loop, factcheck, notes+qa, cost
+#   all        evidence, example, chronicle, write, loop, chronicle, revise, factcheck, notes+qa, cost
 #
 # Every stage logs to runs/NNN-<stage>/: prompt.md (exact prompt sent), result.json (full
 # headless output), return.md (what the agent returned). The logs ARE the demo material.
@@ -44,7 +47,7 @@ while [[ $# -gt 0 ]]; do
     *) echo "unknown option $1" >&2; exit 2 ;;
   esac; shift
 done
-[[ -z "$STAGE" ]] && { sed -n '2,25p' "$SELF" | sed 's/^# \{0,1\}//'; exit 2; }
+[[ -z "$STAGE" ]] && { sed -n '2,32p' "$SELF" | sed 's/^# \{0,1\}//'; exit 2; }
 
 log() { printf '\033[1;34m[pipeline]\033[0m %s\n' "$*" >&2; }
 
@@ -85,12 +88,21 @@ run_agent() {
   return 0
 }
 
-stage_outline() {
-  [[ -s research/brief.md ]] || { echo "research/brief.md missing: merge the research fan-out first" >&2; exit 1; }
-  run_agent outliner "$(next_run_dir outline)" pipeline/prompts/outline.md "Read,Write,Glob,Grep"
+stage_evidence() {
+  [[ -s slides/outline.md ]] || { echo "slides/outline.md missing: write the outline first" >&2; exit 1; }
+  run_agent evidence-finder "$(next_run_dir evidence)" pipeline/prompts/evidence.md "WebSearch,WebFetch,Read,Write,Glob,Grep"
 }
 
-# Pattern 4: parallel isolated workers. Two agents, two worktrees, one merge.
+stage_chronicle() {
+  run_agent chronicler "$(next_run_dir chronicle)" pipeline/prompts/chronicle.md "Read,Glob,Grep,Write"
+}
+
+# The take-home example. This agent runs `claude -p` itself, so it needs Bash; keep its budget small.
+stage_example() {
+  run_agent example-builder "$(next_run_dir example)" pipeline/prompts/example.md "Read,Write,Edit,Bash,Glob,Grep"
+}
+
+# Pattern 4: parallel isolated workers. Three agents, three worktrees, three merges, disjoint files.
 stage_write() {
   if ! git diff --quiet || ! git diff --cached --quiet; then
     echo "working tree has uncommitted changes; commit first (the write stage merges branches)" >&2; exit 1
@@ -98,8 +110,12 @@ stage_write() {
   local run_dir; run_dir=$(next_run_dir write)
   mkdir -p .worktrees
   local w agent tools
-  for w in slides diagrams; do
-    if [[ $w == slides ]]; then agent=slide-writer; tools="Read,Write,Edit,Glob,Grep"; else agent=diagrammer; tools="Read,Write,Glob,Grep"; fi
+  for w in slides diagrams illustrations; do
+    case $w in
+      slides)        agent=slide-writer; tools="Read,Write,Edit,Glob,Grep" ;;
+      diagrams)      agent=diagrammer;   tools="Read,Write,Glob,Grep" ;;
+      illustrations) agent=illustrator;  tools="Read,Write,Glob,Grep" ;;
+    esac
     git worktree add -q -B "wt/$w" ".worktrees/$w" HEAD
     log "worktree .worktrees/$w on branch wt/$w for $agent"
     (
@@ -109,7 +125,7 @@ stage_write() {
     ) &
   done
   wait
-  for w in slides diagrams; do
+  for w in slides diagrams illustrations; do
     log "merging wt/$w"
     if ! git merge -q --no-edit -m "pipeline: merge $w worktree" "wt/$w"; then
       log "MERGE CONFLICT on wt/$w. Fix the files git lists, then run:"
@@ -119,25 +135,17 @@ stage_write() {
     git worktree remove --force ".worktrees/$w"
     git branch -qD "wt/$w"
   done
-  log "write stage merged; logs in $run_dir/{slides,diagrams}"
+  log "write stage merged; logs in $run_dir/{slides,diagrams,illustrations}"
 }
 
-# Three critics in parallel (pattern 1 applied to pattern 3): content, visual design, teaching. Each writes its own
-# critique.md in its own subdirectory, so no shared file. The design critic looks at rendered PNGs, so render first.
+# One reviewer, sitting in the audience. It looks at rendered PNGs, so render first.
 stage_critique() {
   local run_dir; run_dir=$(next_run_dir critique); mkdir -p "$run_dir"
-  pipeline/render.sh --png >/dev/null 2>&1 || log "WARNING: PNG render failed; the design critic will have no images"
-  COMMIT=0 run_agent critic          "$run_dir/content"  pipeline/prompts/critique.md          "Read,Glob,Grep,Write" &
-  COMMIT=0 run_agent design-critic   "$run_dir/design"   pipeline/prompts/critique-design.md   "Read,Glob,Grep,Write" &
-  COMMIT=0 run_agent teaching-critic "$run_dir/teaching" pipeline/prompts/critique-teaching.md "Read,Glob,Grep,Write" &
-  wait
-  VERDICT=PASS; local c v summary=""
-  for c in content design teaching; do
-    if [[ -f "$run_dir/$c/critique.md" ]] && grep -qiE '^\s*\**verdict\**:?\s*\**PASS' "$run_dir/$c/critique.md"; then v=PASS; else v=REVISE; VERDICT=REVISE; fi
-    summary+="$c=$v "
-  done
+  pipeline/render.sh --png >/dev/null 2>&1 || log "WARNING: PNG render failed; the reviewer will have no images"
+  COMMIT=0 run_agent reviewer "$run_dir" pipeline/prompts/critique.md "Read,Glob,Grep,Write"
+  if [[ -f "$run_dir/review.md" ]] && grep -qiE '^\s*\**verdict\**:?\s*\**PASS' "$run_dir/review.md"; then VERDICT=PASS; else VERDICT=REVISE; fi
   LAST_CRITIQUE="$run_dir"
-  log "critics: $summary-> $VERDICT ($run_dir)"
+  log "reviewer: $VERDICT ($run_dir)"
   if [[ $COMMIT -eq 1 ]]; then git add -A && git commit -qm "pipeline: critique ($run_dir)" || true; fi
 }
 
@@ -151,7 +159,7 @@ stage_revise() {
 stage_loop() {
   local i
   for ((i = 1; i <= ROUNDS; i++)); do
-    log "critic loop round $i of $ROUNDS"
+    log "review loop round $i of $ROUNDS"
     stage_critique
     [[ $VERDICT == PASS ]] && { log "PASS after $((i - 1)) revision(s)"; return; }
     stage_revise
@@ -164,19 +172,10 @@ stage_notes()     { run_agent notes-writer "$(next_run_dir notes)" pipeline/prom
 stage_qa()        { run_agent qa-skeptic   "$(next_run_dir qa)"    pipeline/prompts/qa.md    "Read,Glob,Grep,Write"; }
 stage_cost()      { python3 pipeline/cost_report.py; log "runs/cost-report.md written"; }
 
-# Recorded demo. Deterministic capture first, one agent edits the demo slides, capture again in case the agent
-# added shots to pipeline/captures.json. The script owns the loop; the agent never runs commands.
-stage_shots() {
-  local run_dir; run_dir=$(next_run_dir shots); mkdir -p "$run_dir"
-  python3 pipeline/capture.py
-  cp slides/deck.md "$run_dir/deck-before.md"
-  run_agent demo-editor "$run_dir" pipeline/prompts/shots.md "Read,Write,Edit,Glob,Grep"
-  python3 pipeline/capture.py
-  log "recorded demo written; render with pipeline/render.sh --pdf"
-}
-
 case "$STAGE" in
-  outline)   stage_outline ;;
+  evidence)  stage_evidence ;;
+  example)   stage_example ;;
+  chronicle) stage_chronicle ;;
   write)     stage_write ;;
   critique)  stage_critique ;;
   revise)    stage_revise ;;
@@ -185,12 +184,16 @@ case "$STAGE" in
   notes)     stage_notes ;;
   qa)        stage_qa ;;
   cost)      stage_cost ;;
-  shots)     stage_shots ;;
   all)
-    stage_outline
-    [[ $COMMIT -eq 1 ]] || { git add -A && git commit -qm "pipeline: outline" || true; }
+    stage_evidence
+    stage_example
+    stage_chronicle
+    [[ $COMMIT -eq 1 ]] || { git add -A && git commit -qm "pipeline: evidence, example, chronicle" || true; }
     stage_write
     stage_loop
+    # The deck describes its own build, so record the runs above and let the writer place the update.
+    stage_chronicle
+    stage_revise
     stage_factcheck
     # notes and qa write different files and only read the deck: safe to run side by side without worktrees
     stage_notes & stage_qa & wait
