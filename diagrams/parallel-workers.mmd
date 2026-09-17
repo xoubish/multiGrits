@@ -1,5 +1,8 @@
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "22px", "primaryColor": "#eef3f8", "primaryBorderColor": "#1e3a5f", "primaryTextColor": "#111", "lineColor": "#1e3a5f"}}}%%
 flowchart LR
-  S["Orchestrator script"] -->|"task"| W1["Worker A (worktree)"]
-  S -->|"task"| W2["Worker B (worktree)"]
+  S["Script"] -->|"task"| W1["Worker A\n(worktree A)"]
+  S -->|"task"| W2["Worker B\n(worktree B)"]
+  S -->|"task"| W3["Worker C\n(worktree C)"]
   W1 -->|"diff"| M["Merge + verify"]
   W2 -->|"diff"| M
+  W3 -->|"diff"| M

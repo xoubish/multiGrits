@@ -1,5 +1,6 @@
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "22px", "primaryColor": "#eef3f8", "primaryBorderColor": "#1e3a5f", "primaryTextColor": "#111", "lineColor": "#1e3a5f"}}}%%
 flowchart LR
-  H["Orchestrator"] -->|"task"| P["Planner"]
-  P -->|"plan"| I["Implementer"]
-  I -->|"diff"| T["Tester"]
-  T -->|"test report"| M["Result"]
+  S["Script"] -->|"task"| P["Planner\n(fresh context)"]
+  P -->|"plan file"| I["Implementer\n(fresh context)"]
+  I -->|"diff"| T["Tester\n(fresh context)"]
+  T -->|"test report"| R["Result"]

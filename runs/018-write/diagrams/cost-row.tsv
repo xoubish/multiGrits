@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T16:55:02	runs/018-write/diagrams	diagrammer	claude-haiku-4-5-20251001,claude-sonnet-5	16	12	85715	25329	6155	0.18109799999999998	59412	60	False

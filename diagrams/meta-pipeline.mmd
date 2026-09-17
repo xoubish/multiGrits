@@ -1,6 +1,7 @@
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "22px", "primaryColor": "#eef3f8", "primaryBorderColor": "#1e3a5f", "primaryTextColor": "#111", "lineColor": "#1e3a5f"}}}%%
 flowchart LR
-  H["Orchestrator"] -->|"4 topics"| R["Researchers x4"]
-  R -->|"merged brief"| O["Outliner"]
-  O -->|"outline"| W["Writer + diagrammer (2 worktrees)"]
-  W -->|"deck"| C["3 critics ⇄ revise"]
-  C -->|"pass"| F["Fact-check, notes, Q&A, cost"]
+  S["pipeline/run.sh\n(script)"] -->|"outline"| E["evidence, example,\nchronicle"]
+  E -->|"evidence + build log"| W["write:\n3 worktrees"]
+  W -->|"deck draft"| L["critique ⇄ revise\nloop"]
+  L -->|"approved deck"| V["fact-check,\nnotes, Q&A"]
+  V -->|"verified deck"| D["slides/, handout/"]
