@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T16:51:53	runs/016-example	example-builder	claude-haiku-4-5-20251001,claude-sonnet-5	28	46	509079	31721	9104	0.32087380000000004	206486	207	False
