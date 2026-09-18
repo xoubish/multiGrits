@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" font-family="-apple-system, Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" viewBox="0 0 11 11" orient="auto"><path d="M0 0 L11 5.5 L0 11 Z" fill="#1e3a5f"/></marker></defs>
+  <g stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="10" y="105" width="130" height="60" rx="8" fill="#e8edf2"/>
+    <text x="75.0" y="141.0" font-size="18" font-weight="600" fill="#1e3a5f" text-anchor="middle" stroke="none">Orchestrator</text>
+    <rect x="210" y="25" width="100" height="60" rx="8" fill="#e8edf2"/>
+    <text x="260.0" y="61.0" font-size="18" fill="#1e3a5f" text-anchor="middle" stroke="none">Worker 1</text>
+    <path d="M140 135 L206 55" fill="none" marker-end="url(#a)"/>
+    <path d="M310 55 L366 135" fill="none" marker-end="url(#a)"/>
+    <rect x="210" y="105" width="100" height="60" rx="8" fill="#e8edf2"/>
+    <text x="260.0" y="141.0" font-size="18" fill="#1e3a5f" text-anchor="middle" stroke="none">Worker 2</text>
+    <path d="M140 135 L206 135" fill="none" marker-end="url(#a)"/>
+    <path d="M310 135 L366 135" fill="none" marker-end="url(#a)"/>
+    <rect x="210" y="185" width="100" height="60" rx="8" fill="#e8edf2"/>
+    <text x="260.0" y="221.0" font-size="18" fill="#1e3a5f" text-anchor="middle" stroke="none">Worker 3</text>
+    <path d="M140 135 L206 215" fill="none" marker-end="url(#a)"/>
+    <path d="M310 215 L366 135" fill="none" marker-end="url(#a)"/>
+    <text x="160" y="68" font-size="15" fill="#666" text-anchor="start" stroke="none">task</text>
+    <text x="320" y="68" font-size="15" fill="#666" text-anchor="start" stroke="none">summary</text>
+    <rect x="370" y="105" width="100" height="60" rx="8" fill="#e8edf2"/>
+    <text x="420.0" y="141.0" font-size="18" font-weight="600" fill="#1e3a5f" text-anchor="middle" stroke="none">Merge</text>
+  </g>
+</svg>

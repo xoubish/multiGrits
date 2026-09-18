@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" font-family="-apple-system, Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" viewBox="0 0 11 11" orient="auto"><path d="M0 0 L11 5.5 L0 11 Z" fill="#1e3a5f"/></marker></defs>
+  <g stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="6" y="110" width="102" height="60" rx="8" fill="#e8edf2"/>
+    <text x="57.0" y="146.0" font-size="18" fill="#1e3a5f" text-anchor="middle" stroke="none">Planner</text>
+    <path d="M108 140 L126 140" fill="none" marker-end="url(#a)"/>
+    <text x="118.0" y="100" font-size="15" fill="#666" text-anchor="middle" stroke="none">plan</text>
+    <rect x="128" y="110" width="102" height="60" rx="8" fill="#e8edf2"/>
+    <text x="179.0" y="146.0" font-size="15" fill="#1e3a5f" text-anchor="middle" stroke="none">Implementer</text>
+    <path d="M230 140 L248 140" fill="none" marker-end="url(#a)"/>
+    <text x="240.0" y="100" font-size="15" fill="#666" text-anchor="middle" stroke="none">diff</text>
+    <rect x="250" y="110" width="102" height="60" rx="8" fill="#e8edf2"/>
+    <text x="301.0" y="146.0" font-size="18" fill="#1e3a5f" text-anchor="middle" stroke="none">Tester</text>
+    <path d="M352 140 L370 140" fill="none" marker-end="url(#a)"/>
+    <text x="362.0" y="100" font-size="15" fill="#666" text-anchor="middle" stroke="none">report</text>
+    <rect x="372" y="110" width="102" height="60" rx="8" fill="#e8edf2"/>
+    <text x="423.0" y="146.0" font-size="18" font-weight="600" fill="#1e3a5f" text-anchor="middle" stroke="none">Result</text>
+  </g>
+</svg>

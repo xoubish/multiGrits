@@ -25,6 +25,10 @@ style: |
   table { font-size: 22px; border-collapse: collapse; margin: 6px 0 12px; }
   th, td { padding: 6px 16px; border-bottom: 1px solid #ccd3dc; text-align: left; vertical-align: top; }
   th { color: #1e3a5f; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 36px; margin-top: 4px; }
+  .grid2 img { width: 100%; max-height: 162px; display: block; margin: 0 auto; }
+  .grid2 p { font-size: 20px; line-height: 1.3; margin: 2px 0 8px; text-align: center; color: #333; }
+  .wide img { display: block; margin: 0 auto; }
   .cite { font-size: 24px; color: #555; line-height: 1.35; margin-top: -6px; }
   pre {
     font-size: 19px; line-height: 1.35; background: #f4f6f9; border-left: 4px solid #1e3a5f;
@@ -173,9 +177,10 @@ Transition: "The advertised window is not the usable one."
 - GPT-4 advertised 128K tokens; its effective length was about 64K (Hsieh et al. 2024).
 - Models effectively use only 10 to 20 percent of their context (Kuratov et al. 2024).
 - Without literal word overlap between question and answer, 11 of 13 long-context models fell below half their short-context accuracy by 32K tokens (Modarressi et al. 2025).
+- Human memory shows the same position curve, but the similarity is shallow: people compact to gist within seconds and keep almost no wording, while a model keeps every token and loses the ability to attend to them (Jarvella 1971; Guo and Vosoughi 2025).
 
 <!--
-Entry 5, slide 3 of 4. 20 s of 80. Four benchmarks, four model sets; numbers are not merged. Full references on the Sources slide. If asked: GPT-3.5 fell from about 75.8% to 53.8% against a 56.1% closed-book score (Liu); GPT-4o fell from 99.3% to 69.7% (Modarressi).
+Entry 5, slide 3 of 4. 20 s of 80. Four benchmarks, four model sets; numbers are not merged. Human line added 2026-09-18: listeners repeat only the clause they are in verbatim (Jarvella 1971; Sachs 1967 for the 80-syllable result); LLMs show primacy and recency like human list recall (Guo and Vosoughi 2025), but n-back studies warn the analogy is shallow. Full references on the Sources slide. If asked: GPT-3.5 fell from about 75.8% to 53.8% against a 56.1% closed-book score (Liu); GPT-4o fell from 99.3% to 69.7% (Modarressi).
 Transition: "And the honest counterpoint."
 -->
 
@@ -194,32 +199,107 @@ Transition: "Before the patterns, definitions first."
 
 ---
 
-# Workflows, architectures, and three axes
+# Elements of a multi-agent system
 
-Definitions first, because these words are used loosely. Anthropic's "Building effective agents" separates workflows, where code decides the order of calls, from agents, where the model decides.
+<div class="cols-even">
+<div>
 
-It lists five workflow patterns: prompt chaining, routing, parallelization, orchestrator-workers, and evaluator-optimizer, and it recommends finding the simplest solution possible.
+Designing a multi-agent system means thinking along three axes, taken one at a time on the next three slides.
 
-<p class="cite">Anthropic (December 2024), Building effective agents, anthropic.com/research. This is Anthropic's taxonomy, named as such, not a field-wide consensus.</p>
+- **Who orchestrates**: a script, a model, or a human.
+- **Isolation**: shared or fresh context; shared files or separate git worktrees.
+- **Topology**: how the agents are connected.
 
+
+</div>
+<div>
+
+![w:600](illustrations/orchestra.svg)
+
+</div>
+</div>
 <!--
-Entry 6, slide 1 of 2. 35 s of 60. If entry 11 is cut, add one spoken sentence here: "in practice, one orchestrator and two to five workers."
-Transition: "Underneath any of those names are three choices."
+Entry 6, slide 1 of 4. 20 s of 80. If asked whether the axes are standard terms: the literature says coordination architecture (Kim et al. 2026) or structure (Tran et al. 2025) for topology, orchestrator-workers (Anthropic 2024), and context or worktree isolation (Anthropic 2026); the three-axis framing is the speaker's. Illustration: orchestra.svg, a conductor robot with a score on a stand and five robot musicians, right of the text. Restructured 2026-09-18 on the speaker's instruction; order is orchestration, isolation, topology. If entry 11 is cut, add one spoken sentence here: "in practice, one orchestrator and two to five workers."
+Transition: "The first axis: who decides the order."
 -->
 
 ---
 
-# Three axes: topology, orchestration, isolation
+# Axis 1, who orchestrates: a script, a model, or a human
 
-Any multi-agent design comes down to three choices.
+<div class="cols">
+<div>
 
-The first is **topology**, how the agents are connected. The second is **who orchestrates**: a script, a model, or a human. The third is **isolation**: shared or fresh context, and shared files or separate git worktrees.
+- A script fixes the sequence in advance: which agent runs, in what order, how many rounds. Anthropic calls this a workflow.
+- The model chooses each next step at run time, including whether to call another agent. Anthropic calls this an agent (Anthropic 2024).
+- A person can orchestrate too: two terminals, the human as merge point.
+- Scripts are reproducible; a model deciding is flexible but hard to reproduce. This pipeline is a workflow.
 
-The four patterns that follow are common settings of those three dials.
+</div>
+<div>
+
+![w:520](illustrations/orchestrator.svg)
+
+</div>
+</div>
+<!--
+Entry 6, slide 2 of 4. 20 s of 80. Illustration: orchestrator.svg, one robot at a desk with two laptops, right of the text. Anthropic's advice in the same post: use the simplest arrangement that works. Anthropic, "Building effective agents", December 2024, also names five workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer); they map onto the four here and are not used further. This is Anthropic's taxonomy, not a field consensus.
+Transition: "The second axis: what the agents share."
+-->
+
+---
+
+# Axis 2, isolation: what the agents share
+
+- Context: shared, so one agent carries everything; or fresh, so each stage starts empty and receives only what it needs. Fresh context is the gain the previous section argued for.
+- Files: shared, so two agents can write the same file; or one git worktree per agent, merged at the end.
+- A Claude Code subagent starts with a fresh context and receives only the delegation message (Anthropic 2026).
+- The failure isolation prevents is two agents writing one file; an instance appears in attempt one.
 
 <!--
-Entry 6, slide 2 of 2. 25 s of 60.
-Transition: "Pattern one."
+Entry 6, slide 3 of 4. 20 s of 80. Anthropic (2026), Subagents, Claude Code documentation: a subagent's context starts fresh with its system prompt, the delegation message, CLAUDE.md and a git snapshot, not the parent's history.
+Transition: "The third axis: how the agents are connected."
+-->
+
+---
+
+# Axis 3, topology: how the agents are connected
+
+Four common topologies, each a pattern that follows. Where errors are caught matters: independent agents amplified errors 17.2 times, a centralized check 4.4 times (Kim et al. 2026).
+
+<div class="grid2">
+<div>
+
+![](illustrations/pattern-fan-out.svg)
+
+Fan-out and merge: independent pieces, one merge point.
+
+</div>
+<div>
+
+![](illustrations/pattern-pipeline.svg)
+
+Pipeline: a chain, each stage hands its output to the next.
+
+</div>
+<div>
+
+![](illustrations/pattern-writer-critic.svg)
+
+Writer and critic: a loop, run a fixed number of rounds.
+
+</div>
+<div>
+
+![](illustrations/pattern-isolated.svg)
+
+Isolated workers: fan-out with one worktree per agent.
+
+</div>
+</div>
+<!--
+Entry 6, slide 4 of 4. 20 s of 80. Figures: slides/illustrations/pattern-*.svg, redrawn 2026-09-18 from the Mermaid diagrams; the same figures appear at full size on the four pattern slides. The 17.2x and 4.4x figures were confirmed by the fact-checker in the first deck (runs/009-factcheck).
+Transition: "Pattern one: fan-out and merge."
 -->
 
 ---
@@ -236,7 +316,7 @@ For a target list, one agent per archive, IRSA, NED, and the Exoplanet Archive, 
 </div>
 <div>
 
-{{diagram:fan-out}}
+![w:560](illustrations/pattern-fan-out.svg)
 
 </div>
 </div>
@@ -256,7 +336,7 @@ A planner writes the plan to a file. An implementer reads it and writes the code
 
 <div class="wide">
 
-{{diagram:pipeline}}
+![w:560](illustrations/pattern-pipeline.svg)
 
 </div>
 
@@ -273,7 +353,7 @@ Pattern 3, writer and critic, has one agent produce and another review adversari
 
 <div class="wide">
 
-{{diagram:writer-critic}}
+![w:560](illustrations/pattern-writer-critic.svg)
 
 </div>
 
@@ -296,7 +376,7 @@ The failure it prevents is the classic one: two agents, one file, last write win
 </div>
 <div>
 
-{{diagram:parallel-workers}}
+![w:560](illustrations/pattern-isolated.svg)
 
 </div>
 </div>
@@ -1008,9 +1088,15 @@ Liu et al. (2023), Lost in the Middle: https://arxiv.org/abs/2307.03172
 
 Hsieh et al. (2024), RULER: https://arxiv.org/abs/2404.06654
 
+Tran et al. (2025), Multi-Agent Collaboration Mechanisms: A Survey of LLMs: https://arxiv.org/abs/2501.06322
+
 Kuratov et al. (2024), BABILong: Testing the Limits of LLMs with Long Context Reasoning-in-a-Haystack: https://arxiv.org/abs/2406.10149
 
 Modarressi et al. (2025), NoLiMa: Long-Context Evaluation Beyond Literal Matching: https://arxiv.org/abs/2502.05167
+
+Jarvella, R. J. (1971), Syntactic processing of connected speech, Journal of Verbal Learning and Verbal Behavior 10, 409–416.
+
+Guo and Vosoughi (2025), Serial Position Effects of Large Language Models, Findings of ACL 2025: https://arxiv.org/abs/2406.15981
 
 Li et al. (2024), Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach: https://arxiv.org/abs/2407.16833
 

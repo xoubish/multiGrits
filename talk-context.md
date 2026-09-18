@@ -116,7 +116,7 @@ Stages: `evidence` (one source per claim in the outline) → `example` (build an
   verifies every one against the Sources entry.
 - Speaker notes in an HTML comment under each slide carry the time budget and the transition, not the content.
 - Diagrams: Mermaid, at most 7 nodes, shared theme, legible when sharing a slide with three sentences.
-- Illustrations: at most six in the deck, flat two-colour SVG, no text inside, for moments not mechanisms.
+- Illustrations: at most nine in the deck, flat two-colour SVG, no text inside, for moments not mechanisms.
 - Code on slides is real text from this repo or `examples/`, copied exactly.
 - Plain language, no hype. Astronomy examples come from the speaker's outline.
 - Write only to your assigned output path. Never modify another agent's files. Never modify `slides/outline.md`.

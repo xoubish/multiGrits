@@ -68,6 +68,6 @@
     <!-- one shared clock above the three: wall-clock is what they divide -->
     <circle cx="570" cy="110" r="44"/>
     <line x1="570" y1="110" x2="570" y2="80" fill="none"/>
-    <line x1="570" y1="110" x2="592" y2="122" fill="none"/>
+    <line x1="570" y1="110" x2="583" y2="132" fill="none"/>
   </g>
 </svg>

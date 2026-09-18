@@ -27,7 +27,8 @@ full sentences and complete citations, not talking points.
 5. **So what multi-agent brings, and the thesis.** More context than intelligence. Windows have grown about 500x in six
    years (GPT-3 2K to 1M today). What fills a window: system prompt, tools, messages both ways, and every tool
    result; tool results dominate (this session's /context panel: 580K of 613K); compaction summarizes and loses
-   detail; a subagent's transcript stays in its own window. The usable window has not kept pace: lost-in-the-middle, RULER, BABILong, NoLiMa.
+   detail; a subagent's transcript stays in its own window. The usable window has not kept pace, and the human analogy is real but shallow (Jarvella 1971; Guo and
+   Vosoughi 2025): lost-in-the-middle, RULER, BABILong, NoLiMa.
    Then the honest counterpoint: given enough budget one long-context model beats splitting (Li et al. 2024), and at
    equal thinking budget a single agent matched or beat multi-agent designs (Tran and Kiela 2026); splitting pays
    only when the work exceeds one strong window, or independence or wall-clock matter. Parallelism and
@@ -35,11 +36,15 @@ full sentences and complete citations, not talking points.
 
 ## B. Architectures (390 s)
 
-6. **Workflows, architectures, and three axes.** The words are used loosely. Anthropic's "Building effective
-   agents" separates workflows (code decides the order of calls) from agents (the model decides) and lists five
-   workflow patterns: prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer. Any
-   multi-agent design is three choices: topology, who orchestrates (script, model, or human), and isolation (shared
-   or fresh context, shared files or separate worktrees). 60 s.
+6. **Elements of a multi-agent system, one slide each.** In this talk's terms, three choices: who orchestrates
+   (script, model, or human; code deciding the order is a workflow, the model deciding is an agent, Anthropic 2024;
+   this pipeline is a workflow), isolation (shared or fresh context, shared files or separate worktrees; a Claude
+   Code subagent starts fresh), and topology (shared or fresh context, shared files or separate worktrees; a
+   Claude Code subagent starts fresh). The literature says coordination architecture or structure (Kim et al. 2026;
+   Tran et al. 2025), orchestrator-workers (Anthropic 2024), context or worktree isolation (Anthropic 2026); the
+   three-way split is the speaker's own. Then the four patterns as settings of the three choices. 80 s.
+   *(Restructured 2026-09-18 on the speaker's instruction; was "Workflows, architectures, and three axes", 60 s.
+   The 20 s came from entry 11.)*
 7. **Pattern 1, fan-out and merge.** {{diagram:fan-out}} Independent pieces, one merge point. Astronomy: one agent
    per archive (IRSA, NED, Exoplanet Archive) for a target list, merged into one table. 60 s.
 8. **Pattern 2, pipeline.** {{diagram:pipeline}} Sequential steps, each with a fresh context, files as the hand-off.
@@ -52,7 +57,7 @@ full sentences and complete citations, not talking points.
 11. **How many agents?** One is today's default (Claude Code runs one agent that spawns a subagent occasionally; only Claude Code
     is documented, so name only it). Working systems use one orchestrator and two to five workers (Anthropic's research system,
     MetaGPT's five roles, ChatDev's seven). Past a thousand exists in research (MacNet, Project Sid) and nobody
-    uses it for work. There is no published histogram of practitioner usage; say so. 45 s.
+    uses it for work. There is no published histogram of practitioner usage; say so. 25 s. *(45 s until 2026-09-18; 20 s moved to entry 6.)*
 12. **You already do this.** Running the same task in Claude Code and Codex and comparing is writer-and-critic with
     you as orchestrator. Two terminals on two tasks is fan-out. Claude Code spawns an Explore subagent without
     asking. The question is when to make it deliberate, and when to replace yourself with a script. 45 s.
