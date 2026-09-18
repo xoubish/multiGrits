@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T16:55:58	runs/018-write/illustrations	illustrator	claude-fable-5-1,claude-haiku-4-5-20251001	10	98	36552	21987	9739	0.937855	115058	115	False
