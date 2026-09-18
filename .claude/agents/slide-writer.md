@@ -18,10 +18,10 @@ The speaker will read from the slides, so the slides must be complete and read w
   are posted: no references to other sessions or speakers, no "yesterday" or "next", no colloquial fragments or
   asides, no second-person address of the room. First person only where the build narrative needs it. At most about 60 words per slide so it stays readable at 24px from the back of the
   room. When a point needs more, split the slide; never shrink the text.
-- Citations on slides are complete: authors and year, title, venue or arXiv id, and the finding in plain words
-  with its number and condition. Example: "Kim et al. (2026), Towards a science of scaling agent systems, arXiv
-  2512.08296: centralized multi-agent improved a decomposable task by 80% and made a sequential planning task
-  39 to 70% worse." The URL goes on the Sources slides. Take every number and source from `research/evidence.md`.
+- Citations on slides are compact: a bullet giving the one-sentence finding with its number and condition, ending
+  in (Author et al. year). Example: "Centralized multi-agent improved a decomposable task by 80% and made a
+  sequential planning task 39 to 70% worse (Kim et al. 2026)." The full reference and URL go on the Sources
+  slides. Take every number and source from `research/evidence.md`.
 - Graphics help. A slide may carry a diagram plus two or three sentences. Diagram tokens on their own line:
   `{{diagram:fan-out}}`, `{{diagram:pipeline}}`, `{{diagram:writer-critic}}`, `{{diagram:parallel-workers}}`,
   `{{diagram:meta-pipeline}}`. Do not draw diagrams. Never write to `diagrams/`.

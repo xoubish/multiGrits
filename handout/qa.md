@@ -60,7 +60,7 @@ reviewer and fact-checker re-check every run rather than trusting the last one.
 **If pressed:** reproducible process, not reproducible bytes — same script, same stage order, same logged
 budget, different token-level output each run.
 
-## 6. Isn't "context, not intelligence" just a repackaged argument for bigger context windows or RAG?
+## 6. Isn't "more context than intelligence" just a repackaged argument for bigger context windows or RAG?
 
 No — the point is the opposite: bigger windows don't fix this. RULER shows a model's *effective* usable
 window is often half its advertised size (GPT-4: 128K claimed, ~64K effective, arXiv 2404.06654), and

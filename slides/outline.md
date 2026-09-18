@@ -14,17 +14,24 @@ full sentences and complete citations, not talking points.
 2. **One collaborator, then more.** The reader has used a coding agent such as Claude Code or Codex on real work;
    that is assumed and not re-explained. A single agent already plans, writes, checks, and debugs on request, and
    has been the best collaborator I have had. The obvious next step is a team of them; the talk poses that
-   question before answering it. 105 s.
+   question before answering it. 85 s.
 3. *(Merged into entry 2 on 2026-09-18 on the speaker's instruction; kept as a placeholder so later entry numbers
    and the cuts list stay valid.)*
-4. **Why do people work in teams?** Three reasons: limited time, limited knowledge, limited attention. For agents
-   the knowledge reason is the weakest: two copies of one model know the same things, though different models, or
-   agents given different tools and data, can add some expertise. What an added agent reliably brings is attention
-   (a fresh context window) and time (parallel wall-clock), plus one thing people also get from a colleague:
-   independence, a reviewer not anchored to the draft. 60 s. *(Reworded 2026-09-18 on the speaker's instruction.)*
-5. **So what multi-agent brings, and the thesis.** Context, not intelligence. One agent's window fills and its
-   quality degrades before it hits the token limit (lost-in-the-middle, RULER). Parallelism and specialization are
-   second-order. Most tasks do not need it. 60 s.
+4. **Why do people work in teams?** Many reasons; four bear on agents: limited time (divide the work), limited
+   knowledge (bring in expertise), limited attention (hand off what cannot be held in mind at once; Simon 1971),
+   and anchored judgment (have someone else check the draft). Cost shapes all four (an Einstein might do the work of
+   five; the affordability punchline is spoken, not written; several cheap models run for the price of one frontier model). The social
+   reasons, belonging, motivation, accountability, shared risk, do not transfer. For agents, knowledge is the weakest of the four: two copies of one
+   model know the same things, though different models or tools can add some expertise. Attention (a fresh context
+   window), time (parallel wall-clock), and independence hold. 60 s. *(Reworded 2026-09-18 on the speaker's instruction.)*
+5. **So what multi-agent brings, and the thesis.** More context than intelligence. Windows have grown about 500x in six
+   years (GPT-3 2K to 1M today). What fills a window: system prompt, tools, messages both ways, and every tool
+   result; tool results dominate (this session's /context panel: 580K of 613K); compaction summarizes and loses
+   detail; a subagent's transcript stays in its own window. The usable window has not kept pace: lost-in-the-middle, RULER, BABILong, NoLiMa.
+   Then the honest counterpoint: given enough budget one long-context model beats splitting (Li et al. 2024), and at
+   equal thinking budget a single agent matched or beat multi-agent designs (Tran and Kiela 2026); splitting pays
+   only when the work exceeds one strong window, or independence or wall-clock matter. Parallelism and
+   specialization are second-order. Most tasks do not need it. 80 s. *(Reworded 2026-09-18 on the speaker's instruction.)*
 
 ## B. Architectures (390 s)
 
@@ -107,7 +114,7 @@ counted separately).
     figures). Cheap or local models on subagents, the frontier model on the orchestrator; pricing is covered elsewhere in the workshop and not repeated here.
     The difficult example is this pipeline. Checklist for "worth it": exceeds one window, independent pieces,
     needs verification, can afford the multiple. Otherwise one agent. 60 s.
-27. **Close.** Context, not intelligence. Most tasks need one agent. First step Monday: pull one bounded, read-only
+27. **Close.** More context than intelligence. Most tasks need one agent. First step Monday: pull one bounded, read-only
     task into its own agent file, run it once headless, check the return is short. Hand-off in one line: many
     unsupervised agents require sandboxing, which is the subject of the following session. 60 s.
 

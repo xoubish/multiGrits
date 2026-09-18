@@ -22,6 +22,9 @@ style: |
   .cols-even { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
   .cols-even img, .cols-even svg { max-width: 100%; height: auto; }
   .wide { width: 100%; margin-top: 8px; }
+  table { font-size: 22px; border-collapse: collapse; margin: 6px 0 12px; }
+  th, td { padding: 6px 16px; border-bottom: 1px solid #ccd3dc; text-align: left; vertical-align: top; }
+  th { color: #1e3a5f; font-weight: 600; }
   .cite { font-size: 24px; color: #555; line-height: 1.35; margin-top: -6px; }
   pre {
     font-size: 19px; line-height: 1.35; background: #f4f6f9; border-left: 4px solid #1e3a5f;
@@ -36,7 +39,7 @@ style: |
 
 <!-- _class: title -->
 
-![bg right:45% fit](illustrations/title.svg)
+![bg right:45% fit](illustrations/agents.svg)
 
 # Multi-agent workflows
 
@@ -47,7 +50,7 @@ GRITS AI workshop, September 2026.
 <span class="cite">Repository: github.com/xoubish/multiGrits</span>
 
 <!--
-Entry 1. 15 s. Illustration: title.svg, right half, per slides/illustrations/README.md.
+Entry 1. 15 s. Illustration: agents.svg, right half (replaced title.svg on 2026-09-18 on the speaker's instruction; the same figure returns on the second slide of entry 4).
 Transition: "One collaborator first."
 -->
 
@@ -63,6 +66,7 @@ When one collaborator works that well, the obvious next step is a team of them. 
 Entries 2 and 3, merged 2026-09-18 on the speaker's instruction. 105 s. Do not re-teach agents or the tools; pose the question, do not answer it yet.
 Transition: "A different question comes first: why do people work in teams?"
 -->
+
 ---
 
 # Why do people work in teams?
@@ -70,9 +74,13 @@ Transition: "A different question comes first: why do people work in teams?"
 <div class="cols">
 <div>
 
-People work in teams for three reasons.
+People work in teams for many reasons, some of them social. Four bear on agents, and cost shapes all four.
 
-Time is limited, so the work is divided. Knowledge is limited, so a colleague who knows what the others do not is brought in. Attention is limited, so the pieces that cannot all be held in mind at once are handed off.
+- Time is limited, so the work is divided.
+- Knowledge is limited, so expertise is brought in.
+- Attention is limited, so pieces are handed off (Simon 1971).
+- Judgment is anchored to our own drafts, so others check them.
+- Cost sets the mix: one Einstein might do the work of five.
 
 </div>
 <div>
@@ -81,63 +89,107 @@ Time is limited, so the work is divided. Knowledge is limited, so a colleague wh
 
 </div>
 </div>
-
 <!--
-Entry 4, slide 1 of 2. 30 s of 60. Illustration: teams.svg, right of the text.
-Transition: "For agents, only two of those three hold."
+Entry 4, slide 1 of 2. 30 s of 60. Illustration: teams.svg, right of the text. Simon (1971): "a wealth of information creates a poverty of attention"; full reference on the Sources slide. Reworded 2026-09-18: four reasons that bear on agents; the social ones (belonging, motivation, accountability, shared risk) are real for people and do not transfer, and the list is not claimed to be exhaustive. Say that aloud, and add the punchline to the cost bullet aloud: if IPAC could afford one.
+Transition: "Which of the four hold for agents?"
 -->
 
 ---
 
 # Which of those reasons hold for agents?
 
-For agents, the knowledge reason is the weakest. Two copies of one model know the same things; different models, or agents given different tools and data, can add some expertise, but that is the smaller gain.
+<div class="cols">
+<div>
 
-What an added agent reliably brings is attention, a fresh context window, and time, parallel wall-clock. It also brings independence: a reviewer who is not anchored to the draft.
+Three of the four hold for agents; one holds in part.
+
+- Time holds: agents run in parallel.
+- Knowledge holds in part: copies of one model know the same things; other models or tools add some.
+- Attention holds: each agent brings a fresh context window.
+- Judgment holds: a second agent is not anchored to the first draft.
+- Cost sets the mix here too: several cheap models for the price of one frontier model, which often wins anyway.
+
+</div>
+<div>
+
+![w:520](illustrations/agents.svg)
+
+</div>
+</div>
 <!--
-Entry 4, slide 2 of 2. 30 s of 60. Reworded 2026-09-18: heterogeneous agents (different models, tools, or data) can add knowledge; the point is that the reliable gains are attention and time.
+Entry 4, slide 2 of 2. 30 s of 60. Illustration: agents.svg, the robot counterpart of teams.svg, right of the text. Reworded 2026-09-18: heterogeneous agents (different models, tools, or data) can add knowledge; the reliable gains are attention and time.
 Transition: "That is the thesis."
 -->
 
 ---
 
-# What multi-agent brings: context, not intelligence
+# What multi-agent brings: more context than intelligence
 
-That is the thesis of this talk. Multi-agent buys context, not intelligence.
+Multi-agent buys more context than intelligence. Windows have grown about five hundredfold in six years; the usable window has not kept pace, and most tasks need none of this.
 
-One agent's window fills, and its quality degrades well before it reaches the token limit. Parallelism and specialization are real, but second-order.
+| Year | Model | Context window | Source |
+|---|---|---|---|
+| 2020 | GPT-3 | 2,048 tokens | Brown et al. 2020 |
+| 2024 | GPT-4 Turbo; Claude 3 | 128K; 200K | Gemini Team 2024 |
+| 2024 | Gemini 1.5 | retrieval tested to 10M, in research | Gemini Team 2024 |
+| 2026 | Claude Fable 5.1, Opus 5, Sonnet 5 | 1M | Anthropic 2026, models page |
 
-And most tasks do not need any of this.
+In English prose a token is about 0.55 to 0.75 of a word, so 1M tokens is roughly 550,000 to 750,000 words (Anthropic 2026).
 
 <!--
-Entry 5, slide 1 of 3. 20 s of 60.
-Transition: "Two papers show the degradation."
+Entry 5, slide 1 of 4. 20 s of 80. 2,048 to 1,000,000 is 488x. The Gemini figure is a research result, not a product window. Anthropic figures fetched 2026-09-18: the models page says 1M tokens is roughly 555k words on the current tokenizer and about 750k words on models before Opus 4.7; 200K tokens is roughly 150k words. Code and numbers use more tokens per word than prose.
+Transition: "First, what a window actually holds."
 -->
 
 ---
 
-# Lost in the middle
+# What fills a context window
 
-Two papers show the degradation. In the first, accuracy dropped more than twenty points when the answer sat in the middle of the context, to below what the model scored with no documents at all.
+<div class="cols-even">
+<div>
 
-<p class="cite">Liu et al. (2023), Lost in the Middle: How Language Models Use Long Contexts, arXiv 2307.03172: GPT-3.5-Turbo on twenty-document QA fell from about 75.8% with the answer at the start to about 53.8% with the answer mid-context, below its 56.1% closed-book score.</p>
+- Each turn re-sends the whole window: system prompt, tool definitions, messages both ways, and every tool result.
+- Tool results dominate: 580K of the 613K tokens in use in this deck's build session.
+- When it fills, Claude Code compacts: the older transcript becomes a summary, and unsaved detail is lost.
+- A subagent's transcript stays in its own window; only its return enters the parent's.
 
+</div>
+<div>
+
+![w:600](illustrations/context-usage.svg)
+
+</div>
+</div>
 <!--
-Entry 5, slide 2 of 3. 20 s of 60.
-Transition: "The second paper measured how much of the advertised window is actually usable."
+Entry 5, slide 2 of 4. 20 s of 80. Added 2026-09-18 on the speaker's instruction. Chart redrawn from the /context panel of the session that built this deck (claude-fable-5-1, 613.1k of 1.0M tokens, 61%). The 128K max-output figure is a separate per-reply limit, not the window.
+Transition: "The advertised window is not the usable one."
 -->
 
 ---
 
-# The effective window
+# The usable window is smaller than the advertised one
 
-In the second, claimed context windows were often only half as good as advertised. The advertised window is not the usable window, and a fresh window for a subtask is therefore worth more than it appears.
-
-<p class="cite">Hsieh et al. (2024), RULER: What's the Real Context Size of Your Long-Context Language Models?, arXiv 2404.06654: GPT-4 claims 128K tokens; its effective length on RULER's threshold is about 64K. Two papers, two models, two tests; their numbers are not merged here.</p>
+- Accuracy fell more than twenty points when the answer sat in the middle of the context, below the score with no documents at all (Liu et al. 2023).
+- GPT-4 advertised 128K tokens; its effective length was about 64K (Hsieh et al. 2024).
+- Models effectively use only 10 to 20 percent of their context (Kuratov et al. 2024).
+- Without literal word overlap between question and answer, 11 of 13 long-context models fell below half their short-context accuracy by 32K tokens (Modarressi et al. 2025).
 
 <!--
-Entry 5, slide 3 of 3. 20 s of 60.
-Transition: "Before the patterns, the words need fixing."
+Entry 5, slide 3 of 4. 20 s of 80. Four benchmarks, four model sets; numbers are not merged. Full references on the Sources slide. If asked: GPT-3.5 fell from about 75.8% to 53.8% against a 56.1% closed-book score (Liu); GPT-4o fell from 99.3% to 69.7% (Modarressi).
+Transition: "And the honest counterpoint."
+-->
+
+---
+
+# One strong model with a long window
+
+- Given enough budget, one long-context model consistently outperforms retrieval over pieces of the material, at higher cost (Li et al. 2024).
+- At an equal thinking budget, a single agent matched or beat five multi-agent designs (Tran and Kiela 2026).
+- Splitting pays only when the work exceeds what one strong window handles well, or when independence or wall-clock matter.
+
+<!--
+Entry 5, slide 4 of 4. 20 s of 80. Added 2026-09-18 on the speaker's instruction: one frontier model with a long window is often the better choice. Tran and Kiela: 0.427 against 0.386 at a 5,000-token budget; the result returns in segment D.
+Transition: "Before the patterns, definitions first."
 -->
 
 ---
@@ -927,7 +979,7 @@ Transition: "To close."
 
 ![bg right:45% fit](illustrations/close.svg)
 
-Context, not intelligence. Most tasks need one agent.
+More context than intelligence. Most tasks need one agent.
 
 A first step is to pull one bounded, read-only task into its own agent file, run it once headless with a budget cap, and check that the return is short.
 
@@ -944,9 +996,23 @@ Transition: hand off to the following session.
 
 # Sources: segments A and B
 
+Simon, H. A. (1971), Designing Organizations for an Information-Rich World, in M. Greenberger (ed.), Computers, Communications, and the Public Interest, Johns Hopkins Press, pp. 37–72.
+
+Brown et al. (2020), Language Models are Few-Shot Learners: https://arxiv.org/abs/2005.14165
+
+Gemini Team (2024), Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context: https://arxiv.org/abs/2403.05530
+
+Anthropic (2026), Models overview, Claude Platform docs: https://platform.claude.com/docs/en/about-claude/models
+
 Liu et al. (2023), Lost in the Middle: https://arxiv.org/abs/2307.03172
 
 Hsieh et al. (2024), RULER: https://arxiv.org/abs/2404.06654
+
+Kuratov et al. (2024), BABILong: Testing the Limits of LLMs with Long Context Reasoning-in-a-Haystack: https://arxiv.org/abs/2406.10149
+
+Modarressi et al. (2025), NoLiMa: Long-Context Evaluation Beyond Literal Matching: https://arxiv.org/abs/2502.05167
+
+Li et al. (2024), Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach: https://arxiv.org/abs/2407.16833
 
 Anthropic (December 2024), Building effective agents: https://www.anthropic.com/research/building-effective-agents
 

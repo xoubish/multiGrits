@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <g fill="#e8edf2" stroke="#1e3a5f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- ground line -->
+    <line x1="40" y1="410" x2="760" y2="410" fill="none"/>
+
+    <!-- LEFT: one agent whose window is overloaded by a tottering stack -->
+    <!-- head as a window frame, with a title bar -->
+    <rect x="132" y="216" width="76" height="62" rx="10"/>
+    <line x1="140" y1="232" x2="200" y2="232" fill="none"/>
+    <circle cx="156" cy="256" r="5" fill="#1e3a5f"/>
+    <circle cx="184" cy="256" r="5" fill="#1e3a5f"/>
+    <!-- antenna -->
+    <line x1="170" y1="216" x2="170" y2="200" fill="none"/>
+    <circle cx="170" cy="193" r="6"/>
+    <!-- body -->
+    <rect x="120" y="288" width="100" height="122" rx="12"/>
+    <line x1="140" y1="330" x2="200" y2="330" fill="none"/>
+    <!-- arms up holding the stack -->
+    <line x1="124" y1="320" x2="100" y2="176" fill="none"/>
+    <line x1="216" y1="320" x2="240" y2="176" fill="none"/>
+    <!-- stack, each card a little more tilted, held clear of the head -->
+    <rect x="100" y="146" width="140" height="28" rx="6" transform="rotate(2 170 160)"/>
+    <rect x="98" y="114" width="140" height="28" rx="6" transform="rotate(-3 168 128)"/>
+    <rect x="104" y="82" width="140" height="28" rx="6" transform="rotate(4 174 96)"/>
+    <rect x="96" y="50" width="140" height="28" rx="6" transform="rotate(-7 166 64)"/>
+    <rect x="110" y="18" width="140" height="28" rx="6" transform="rotate(10 180 32)"/>
+    <!-- overheating sparks -->
+    <line x1="216" y1="206" x2="230" y2="194" fill="none"/>
+    <line x1="222" y1="218" x2="240" y2="214" fill="none"/>
+
+    <!-- divider -->
+    <line x1="330" y1="60" x2="330" y2="390" fill="none" stroke-dasharray="14 14"/>
+
+    <!-- RIGHT: three agents, each with a fresh window and a small stack -->
+    <!-- agent 1 -->
+    <rect x="412" y="280" width="56" height="46" rx="8"/>
+    <line x1="420" y1="292" x2="460" y2="292" fill="none"/>
+    <circle cx="430" cy="310" r="4" fill="#1e3a5f"/>
+    <circle cx="450" cy="310" r="4" fill="#1e3a5f"/>
+    <line x1="440" y1="280" x2="440" y2="268" fill="none"/>
+    <circle cx="440" cy="263" r="4"/>
+    <rect x="398" y="334" width="84" height="76" rx="10"/>
+    <rect x="392" y="226" width="96" height="22" rx="5"/>
+    <rect x="392" y="200" width="96" height="22" rx="5"/>
+
+    <!-- agent 2 -->
+    <rect x="542" y="280" width="56" height="46" rx="8"/>
+    <line x1="550" y1="292" x2="590" y2="292" fill="none"/>
+    <circle cx="560" cy="310" r="4" fill="#1e3a5f"/>
+    <circle cx="580" cy="310" r="4" fill="#1e3a5f"/>
+    <line x1="570" y1="280" x2="570" y2="268" fill="none"/>
+    <circle cx="570" cy="263" r="4"/>
+    <rect x="528" y="334" width="84" height="76" rx="10"/>
+    <rect x="522" y="226" width="96" height="22" rx="5"/>
+    <rect x="522" y="200" width="96" height="22" rx="5"/>
+
+    <!-- agent 3 -->
+    <rect x="672" y="280" width="56" height="46" rx="8"/>
+    <line x1="680" y1="292" x2="720" y2="292" fill="none"/>
+    <circle cx="690" cy="310" r="4" fill="#1e3a5f"/>
+    <circle cx="710" cy="310" r="4" fill="#1e3a5f"/>
+    <line x1="700" y1="280" x2="700" y2="268" fill="none"/>
+    <circle cx="700" cy="263" r="4"/>
+    <rect x="658" y="334" width="84" height="76" rx="10"/>
+    <rect x="652" y="226" width="96" height="22" rx="5"/>
+    <rect x="652" y="200" width="96" height="22" rx="5"/>
+
+    <!-- one shared clock above the three: wall-clock is what they divide -->
+    <circle cx="570" cy="110" r="44"/>
+    <line x1="570" y1="110" x2="570" y2="80" fill="none"/>
+    <line x1="570" y1="110" x2="592" y2="122" fill="none"/>
+  </g>
+</svg>

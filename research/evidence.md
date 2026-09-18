@@ -148,3 +148,21 @@ Caveat: put under Unsupported below until that stage runs; do not invent a numbe
 - **"One is today's default" as a claim about practitioner usage in general.** The outline itself flags this correctly at slide 11 ("no published histogram of practitioner usage, say so") — noting here so it isn't accidentally hardened into a stat in the slide draft.
 - **Slide 24, the Monday example's actual token count, cost, and runtime.** These come from `examples/*/RESULT.md`, produced by the `example` pipeline stage, which has not run as of this evidence pass. Tried: `Glob examples/**/RESULT.md` — no files exist yet. Do not fill in a plausible number; wait for that stage.
 - **Slides 13–20 numbers not yet cross-checked against `research/build-log.md`** (entries 19–20, "each run from 015 onward," "both attempts in dollars"): that file does not exist yet (chronicler runs after this stage). This evidence file sourced what it could directly from `runs/*/README.md`, `result.json`, and `runs/cost-report.md`; the chronicler should reconcile against these same primary files, not re-derive numbers from memory.
+
+
+## Added by the orchestrator, 2026-09-18, for entry 5 (verified by fetching each abstract or page)
+
+### "Windows grew from about 2,000 tokens to one million in six years"
+Exact: GPT-3 context 2,048 tokens (Brown et al. 2020, https://arxiv.org/abs/2005.14165). Gemini 1.5 abstract: "near-perfect retrieval (>99%) up to at least 10M tokens, a generational leap over existing models such as Claude 3.0 (200k) and GPT-4 Turbo (128k)" (https://arxiv.org/abs/2403.05530). Anthropic models overview, fetched 2026-09-18: Fable 5.1, Opus 5, Sonnet 5 context window 1M tokens, Haiku 4.5 200K, max output 128K (https://platform.claude.com/docs/en/about-claude/models).
+
+### "Models use only 10 to 20 percent of their context"
+Exact: "popular LLMs effectively utilize only 10-20% of the context and their performance declines sharply with increased reasoning complexity" (Kuratov et al. 2024, BABILong, https://arxiv.org/abs/2406.10149).
+
+### "11 of 13 long-context models fall below half their short-context accuracy by 32K"
+Exact: "at 32K tokens, 11 models drop below 50% of their strong short-length baselines"; GPT-4o "from an almost-perfect baseline of 99.3% to 69.7%"; 13 models evaluated, all claiming at least 128K (Modarressi et al. 2025, NoLiMa, ICML 2025, https://arxiv.org/abs/2502.05167).
+
+### "Given enough budget, a single long-context model beats retrieval"
+Exact: "when resourced sufficiently, LC consistently outperforms RAG in terms of average performance," while RAG costs significantly less; Self-Route hybrid proposed (Li et al. 2024, EMNLP 2024 industry track, https://arxiv.org/abs/2407.16833).
+
+### "A token is about 0.55 to 0.75 of a word"
+Exact: Anthropic models overview, fetched 2026-09-18: "1M tokens is roughly 555k words or 2.5M Unicode characters on the current tokenizer (introduced with Claude Opus 4.7); models before it fit about 750k words in 1M tokens. 200k tokens is roughly 150k words." (https://platform.claude.com/docs/en/about-claude/models)

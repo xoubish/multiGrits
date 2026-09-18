@@ -46,7 +46,7 @@ Day 2: Advanced Workflows & Local Models
 
 ## Thesis
 
-The main reason to go multi-agent is **context**, not intelligence. Two copies of one model know the same things;
+The main reason to go multi-agent is **more context than intelligence** (phrased this way since 2026-09-18: knowledge can be added by heterogeneous agents, so "not intelligence" over-claims). Two copies of one model know the same things;
 adding agents adds attention (a fresh context window), time (parallel wall-clock), and independence (a reviewer
 not anchored to the draft). Most tasks do not need multiple agents, and coordination overhead is real.
 
@@ -111,11 +111,12 @@ Stages: `evidence` (one source per claim in the outline) → `example` (build an
 - Marp markdown. One or more slides per outline entry, in outline order; split rather than shrink; continuation
   slides carry their own subtitle, never a "(2)" suffix. The repository URL appears on the title and Sources slides. At most about
   60 words of body per slide so it stays readable at 24px from the back. Graphics welcome alongside text.
-- Citations appear on the slide in full: authors and year, title, venue or arXiv id, and the finding in plain
-  words with its number and condition. URLs on the Sources slides. The fact-checker verifies every one.
+- Citations on slides are compact, decided 2026-09-18: a bullet with the one-sentence finding, its number and
+  condition, ending in (Author et al. year). The full reference and URL go on the Sources slides. The fact-checker
+  verifies every one against the Sources entry.
 - Speaker notes in an HTML comment under each slide carry the time budget and the transition, not the content.
 - Diagrams: Mermaid, at most 7 nodes, shared theme, legible when sharing a slide with three sentences.
-- Illustrations: at most five in the deck, flat two-colour SVG, no text inside, for moments not mechanisms.
+- Illustrations: at most six in the deck, flat two-colour SVG, no text inside, for moments not mechanisms.
 - Code on slides is real text from this repo or `examples/`, copied exactly.
 - Plain language, no hype. Astronomy examples come from the speaker's outline.
 - Write only to your assigned output path. Never modify another agent's files. Never modify `slides/outline.md`.
