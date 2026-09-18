@@ -20,3 +20,7 @@ Review round 2 (run 021): REVISE, 5 must-fix. Revise 022 applied 3, declined the
   slide-writer or the speaker to swap in on the "What came out" slides. Originals kept.
 - `slides/deck.md`: pointed the "What came out" slides at the cropped screenshots (during run 025, fact-checker
   running; it reads the deck and writes only its own file).
+- `slides/deck.md` slide "Cost, and when it is worth it (2)": applied fact-check 025's required edit 1 (Explore no
+  longer runs on Haiku by default; reworded to the `model` field). Verified by hand that commit 707ad48 exists
+  (`git log`), closing fact-check 025's edit 2. Done during run 026 (notes-writer and qa-skeptic running; both
+  read the deck, neither writes it). Check speaker-script.md afterwards for the old Explore wording.

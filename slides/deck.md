@@ -925,11 +925,11 @@ Transition: "So spend the multiple carefully."
 
 # Cost, and when it is worth it (2)
 
-Put cheap or local models on subagents and the frontier model on the orchestrator. Claude Code's subagent frontmatter takes a `model` field, and its Explore agent already runs on Haiku. Which model, and what it costs, was Nick's talk this morning.
+Put cheap or local models on subagents and the frontier model on the orchestrator. Claude Code's subagent frontmatter takes a `model` field, so you can pin a cheap model on a subagent, for example your own Explore pinned to Haiku, while the orchestrator stays on the frontier model. Which model, and what it costs, was Nick's talk this morning.
 
 The checklist: the work exceeds one window; the pieces are independent; the output needs verification; and you can afford the multiple.
 
-<p class="cite">Anthropic (2026), Create custom subagents, Claude Code documentation: <code>model</code> takes haiku, sonnet, opus, or inherit; Explore runs on Haiku.</p>
+<p class="cite">Anthropic (2026), Create custom subagents, Claude Code documentation: <code>model</code> takes haiku, sonnet, opus, fable, or inherit; the built-in Explore inherits the main conversation's model by default unless you define a custom Explore pinned to a cheaper one (fetched 2026-09-17).</p>
 
 <!--
 Entry 26, slide 2 of 2. 35 s of 60. Do not present pricing; point to Nick.

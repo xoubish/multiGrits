@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T17:20:34	runs/026-qa	qa-skeptic	claude-haiku-4-5-20251001,claude-sonnet-5	7	8	83273	36928	4979	0.21521360000000003	60128	61	False
