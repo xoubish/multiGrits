@@ -2,7 +2,7 @@
 marp: true
 theme: default
 paginate: true
-footer: "Multi-agent workflows · GRITS AI workshop, IPAC · September 2026"
+footer: "Multi-agent workflows · GRITS AI workshop · September 2026"
 style: |
   section {
     font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -42,7 +42,7 @@ style: |
 
 Shoubaneh Hemmati, Caltech/IPAC.
 
-GRITS AI workshop, IPAC, September 2026.
+GRITS AI workshop, September 2026.
 
 <span class="cite">Repository: github.com/xoubish/multiGrits</span>
 

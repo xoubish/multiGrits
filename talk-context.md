@@ -102,7 +102,7 @@ Stages: `evidence` (one source per claim in the outline) → `example` (build an
 
 - The slides are posted afterwards and must stand alone for a reader who was not in the room. No references to
   other sessions, other speakers by name, "yesterday", "this morning", "Day 1", "Day 2", or "next". Venue and
-  date appear once, on the title slide and in the footer, as "GRITS AI workshop, IPAC, September 2026".
+  date appear once, on the title slide and in the footer, as "GRITS AI workshop, September 2026".
 - Register: formal written prose that also reads well aloud. Complete declarative sentences; no colloquial
   fragments ("Do this. Check that."), no chatty asides ("So I reset."), no second-person address of the room.
   Rhetorical questions only as slide titles. First person is allowed where the build narrative needs it (what the
