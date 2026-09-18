@@ -1,6 +1,6 @@
 # Multi-agent workflows — handout
 
-Shooby Hemmati, IPAC. GRITS AI workshop, IPAC, September 2026. Multi-agent buys **context, not
+Shoubaneh Hemmati, Caltech/IPAC. GRITS AI workshop, IPAC, September 2026. Multi-agent buys **context, not
 intelligence**: a fresh context window, parallel wall-clock, and a reviewer not anchored to the
 draft. Two copies of the same model already know the same things. Most tasks do not need more than
 one agent.

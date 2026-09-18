@@ -10,7 +10,7 @@ full sentences and complete citations, not talking points.
 
 ## A. One collaborator, then more (240 s)
 
-1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS AI workshop, September 2026. 15 s.
+1. **Title.** Multi-agent workflows. Shoubaneh Hemmati, Caltech/IPAC. GRITS AI workshop, September 2026. 15 s.
 2. **One collaborator.** One-line framing only: the reader has used a coding agent such as Claude Code or Codex
    on real work; that is assumed and not re-explained. The question of this talk is when a second agent is worth
    having. 45 s.

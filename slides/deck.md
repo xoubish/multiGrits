@@ -40,7 +40,7 @@ style: |
 
 # Multi-agent workflows
 
-Shooby Hemmati, IPAC.
+Shoubaneh Hemmati, Caltech/IPAC.
 
 GRITS AI workshop, IPAC, September 2026.
 
@@ -503,7 +503,7 @@ Transition: "The pipeline was reset."
 The pipeline was reset. I wrote this outline by hand, and no agent generates or reorders it. This is its first entry exactly as it sits in `slides/outline.md`; every entry has that shape:
 
 ```
-1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS AI workshop, September 2026. 15 s.
+1. **Title.** Multi-agent workflows. Shoubaneh Hemmati, Caltech/IPAC. GRITS AI workshop, September 2026. 15 s.
 ```
 
 Agents draft slides, diagrams, evidence, notes, and reviews for that outline. If one finds a structural problem, it reports it to me under a "For the speaker" heading and does not fix it.

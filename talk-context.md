@@ -6,7 +6,7 @@ Every agent in this repo reads this file first. If a prompt conflicts with it, t
 
 - Workshop: GRITS AI workshop at IPAC (Caltech), two half-days.
 - This talk: Day 2, 11:15–11:45, track labeled **Advanced**.
-- Speaker: Shooby (Shoubaneh Hemmati), IPAC.
+- Speaker: Shoubaneh Hemmati (Shooby), Caltech/IPAC.
 - Title: **Multi-agent workflows**.
 - Length: 30 minutes total. The segment table below is binding: 27 minutes of content (1620 s) and 3 minutes of Q&A plus hand-off.
 

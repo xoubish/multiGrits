@@ -267,7 +267,7 @@ and the three findings that matter most.
 **One outline entry, verbatim** — the first entry of `slides/outline.md`:
 
 ```
-1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS AI workshop, September 2026. 15 s.  <!-- entry reworded 2026-09-18 on the speaker's instruction; quoted here as it now stands -->
+1. **Title.** Multi-agent workflows. Shoubaneh Hemmati, Caltech/IPAC. GRITS AI workshop, September 2026. 15 s.  <!-- entry reworded 2026-09-18 on the speaker's instruction; quoted here as it now stands -->
 ```
 [slides/outline.md, entry 1]
 
