@@ -1,4 +1,7 @@
-# Outline — Multi-agent workflows (GRITS Day 2, 11:15–11:45)
+# Outline — Multi-agent workflows (GRITS AI workshop, IPAC, September 2026)
+
+> Edited 2026-09-18 on the speaker's instruction: entries 1, 2, 24, 26 and 27 reworded so the posted slides stand
+> alone (no other speakers or sessions named) and read in a formal register. Structure and timing unchanged.
 
 Written by the speaker, 2026-09-17. This file is the structure of the talk. Agents draft slides for each entry
 below, in this order, and may use more than one slide per entry when the text needs it. Seconds per entry are the
@@ -7,9 +10,10 @@ full sentences and complete citations, not talking points.
 
 ## A. One collaborator, then more (240 s)
 
-1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS Day 2, advanced track. 15 s.
-2. **Yesterday you got one collaborator.** One-line recap only: on Day 1 you learned what an agent is and used
-   Claude Code or Codex. Do not re-explain. Today is about when a second one is worth having. 45 s.
+1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS AI workshop, September 2026. 15 s.
+2. **One collaborator.** One-line framing only: the reader has used a coding agent such as Claude Code or Codex
+   on real work; that is assumed and not re-explained. The question of this talk is when a second agent is worth
+   having. 45 s.
 3. **Why not more than one?** These agents have been the best collaborator I have had: do this, check that, write
    the code, debug it. The obvious next thought is a team of them. Pose the question honestly; do not answer yet. 60 s.
 4. **Why do people work in teams?** Three reasons: limited time, limited knowledge, limited attention. For agents
@@ -93,17 +97,17 @@ Decisions of 2026-09-17: entry 21 lost its unsupported "diminishing returns" sen
 only; attempt one is described as eleven agent files (fourteen roles if the four researchers and three critics are
 counted separately).
 
-24. **Simple example you can run Monday.** One read-only subagent: given ten target names, query one archive with
+24. **A simple example to run first.** One read-only subagent: given ten target names, query one archive with
     astroquery and return a table under 2,000 tokens. Show the agent file, the one command, and the real result from
     `examples/*/RESULT.md`: what it returned, what it cost, how long it took. 180 s.
 25. **Folded into 26 on 2026-09-17** (it repeated entries 13 and 26); its minute went to entry 24. 0 s.
 26. **Cost, and when it is worth it.** Multi-agent runs 3 to 15 times a single chat's tokens (Anthropic's own
-    figures). Cheap or local models on subagents, the frontier model on the orchestrator; pricing is Nick's talk.
+    figures). Cheap or local models on subagents, the frontier model on the orchestrator; pricing is covered elsewhere in the workshop and not repeated here.
     The difficult example is this pipeline. Checklist for "worth it": exceeds one window, independent pieces,
     needs verification, can afford the multiple. Otherwise one agent. 60 s.
 27. **Close.** Context, not intelligence. Most tasks need one agent. First step Monday: pull one bounded, read-only
     task into its own agent file, run it once headless, check the return is short. Hand-off in one line: many
-    unsupervised agents means you need sandboxing, and that is BJ, next. 60 s.
+    unsupervised agents require sandboxing, which is the subject of the following session. 60 s.
 
 ## Q&A (180 s)
 

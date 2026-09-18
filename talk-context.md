@@ -100,8 +100,16 @@ Stages: `evidence` (one source per claim in the outline) → `example` (build an
 
 ## Style constraints for all outputs
 
-- The speaker reads from the slides. Slides are complete: full sentences in the first person that read well aloud.
-- Marp markdown. One or more slides per outline entry, in outline order; split rather than shrink. At most about
+- The slides are posted afterwards and must stand alone for a reader who was not in the room. No references to
+  other sessions, other speakers by name, "yesterday", "this morning", "Day 1", "Day 2", or "next". Venue and
+  date appear once, on the title slide and in the footer, as "GRITS AI workshop, IPAC, September 2026".
+- Register: formal written prose that also reads well aloud. Complete declarative sentences; no colloquial
+  fragments ("Do this. Check that."), no chatty asides ("So I reset."), no second-person address of the room.
+  Rhetorical questions only as slide titles. First person is allowed where the build narrative needs it (what the
+  speaker did and decided), and nowhere else.
+- The speaker reads from the slides. Slides are complete: full sentences that read well aloud.
+- Marp markdown. One or more slides per outline entry, in outline order; split rather than shrink; continuation
+  slides carry their own subtitle, never a "(2)" suffix. The repository URL appears on the title and Sources slides. At most about
   60 words of body per slide so it stays readable at 24px from the back. Graphics welcome alongside text.
 - Citations appear on the slide in full: authors and year, title, venue or arXiv id, and the finding in plain
   words with its number and condition. URLs on the Sources slides. The fact-checker verifies every one.

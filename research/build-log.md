@@ -62,7 +62,7 @@ agent stacked two screenshots per slide, which rendered unreadable at ~6px, so a
 one-screenshot slides afterward [runs/011-shots/README.md]; a three-critic round (runs 012–013: content, design,
 teaching in parallel, all three verdicts REVISE, then one $4.71 revise) added critics for aesthetics and learning,
 and a final notes pass (run 014, $1.28) [runs/012-critique/README.md; runs/cost-report.md]. Total for runs 002–014:
-**$29.22**, 1,222 turns, 578,569 output tokens, 6,169 seconds [runs/cost-report.md].
+**$29.22**, 455 turns, 578,569 output tokens, 6,169 seconds [runs/cost-report.md]. (Turn count corrected 2026-09-18: the earlier figure of 1,222 did not match the sum of `num_turns` over the 17 result.json files for runs 002 to 014.)
 
 **The outcome.** The deck met every constraint the rubric measured: citations complete, word counts under the cap,
 segment timing to the second (44 confirmed citations, 2 partial, 0 not found from run 009). It was, in the
@@ -267,7 +267,7 @@ and the three findings that matter most.
 **One outline entry, verbatim** — the first entry of `slides/outline.md`:
 
 ```
-1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS Day 2, advanced track. 15 s.
+1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS AI workshop, September 2026. 15 s.  <!-- entry reworded 2026-09-18 on the speaker's instruction; quoted here as it now stands -->
 ```
 [slides/outline.md, entry 1]
 
@@ -314,7 +314,7 @@ $44.0038). This chronicle pass (run 023) and every stage after it (a further chr
 notes, qa, cost) are not yet run and their cost is not included.
 
 **Per attempt:**
-- Attempt one (runs 002–014, headless stages only): $29.22, 1,222 turns, 578,569 output tokens, 6,169 seconds
+- Attempt one (runs 002–014, headless stages only): $29.22, 455 turns, 578,569 output tokens, 6,169 seconds
   [runs/cost-report.md]. Run 001 (interactive research fan-out) is additional and not logged in dollars here
   [runs/README.md].
 - Attempt two (runs 015–022 so far): $14.7838, 328 turns, 1,593 s wall time summed across the ten cost-rows listed
@@ -346,3 +346,12 @@ notes, qa, cost) are not yet run and their cost is not included.
   current `slides/deck.md` gives 55 [slides/deck.md], consistent with run 022's own count; the exact total
   including the two Sources slides is therefore about 57, but this file reports the components as each run stated
   them rather than reconciling them by inference.
+
+
+## 6. Runs 023 to 029 (added by the orchestrator, 2026-09-18, from runs/cost.tsv)
+
+The chronicler's second pass (run 023, 77 turns, $0.77) covered runs 015 to 022 and could not
+record itself. Since then: run 024 revise placed the build-log entries; run 025 fact-check; run 026 Q&A skeptic and a
+notes pass; run 027 notes (superseding 026's); run 028 a review written by the speaker (no model cost) asking that the
+posted slides stand alone and read formally; run 029 revise applied it (12 turns, $3.84).
+Attempt two, runs 015 to 029: $23.81, 536 turns, 3,281 s. Both attempts: $53.03.

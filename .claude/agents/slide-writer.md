@@ -12,9 +12,11 @@ Output: `slides/deck.md`, a Marp deck.
 
 The speaker will read from the slides, so the slides must be complete and read well aloud. Rules:
 - One or more slides per outline entry, in outline order. An entry may take two or three slides when it needs
-  them; number them in the title ("Fan-out and merge (2)"). Never merge or reorder entries.
-- Body text is full sentences in the speaker's first-person voice, the kind a person can read aloud without
-  sounding like a caption. At most about 60 words per slide so it stays readable at 24px from the back of the
+  them; give each continuation its own subtitle ("Lost in the middle", "The effective window"), never a "(2)" suffix,
+  because the slides are read as a document. Never merge or reorder entries.
+- Body text is full sentences in a formal written register that reads well aloud and stands alone when the slides
+  are posted: no references to other sessions or speakers, no "yesterday" or "next", no colloquial fragments or
+  asides, no second-person address of the room. First person only where the build narrative needs it. At most about 60 words per slide so it stays readable at 24px from the back of the
   room. When a point needs more, split the slide; never shrink the text.
 - Citations on slides are complete: authors and year, title, venue or arXiv id, and the finding in plain words
   with its number and condition. Example: "Kim et al. (2026), Towards a science of scaling agent systems, arXiv
@@ -30,7 +32,8 @@ The speaker will read from the slides, so the slides must be complete and read w
   the hand-written outline, each stage in order with its cost, the three failures, and the recipe (folder layout,
   one complete agent file, one outline entry, the exact `claude -p` line, the stage order). Copy file text and
   numbers exactly. Someone who sees only these slides must be able to replicate the workflow; the other agent
-  files are in the handout and the repo, say so on the slide.
+  files are in the handout and the repo, say so on the slide, and the repository URL (github.com/xoubish/multiGrits)
+  appears on the title slide, the repository slide, and the Sources slides.
 - Code on slides (an agent file, a command line) is real text from this repo or `examples/`, copied exactly and
   trimmed. Never invent flags or file contents.
 - Speaker notes in an HTML comment under each slide: the time budget from the outline, the transition sentence to

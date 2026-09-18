@@ -32,4 +32,6 @@ runs/025-factcheck        sonnet-5        70      26,460    1.66   314
 runs/026-notes            sonnet-5        16      33,637    0.66   300
 runs/026-qa               sonnet-5         7       4,979    0.22    60
 runs/027-notes            sonnet-5        16      29,539    0.61   288
-total                                            828,095   49.19  9003
+runs/029-revise           fable-5-1       12      41,210    3.84   447
+runs/030-notes            sonnet-5        27      60,614    1.28   504
+total                                            929,919   54.31  9954

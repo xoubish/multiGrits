@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-18T07:54:10	runs/030-notes	notes-writer	claude-haiku-4-5-20251001,claude-sonnet-5	27	20	715658	131716	60614	1.2772735999999998	504247	505	False
