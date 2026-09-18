@@ -19,11 +19,15 @@ style: |
   section.title p { font-size: 28px; color: #444; }
   .cols { display: grid; grid-template-columns: 3fr 2fr; gap: 32px; align-items: center; }
   .cols img, .cols svg { max-width: 100%; height: auto; }
-  .cite { font-size: 20px; color: #555; line-height: 1.35; margin-top: -6px; }
+  .cols-even { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+  .cols-even img, .cols-even svg { max-width: 100%; height: auto; }
+  .wide { width: 100%; margin-top: 8px; }
+  .cite { font-size: 22px; color: #555; line-height: 1.35; margin-top: -6px; }
   pre {
     font-size: 19px; line-height: 1.35; background: #f4f6f9; border-left: 4px solid #1e3a5f;
     padding: 12px 18px; margin: 0 0 16px; white-space: pre-wrap; word-break: break-word;
   }
+  pre code { white-space: pre-wrap; word-break: break-word; font-size: inherit; }
   code { font-family: Menlo, Consolas, "Courier New", monospace; }
   section.sources { font-size: 17px; line-height: 1.5; }
   section.sources h1 { font-size: 30px; margin-bottom: 14px; }
@@ -32,6 +36,8 @@ style: |
 
 <!-- _class: title -->
 
+![bg right:45%](illustrations/title.svg)
+
 # Multi-agent workflows
 
 Shooby Hemmati, IPAC.
@@ -39,7 +45,7 @@ Shooby Hemmati, IPAC.
 GRITS AI workshop, Day 2, advanced track.
 
 <!--
-Entry 1. 15 s.
+Entry 1. 15 s. Illustration: title.svg, right half, per slides/illustrations/README.md.
 Transition: "Yesterday you got one collaborator."
 -->
 
@@ -75,12 +81,23 @@ Transition: "Let me ask a different question first: why do people work in teams?
 
 # Why do people work in teams?
 
+<div class="cols">
+<div>
+
 People work in teams for three reasons.
 
 We have limited time, so we split the work. We have limited knowledge, so we bring in someone who knows what we do not. And we have limited attention, so we hand off the pieces we cannot hold in our heads at once.
 
+</div>
+<div>
+
+![w:520](illustrations/teams.svg)
+
+</div>
+</div>
+
 <!--
-Entry 4, slide 1 of 2. 30 s of 60.
+Entry 4, slide 1 of 2. 30 s of 60. Illustration: teams.svg, right of the text.
 Transition: "For agents, only two of those three hold."
 -->
 
@@ -172,7 +189,7 @@ Transition: "Pattern one."
 
 # Pattern 1: fan-out and merge
 
-<div class="cols">
+<div class="cols-even">
 <div>
 
 Pattern one is fan-out and merge. The pieces are independent, and there is one merge point.
@@ -196,23 +213,18 @@ Transition: "Pattern two is what you do when the pieces are not independent."
 
 # Pattern 2: pipeline
 
-<div class="cols">
-<div>
-
 Pattern two is the pipeline. Sequential steps, each with a fresh context, and files as the hand-off.
 
 A planner writes the plan to a file. An implementer reads it and writes the code. A tester reads the code and runs it. Nobody inherits anyone else's clutter.
 
-</div>
-<div>
+<div class="wide">
 
 {{diagram:pipeline}}
 
 </div>
-</div>
 
 <!--
-Entry 8. 60 s. The point is the fresh context at each stage, not the sequence itself.
+Entry 8. 60 s. The point is the fresh context at each stage, not the sequence itself. Diagram runs full width under the text because a five-node left-to-right chain is unreadable in a narrow column.
 Transition: "Pattern three adds an adversary."
 -->
 
@@ -220,7 +232,7 @@ Transition: "Pattern three adds an adversary."
 
 # Pattern 3: writer and critic
 
-<div class="cols">
+<div class="cols-even">
 <div>
 
 Pattern three is writer and critic. One agent produces; another reviews adversarially with tools in hand: the tests, the data, the schema.
@@ -244,7 +256,7 @@ Transition: "Pattern four is not really a fourth topology."
 
 # Pattern 4: parallel isolated workers
 
-<div class="cols">
+<div class="cols-even">
 <div>
 
 Pattern four is parallel isolated workers. It is not a fourth topology. It is fan-out with the isolation choice made explicit: one git worktree per agent, merged at the end.
@@ -321,12 +333,23 @@ Transition: "And you are already doing some of this."
 
 # You already do this
 
+<div class="cols">
+<div>
+
 If you have run the same task in Claude Code and in Codex and compared the answers, that was writer and critic, with you as the orchestrator. Two terminals on two tasks is fan-out. Claude Code spawns an Explore subagent without asking you.
 
 The question is when to make it deliberate, and when to replace yourself with a script.
 
+</div>
+<div>
+
+![w:520](illustrations/two-terminals.svg)
+
+</div>
+</div>
+
 <!--
-Entry 12. 45 s.
+Entry 12. 45 s. Illustration: two-terminals.svg, right of the text.
 Transition: "Here is what happened when I replaced myself with a script."
 -->
 
@@ -334,23 +357,16 @@ Transition: "Here is what happened when I replaced myself with a script."
 
 # This deck was built by the pipeline in this repo
 
-<div class="cols">
-<div>
+Everything you are looking at, the slides, the diagrams, the evidence, the notes, and the Q&A, was drafted by ten agents in this repo, called in a fixed order by a shell script, with every call logged. I will show you the recipe. First, what went wrong.
 
-Everything you are looking at, the slides, the diagrams, the evidence, the notes, and the Q&A, was drafted by ten agents in this repo, called in a fixed order by a shell script, with every call logged.
-
-I will show you the recipe. First, what went wrong.
-
-</div>
-<div>
+<div class="wide">
 
 {{diagram:meta-pipeline}}
 
 </div>
-</div>
 
 <!--
-Entry 13, slide 1 of 2. 20 s of 45.
+Entry 13, slide 1 of 2. 20 s of 45. Diagram runs full width under the text; in the narrow column it rendered as an unreadable strip.
 Transition: "This is the repository."
 -->
 
@@ -406,12 +422,23 @@ Transition: "The second failure was the one I had warned about on the pattern sl
 
 # Attempt one (3): failure 2, the shared cost log
 
+<div class="cols">
+<div>
+
 Run 004. The slide-writer and the diagrammer ran in two worktrees and never touched each other's outputs. But `log_result.py` appended one row to a single shared `runs/cost.tsv` from inside each worktree, so the merge conflicted on the pipeline's own bookkeeping.
 
-The fix: each run directory writes its own `cost-row.tsv`, and a report is regenerated from every `result.json`. Nothing appends to a shared file.
+The fix: each run directory writes its own `cost-row.tsv`, and a report is regenerated from every `result.json`.
+
+</div>
+<div>
+
+![w:460](illustrations/merge-conflict.svg)
+
+</div>
+</div>
 
 <!--
-Entry 14, slide 3 of 4. 20 s of 75. Two agents, one file, last write wins: my own orchestration did it, not the agents.
+Entry 14, slide 3 of 4. 20 s of 75. Two agents, one file, last write wins: my own orchestration did it, not the agents. Say aloud: nothing appends to a shared file any more. Illustration: merge-conflict.svg, used once, here.
 Transition: "The third failure was money."
 -->
 
@@ -480,12 +507,16 @@ Transition: "So I reset."
 
 # The reset
 
-So I reset. I wrote this outline by hand: slide order, the message for each slide, time budgets, and the cuts list. No agent generates or reorders it.
+So I reset. I wrote this outline by hand, and no agent generates or reorders it. This is its first entry, exactly as it sits in `slides/outline.md`; every entry has that shape:
+
+```
+1. **Title.** Multi-agent workflows. Shooby Hemmati, IPAC. GRITS Day 2, advanced track. 15 s.
+```
 
 Agents draft slides, diagrams, evidence, notes, and reviews for that outline. If one finds a structural problem, it reports it to me under a "For the speaker" heading and does not fix it.
 
 <!--
-Entry 16, slide 1 of 2. 30 s of 60.
+Entry 16, slide 1 of 2. 30 s of 60. Outline entry copied from research/build-log.md section 4; every entry has that shape: number, bold title, message, seconds.
 Transition: "That changed the roster."
 -->
 
@@ -506,19 +537,20 @@ Transition: "Here is what one of those agents actually is."
 
 # Recipe, part one: an agent is a markdown file
 
-This is `.claude/agents/reviewer.md`, trimmed to fit. The frontmatter names the agent, says when to use it, lists its tools, and picks the model. The other nine files are in the repo and in the handout.
+This is `.claude/agents/reviewer.md`, trimmed to fit. The frontmatter names the agent, says when to use it, lists its tools, and picks the model. The description is cut short here with an ellipsis; the full line, and the other nine files, are in the repo and in the handout.
 
 ```
 ---
 name: reviewer
-description: Sits in the audience. Reads the deck as a skeptical IPAC engineer and looks at the rendered slide images. Scores whether each slide earns its time, not whether it complies with a rubric. Never edits; writes a PASS or REVISE review the script uses to decide whether to loop.
+description: Sits in the audience. Reads the deck as a skeptical IPAC engineer
+  and looks at the rendered slide images. […]
 tools: Read, Glob, Grep, Write
 model: inherit
 ---
 ```
 
 <!--
-Entry 17, slide 1 of 2. 30 s of 60. Copied exactly from .claude/agents/reviewer.md lines 1-6.
+Entry 17, slide 1 of 2. 30 s of 60. Lines 1-6 of .claude/agents/reviewer.md; the description line is truncated at […] so the block renders at 19px instead of auto-shrinking. Full text: "...Scores whether each slide earns its time, not whether it complies with a rubric. Never edits; writes a PASS or REVISE review the script uses to decide whether to loop."
 Transition: "Below the frontmatter, instructions in plain English."
 -->
 
@@ -682,7 +714,7 @@ Against. At an equal thinking budget, a single agent matched or beat five multi-
 
 <!--
 Entry 22, slide 2 of 3. 25 s of 75.
-TODO evidence: research/evidence.md gives no title for Tran and Kiela 2026; the citation on the slide has authors, year, and arXiv id only.
+TODO evidence: research/evidence.md gives no title for Tran and Kiela 2026 (nor does any file in the repo; checked at run 020); the citation on the slide has authors, year, and arXiv id only. The evidence-finder or fact-checker must supply the title; I will not invent one.
 Transition: "And the cost side."
 -->
 
@@ -735,19 +767,20 @@ Transition: "So let me set one up, the simple way."
 
 # Simple example you can run Monday
 
-One read-only subagent. Given ten target names, it queries the NASA Exoplanet Archive with astroquery and returns a table under a token cap. Two tools, Read and Bash, and the cheapest model.
+One read-only subagent. Given ten target names, it queries the NASA Exoplanet Archive with astroquery and returns a table under a token cap. Two tools, Read and Bash, and the cheapest model. The description is cut short with an ellipsis; the full file is in `examples/`.
 
 ```
 ---
 name: exoplanet-lookup
-description: Read-only lookup of confirmed exoplanet parameters from the NASA Exoplanet Archive for a given list of planet names. Returns a compact table, not a dump. Use for quick target-list checks.
+description: Read-only lookup of confirmed exoplanet parameters from the
+  NASA Exoplanet Archive for a given list of planet names. […]
 tools: Read, Bash
 model: haiku
 ---
 ```
 
 <!--
-Entry 24, slide 1 of 4. 30 s of 120. examples/exoplanet-lookup/.claude/agents/exoplanet-lookup.md, lines 1-6, exact. The outline says "under 2,000 tokens"; the agent file as built says 600.
+Entry 24, slide 1 of 4. 30 s of 120. examples/exoplanet-lookup/.claude/agents/exoplanet-lookup.md, lines 1-6; description truncated at […] so the block renders legibly. Full text continues: "Returns a compact table, not a dump. Use for quick target-list checks." The outline says "under 2,000 tokens"; the agent file as built says 600.
 Transition: "The instructions."
 -->
 
@@ -860,6 +893,8 @@ Transition: "Let me close."
 
 # Close
 
+![bg right:45%](illustrations/close.svg)
+
 Context, not intelligence. Most tasks need one agent.
 
 Your first step on Monday: pull one bounded, read-only task into its own agent file, run it once headless with a budget cap, and check that the return is short.
@@ -867,7 +902,7 @@ Your first step on Monday: pull one bounded, read-only task into its own agent f
 And the hand-off in one line: many unsupervised agents means you need sandboxing, and that is BJ, next.
 
 <!--
-Entry 27. 60 s. Then 180 s of Q&A; likely questions are in handout/qa.md.
+Entry 27. 60 s. Illustration: close.svg, right half. Then 180 s of Q&A; likely questions are in handout/qa.md.
 Transition: hand to BJ.
 -->
 

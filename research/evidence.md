@@ -67,7 +67,7 @@ Caveat: vendor claim, internal eval (BrowseComp-style breadth research), not ind
 Slide: 22
 Say: "at the same thinking budget, one agent matched or beat five different multi-agent designs"
 Exact: at a 5,000-token budget, single-agent 0.427 vs sequential multi-agent 0.386 (aggregate, 3 model families); multi-agent won only when up to 70% of context was masked/corrupted.
-Source: Tran and Kiela, Apr 2026, https://arxiv.org/abs/2604.02460. Confirmed in `runs/009-factcheck/factcheck.md` (slide 4) and `research/briefs/A-literature.md` #11.
+Source: Dat Tran and Douwe Kiela (April 2026), "Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets", arXiv 2604.02460, https://arxiv.org/abs/2604.02460 (title fetched from the arXiv abstract page 2026-09-17 by the orchestrator, after the reviewer in run 019 flagged it missing). Confirmed in `runs/009-factcheck/factcheck.md` (slide 4) and `research/briefs/A-literature.md` #11.
 Caveat: none.
 
 ### "Kapoor et al. 2024, one agent framework cost over 50 times a simple baseline at similar accuracy"
