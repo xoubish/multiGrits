@@ -1,10 +1,8 @@
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "22px", "primaryColor": "#eef3f8", "primaryBorderColor": "#1e3a5f", "primaryTextColor": "#111", "lineColor": "#1e3a5f"}}}%%
 flowchart LR
-  O["Orchestrator"] -->|"task"| R1["Researcher 1"]
-  O -->|"task"| R2["Researcher 2"]
-  O -->|"task"| R3["Researcher 3"]
-  O -->|"task"| R4["Researcher 4"]
-  R1 -->|"summary"| O
-  R2 -->|"summary"| O
-  R3 -->|"summary"| O
-  R4 -->|"summary"| O
-  O -->|"merge"| M["Merged brief"]
+  O["Orchestrator"] -->|"target list"| A["IRSA agent"]
+  O -->|"target list"| B["NED agent"]
+  O -->|"target list"| C["Exoplanet Archive agent"]
+  A -->|"summary"| M["Merged table"]
+  B -->|"summary"| M
+  C -->|"summary"| M
