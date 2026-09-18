@@ -462,7 +462,7 @@ And it was a wall of cited percentages, plus a twelve-minute demo of screenshots
 </div>
 <div>
 
-![w:560](shots/first-deck-gotcha.png)
+![w:560](shots/first-deck-gotcha-crop.png)
 
 </div>
 </div>
@@ -486,7 +486,7 @@ Agents optimize the rubric you write. Taste is not in the rubric, and it cannot 
 </div>
 <div>
 
-![w:560](shots/first-deck-thesis.png)
+![w:560](shots/first-deck-thesis-crop.png)
 
 </div>
 </div>

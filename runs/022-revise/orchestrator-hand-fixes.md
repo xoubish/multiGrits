@@ -16,3 +16,7 @@ Review round 1 (run 019): REVISE, 4 must-fix. Revise 020 applied 3, declined the
 Review round 2 (run 021): REVISE, 5 must-fix. Revise 022 applied 3, declined the title and the diagram labels
 (diagrammer's files). Both declined items were then applied by the orchestrator, above. The script stopped at its
 2-round limit with the verdict REVISE and printed "Human review needed"; that human review is this file.
+- `slides/shots/first-deck-*-crop.png`: cropped copies of the old-deck screenshots (review 021 finding 8), for the
+  slide-writer or the speaker to swap in on the "What came out" slides. Originals kept.
+- `slides/deck.md`: pointed the "What came out" slides at the cropped screenshots (during run 025, fact-checker
+  running; it reads the deck and writes only its own file).

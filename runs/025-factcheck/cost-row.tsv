@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T17:19:33	runs/025-factcheck	fact-checker	claude-haiku-4-5-20251001,claude-sonnet-5	70	50	2085503	131431	26460	1.6628976000000002	314255	315	False
