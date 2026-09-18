@@ -99,18 +99,19 @@ The roster and stages were rewritten on 2026-09-17; runs from 015 onward use the
 
 ## 3. Attempt two, step by step (runs 015 onward)
 
-Numbers below are read directly from each run's `cost-row.tsv` where `runs/cost-report.md` has not yet been
-regenerated to include it (the `cost` stage runs at the end of the pipeline and had not run again as of this
-writing).
+Numbers below are read from each run's own `cost-row.tsv`; `runs/cost-report.md` and `runs/cost.tsv` have not been
+regenerated since run 014 (the `cost` stage runs at the end of the pipeline and has not run again as of this
+writing), so figures for runs 015 onward are cited to their individual `cost-row.tsv` files, not the report.
 
 - **Run 015 — `evidence`.** Agent `evidence-finder`, models `claude-haiku-4-5-20251001` and `claude-sonnet-5`, tools
   WebSearch/WebFetch/Read/Write/Glob/Grep. Read `slides/outline.md` and `research/brief.md`/`research/briefs/`.
-  Wrote `research/evidence.md` and `runs/015-evidence/unsupported.md`. Return: found sources for 13 of 16 claims
-  entirely from existing briefs/fact-check, needed the web for 3 (MacNet, Project Sid, ChatDev's seven roles), and
-  flagged 4 claims as unsupported rather than guessed (Codex/Cursor default-agent behavior, the "one agent is
-  today's default" generalization, the Monday example's real numbers since `example` had not run yet, and the
-  build-log numbers since `chronicle` had not run yet) [runs/015-evidence/return.md; runs/015-evidence/unsupported.md].
-  37 turns, $0.7286, 171 s wall time [runs/015-evidence/cost-row.tsv]. Pipeline stage (pull-mode, single agent).
+  Wrote `research/evidence.md` and `runs/015-evidence/unsupported.md` (folded into `research/evidence.md`'s
+  Unsupported section per its return). Return: found sources for 13 of 16 claims entirely from existing
+  briefs/fact-check, needed the web for 3 (MacNet, Project Sid, ChatDev's seven roles), and flagged 4 claims as
+  unsupported rather than guessed (Codex/Cursor default-agent behavior, the "one agent is today's default"
+  generalization, the Monday example's real numbers since `example` had not run yet, and the build-log numbers
+  since `chronicle` had not run yet) [runs/015-evidence/return.md]. 37 turns, $0.7286, 171 s wall time
+  [runs/015-evidence/cost-row.tsv]. Pipeline stage (pull-mode, single agent).
 
 - **Run 016 — `example`.** Agent `example-builder`, models `claude-haiku-4-5-20251001` and `claude-sonnet-5`, the
   only agent with Bash. Read outline entry 24 (the Monday example spec) and confirmed `astroquery` was installed.
@@ -120,24 +121,81 @@ writing).
   succeeded on the first real attempt (one workaround needed: writing under a path containing the literal string
   `.claude/agents` tripped a sandbox permission check, worked around with a Python script); returned a 10-row table
   of ~250 tokens, well under the 600-token cap, though total output including thinking tokens was 7,321
-  [runs/016-example/return.md; runs/016-example/notes.md; examples/exoplanet-lookup/RESULT.md]. Cost $0.0751
-  (matches `RESULT.md`), 82.5 s wall time (`duration_ms`), 8 turns per `RESULT.md`; the run-level `cost-row.tsv`
-  reports 28 turns and $0.3209 for the full agent session including setup and the workaround, versus the $0.0751 /
-  8 turns of the one `claude -p` call the agent itself made and recorded in `RESULT.md`
-  [runs/016-example/cost-row.tsv; examples/exoplanet-lookup/RESULT.md]. Pipeline stage (single agent, the one
-  permitted to run Bash for real).
+  [runs/016-example/return.md; runs/016-example/notes.md; examples/exoplanet-lookup/RESULT.md]. The one `claude -p`
+  call the agent made and recorded in `RESULT.md` cost $0.0751, ran 82.5 s, 8 turns; the run-level `cost-row.tsv`
+  reports 28 turns and $0.3209 for the whole agent session (setup, the workaround, and the recorded call together),
+  207 s wall [runs/016-example/cost-row.tsv; examples/exoplanet-lookup/RESULT.md]. Pipeline stage (single agent,
+  the one permitted to run Bash for real).
 
-- **Run 017 — `chronicle`.** Agent `chronicler`, tools Read/Glob/Grep/Write. Read every file listed in its prompt
-  under `runs/`, `runs/cost-report.md`, `research/*`, `.claude/agents/*.md`, `slides/outline.md`, `README.md`, and
-  `talk-context.md`. Writes this file, `research/build-log.md`, and a copy of its numbers section to
-  `runs/017-chronicle/numbers.md`. Return: not yet recorded — this run is in progress as of this writing
-  [runs/017-chronicle/prompt.md; runs/017-chronicle/result.json (incomplete at time of writing)]. Pipeline stage
-  (single agent), the first of two chronicle passes the outline calls for (before `write`, and again after the
-  review loop) [talk-context.md].
+- **Run 017 — `chronicle`.** Agent `chronicler`, models `claude-haiku-4-5-20251001` and `claude-sonnet-5`, tools
+  Read/Glob/Grep/Write. Read every file its prompt names under `runs/`, `runs/cost-report.md`, `research/*`,
+  `.claude/agents/*.md`, `slides/outline.md`, `README.md`, and `talk-context.md`. Wrote `research/build-log.md`
+  (this file, first version, covering runs 000–017) and `runs/017-chronicle/numbers.md`. Return: "Wrote
+  `research/build-log.md` covering runs 000–017, and copied section 5 to `runs/017-chronicle/numbers.md`,"
+  noting the deck's slide count for attempt two was not yet recorded and an unresolved discrepancy between the
+  README's "eleven" agent-role count and the fourteen roles it names [runs/017-chronicle/return.md]. 38 turns,
+  $0.4361, 128 s wall time [runs/017-chronicle/cost-row.tsv]. Pipeline stage (single agent), the first of two
+  chronicle passes the outline calls for [talk-context.md].
 
-Stages not yet run as of this writing: `write` (slide-writer, diagrammer, illustrator in three worktrees), `loop`
-(critique/revise), a second `chronicle`, `revise`, `factcheck`, `notes` and `qa` in parallel, and `cost`. This file
-will be updated when those runs exist; until then their step-by-step entries are "not recorded."
+- **Run 018 — `write`.** Pattern 4, parallel isolated workers: three agents in three git worktrees, run at once,
+  merged by the script.
+  - `slides` worktree, agent `slide-writer`, session model (`claude-fable-5-1`/haiku), 16 turns, $3.0735, 359 s.
+    Read `talk-context.md`, `slides/outline.md`, `research/evidence.md`, `research/build-log.md`. Wrote
+    `slides/deck.md`, 53 slides (51 presented + 2 Sources); no `slides/illustrations/README.md` existed yet at
+    write time, so no illustrations were placed. Flagged four TODOs: the Codex/Cursor default-agent claim, an
+    unsupported "diminishing returns" sentence, a missing Tran & Kiela title, and a real-vs-outline discrepancy
+    (the built example caps replies at 600 tokens, the outline says "under 2,000")
+    [runs/018-write/slides/return.md; runs/018-write/slides/notes.md; runs/018-write/slides/cost-row.tsv].
+  - `diagrams` worktree, agent `diagrammer`, `claude-sonnet-5`, 16 turns, $0.1811, 60 s. Wrote five Mermaid files:
+    `fan-out.mmd`, `pipeline.mmd`, `writer-critic.mmd`, `parallel-workers.mmd`, `meta-pipeline.mmd`, 5–6 nodes each
+    [runs/018-write/diagrams/return.md; runs/018-write/diagrams/cost-row.tsv].
+  - `illustrations` worktree, agent `illustrator`, session model, 10 turns, $0.9379, 115 s. Wrote five SVGs
+    (`title`, `teams`, `two-terminals`, `merge-conflict`, `close`) to `slides/illustrations/` plus
+    `slides/illustrations/README.md` placing each one [runs/018-write/illustrations/return.md;
+    runs/018-write/illustrations/cost-row.tsv]. Stage total: 42 turns, $4.1925, three branches merged with no
+    conflict (disjoint files: `slides/deck.md`, `diagrams/*.mmd`, `slides/illustrations/*`).
+
+- **Run 019 — `critique`.** Writer-critic round 1 (critic half). Agent `reviewer`, session model, tools
+  Read/Glob/Grep/Write, 64 turns, $2.9727, 150 s. Read `talk-context.md`, `slides/outline.md`, `slides/deck.md`
+  with its notes, and all 54 rendered PNGs in `slides/build/png/`. Return/verdict: **REVISE**; three findings
+  mattered most — the five illustrations from run 018 were never placed in `deck.md` despite the README existing,
+  two agent-file code blocks (slides 30, 45) rendered at ~7px because of an unbroken `description:` line, two
+  Mermaid diagrams (slides 12, 20) were squeezed unreadable in a narrow column, and the Tran & Kiela citation
+  (slide 41) had no title; everything else, including every build-story number checked against
+  `research/build-log.md`, was reported sound [runs/019-critique/review.md; runs/019-critique/cost-row.tsv].
+
+- **Run 020 — `revise`.** Writer-critic round 1 (writer half). Agent `slide-writer`, session model, 27 turns,
+  $1.6625, 132 s. Read `runs/019-critique/review.md` and `slides/deck.md`. Applied the illustrations (all five
+  placed per the README), fixed the two shrunk code blocks, took the two squeezed diagrams full-width, raised
+  `.cite` from 20px to 22px, widened two pattern-diagram columns, and added the outline's entry-1 text as a code
+  block on slide 28; declined the Tran & Kiela title (no file in the repo has one) and left the "attempt two"
+  placeholder slide for the second chronicle pass, wrote `runs/020-revise/changes.md`
+  [runs/020-revise/return.md; runs/020-revise/changes.md; runs/020-revise/cost-row.tsv].
+
+- **Run 021 — `critique`.** Writer-critic round 2 (critic half). Agent `reviewer`, session model, 63 turns,
+  $2.9859, 171 s. Return/verdict: **REVISE** again; five must-fixes remained, three mattering most — the two
+  `bg right:45%` illustrations (slides 1, 52) were cover-cropped, the Tran & Kiela citation still lacked a title,
+  and a "diminishing returns" sentence on slide 39 still had no source in `research/evidence.md`. Confirmed again
+  that every build-story number on slides 21–37 and 48 matched `research/build-log.md` exactly, and flagged for
+  the speaker (not counted in the verdict) that slide 22 says "eleven agent roles" then lists fourteen
+  [runs/021-critique/review.md; runs/021-critique/cost-row.tsv].
+
+- **Run 022 — `revise`.** Writer-critic round 2 (writer half), the last round `--rounds 2` allows. Agent
+  `slide-writer`, session model, 29 turns, $1.4847, 100 s. Fixed the illustration crops (`fit`), split the
+  fourteen-line code slide in two (entry 24 now five slides), took the writer-critic diagram full width, raised
+  `.cite` to 24px, and rewrote the "diminishing returns" line as the speaker's own inference rather than an
+  unsourced fact; declined the Tran & Kiela title again (no source found) and instead marked it on the slide as
+  "title to be confirmed by the fact-checker"; declined the placeholder slide again, pending the second chronicle
+  pass. Wrote `runs/022-revise/changes.md`. Per `pipeline/run.sh`'s `stage_loop`, this was the second and last
+  scheduled round; the loop function logs "rounds exhausted; human review needed" if the verdict is still REVISE,
+  and no further `critique` run exists in `runs/` as of this writing — the loop's final verdict is therefore
+  **not recorded** (no run 023-critique exists to confirm PASS or a third REVISE)
+  [runs/022-revise/return.md; runs/022-revise/changes.md; runs/022-revise/cost-row.tsv; pipeline/run.sh].
+
+Stages not yet run as of this writing: a second `chronicle` pass beyond this one, `revise` to place its update,
+`factcheck`, `notes` and `qa` in parallel, and `cost` (to regenerate `runs/cost-report.md` and `runs/cost.tsv`
+through run 022). This chronicle pass is itself that second `chronicle` call, logged as `runs/023-chronicle`
+[talk-context.md; pipeline/run.sh].
 
 ## 4. The recipe
 
@@ -237,32 +295,41 @@ evidence  →  example  →  chronicle  →  write (slide-writer + diagrammer + 
 
 **Where logs land:** every stage writes `runs/NNN-<stage>/` containing `prompt.md` (exact prompt sent),
 `result.json` (full headless JSON output), `return.md` (what the agent returned), `exit-code`, and any
-stage-specific output file (e.g. `critique.md`, `factcheck.md`, `changes.md`, `notes.md`). The parallel `write`
-stage nests `slides/`, `diagrams/`, `illustrations/` subdirectories, one per worktree. Each run directory gets its
-own `cost-row.tsv`; `pipeline/cost_report.py` regenerates `runs/cost.tsv` and `runs/cost-report.md` from every
-`result.json` — nothing appends to a shared file, because run 004 showed why [runs/README.md].
+stage-specific output file (e.g. `critique.md`/`review.md`, `factcheck.md`, `changes.md`, `notes.md`). The parallel
+`write` stage nests `slides/`, `diagrams/`, `illustrations/` subdirectories, one per worktree, as seen in
+`runs/018-write/`. Each run directory gets its own `cost-row.tsv`; `pipeline/cost_report.py` regenerates
+`runs/cost.tsv` and `runs/cost-report.md` from every `result.json` — nothing appends to a shared file, because run
+004 showed why [runs/README.md].
 
 ## 5. Numbers
 
-**Total cost so far:** $29.22 logged for runs 002–014 (attempt one; run 001 was interactive and its cost is
-recorded by hand, not in this total) [runs/cost-report.md; runs/README.md], plus $0.7286 (run 015) and $0.3209
-(run 016) for attempt two so far [runs/015-evidence/cost-row.tsv; runs/016-example/cost-row.tsv]. Running total
-across both attempts as of run 016: **$30.27**. Run 017 (this chronicle pass) is in progress and its cost is not
-yet known.
+**Total cost so far:** $29.22 for attempt one (runs 002–014; run 001 was interactive and its cost is recorded by
+hand, not in this total) [runs/cost-report.md; runs/README.md], plus $14.7838 for attempt two so far (runs
+015–022, summed from each run's own `cost-row.tsv` since `runs/cost-report.md` has not been regenerated past run
+014) [runs/015-evidence/cost-row.tsv; runs/016-example/cost-row.tsv; runs/017-chronicle/cost-row.tsv;
+runs/018-write/slides/cost-row.tsv; runs/018-write/diagrams/cost-row.tsv; runs/018-write/illustrations/cost-row.tsv;
+runs/019-critique/cost-row.tsv; runs/020-revise/cost-row.tsv; runs/021-critique/cost-row.tsv;
+runs/022-revise/cost-row.tsv]. Running total across both attempts as of run 022: **≈$44.00** ($29.22 + $14.7838 =
+$44.0038). This chronicle pass (run 023) and every stage after it (a further chronicle-placing revise, factcheck,
+notes, qa, cost) are not yet run and their cost is not included.
 
 **Per attempt:**
 - Attempt one (runs 002–014, headless stages only): $29.22, 1,222 turns, 578,569 output tokens, 6,169 seconds
   [runs/cost-report.md]. Run 001 (interactive research fan-out) is additional and not logged in dollars here
   [runs/README.md].
-- Attempt two (runs 015–016 so far): $1.0495, 65 turns, 171 s + 207 s wall time
-  [runs/015-evidence/cost-row.tsv; runs/016-example/cost-row.tsv]. Remaining stages (write, loop, chronicle,
-  revise, factcheck, notes, qa, cost) not yet run; not recorded.
+- Attempt two (runs 015–022 so far): $14.7838, 328 turns, 1,593 s wall time summed across the ten cost-rows listed
+  above (evidence 37t/$0.7286/171s; example 28t/$0.3209/207s; chronicle-1 38t/$0.4361/128s; write/slides
+  16t/$3.0735/359s; write/diagrams 16t/$0.1811/60s; write/illustrations 10t/$0.9379/115s; critique-1
+  64t/$2.9727/150s; revise-1 27t/$1.6625/132s; critique-2 63t/$2.9859/171s; revise-2 29t/$1.4847/100s)
+  [cost-row.tsv files cited individually above]. Remaining stages (a second chronicle, a placing revise,
+  factcheck, notes, qa, cost) not yet run; not recorded.
 
 **Agents count:**
-- Then (attempt one): 11 — four `researcher`s, `outliner`, `slide-writer`, `diagrammer`, `critic`, `design-critic`,
-  `teaching-critic`, `fact-checker`, `notes-writer`, `qa-skeptic`, `demo-editor` [README.md]. (Note: this lists more
-  than 11 named roles across the README's retirement list and run 012's three-critic addition; the README's
-  "Retired" line names exactly these roles as having existed in attempt one.)
+- Then (attempt one): 11 named roles per the README's retirement line — four `researcher`s, `outliner`,
+  `slide-writer`, `diagrammer`, `critic`, `design-critic`, `teaching-critic`, `fact-checker`, `notes-writer`,
+  `qa-skeptic`, `demo-editor` — fourteen distinct role names in that list against the README's stated count of
+  eleven; run 021's reviewer flagged this same discrepancy on slide 22 as a "for the speaker" item, unresolved as
+  of this writing [README.md; runs/021-critique/review.md].
 - Now (attempt two): 10 — `evidence-finder`, `example-builder`, `chronicler`, `slide-writer`, `diagrammer`,
   `illustrator`, `reviewer`, `fact-checker`, `notes-writer`, `qa-skeptic` [README.md; .claude/agents/*.md].
 
@@ -270,7 +337,12 @@ yet known.
 - Then (attempt one, final): 25 slides (21 presented + 4 sources), stated as the ceiling in run 006's revise notes
   [runs/006-revise/return.md]. Run 011's demo rework split 5 slides into 10 and added a 10-slide appendix, and the
   spec afterward allowed up to 30 presented slides [runs/011-shots/README.md].
-- Now (attempt two): not recorded — `slides/deck.md` has not been written yet; the `write` stage has not run as of
-  run 016. The outline (`slides/outline.md`) specifies 27 numbered entries (1–27) across segments A–E plus Q&A and
-  Sources, several of which may become more than one slide each per the outline's own instruction to "split rather
-  than shrink" [slides/outline.md; talk-context.md].
+- Now (attempt two): the deck went through three drafts. Run 018 (`write`) produced 53 slides (51 presented + 2
+  Sources) [runs/018-write/slides/return.md]. Run 019's reviewer counted 54 rendered PNGs, one more than run 018
+  reported — a discrepancy this file does not resolve, since no run explains the difference; run 020 (`revise`)
+  reported the count as "unchanged (54)" relative to what the reviewer saw [runs/019-critique/review.md;
+  runs/020-revise/return.md]. Run 022 (`revise`), after splitting one dense code slide into two, reported "55
+  slides plus two Sources" [runs/022-revise/return.md]. Counting heading markers (`^#`/`^##`) directly in the
+  current `slides/deck.md` gives 55 [slides/deck.md], consistent with run 022's own count; the exact total
+  including the two Sources slides is therefore about 57, but this file reports the components as each run stated
+  them rather than reconciling them by inference.

@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T17:13:00	runs/023-chronicle	chronicler	claude-haiku-4-5-20251001,claude-sonnet-5	77	28	815564	94169	22844	0.7693258000000001	209560	211	False

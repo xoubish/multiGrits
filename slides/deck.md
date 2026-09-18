@@ -703,11 +703,11 @@ Transition: "Against, twice."
 
 Against. At an equal thinking budget, a single agent matched or beat five multi-agent designs. Multi-agent won only when most of the context had been masked or corrupted.
 
-<p class="cite">Tran and Kiela (April 2026), arXiv 2604.02460, title to be confirmed by the fact-checker: at a 5,000-token budget, single-agent scored 0.427 against 0.386 for sequential multi-agent, aggregated over three model families; multi-agent won only with up to 70% of the context masked.</p>
+<p class="cite">Tran and Kiela (April 2026), Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets, arXiv 2604.02460: at a 5,000-token budget, single-agent scored 0.427 against 0.386 for sequential multi-agent, aggregated over three model families; multi-agent won only with up to 70% of the context masked.</p>
 
 <!--
 Entry 22, slide 2 of 3. 25 s of 75.
-TODO evidence: research/evidence.md gives no title for Tran and Kiela 2026 (nor does any file in the repo; re-checked at run 022); the citation carries authors, year, and arXiv id and says the title is unconfirmed. The fact-checker stage must supply it; I will not invent one. If none is verified before talk day, taking the outline's cut 2 (Kim et al. only) is the speaker's call, not mine.
+Title added by the orchestrator from the arXiv abstract page (see research/evidence.md and runs/022-revise/orchestrator-hand-fixes.md); the fact-checker verifies it.
 Transition: "And the cost side."
 -->
 
@@ -956,7 +956,7 @@ Kim et al. (2026), Towards a Science of Scaling Agent Systems: https://arxiv.org
 
 Anthropic (June 2025), How we built our multi-agent research system: https://www.anthropic.com/engineering/multi-agent-research-system
 
-Tran and Kiela (April 2026): https://arxiv.org/abs/2604.02460
+Tran and Kiela (April 2026), Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets: https://arxiv.org/abs/2604.02460
 
 Kapoor et al. (2024), AI Agents That Matter: https://arxiv.org/abs/2407.01502
 
