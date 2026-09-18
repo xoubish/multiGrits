@@ -286,13 +286,13 @@ Transition: "So how many agents should you actually run?"
 
 # How many agents?
 
-One is today's default. Claude Code runs one main conversation and spawns a built-in subagent like Explore only when it decides to. I believe Codex and Cursor behave the same way, though I have only checked the Claude Code documentation.
+One is today's default. Claude Code runs one main conversation and spawns a built-in subagent like Explore only when it decides to.
 
 <p class="cite">Anthropic (2026), Subagents, Claude Code documentation: Claude Code runs one main conversation agent by default, with built-in subagents such as Explore used automatically when appropriate.</p>
 
 <!--
 Entry 11, slide 1 of 3. 15 s of 45. (Cut candidate 3: drop entry 11 and say one sentence on entry 6.)
-TODO evidence: the outline names Codex and Cursor as also defaulting to one agent with an occasional subagent; research/evidence.md confirms this only for Claude Code. The slide says so out loud.
+Codex and Cursor were dropped from this slide on 2026-09-17: only Claude Code is documented.
 Transition: "Working systems are small."
 -->
 
@@ -389,7 +389,7 @@ Transition: "The first attempt did not have that outline line. Agents wrote the 
 
 # Attempt one, from scratch
 
-The first pipeline let agents write the outline, not just the slides. Eleven agent roles did the work: four researchers in parallel, an outliner, a slide-writer and a diagrammer in worktrees, three critics for content, design, and teaching, a fact-checker, a notes-writer, a Q&A skeptic, and a demo editor.
+The first pipeline let agents write the outline, not just the slides. Eleven agent files did the work: four researchers in parallel, an outliner, a slide-writer and a diagrammer in worktrees, three critics for content, design, and teaching, a fact-checker, a notes-writer, a Q&A skeptic, and a demo editor.
 
 Runs 002 through 014 cost $29.22 over 1,222 turns.
 
@@ -715,11 +715,8 @@ Transition: "So what decides? The shape of the task."
 
 Task shape decides. If the work decomposes into independent pieces, fan out. If each step depends on the last, keep it in one head.
 
-And my reading of their results, not a number from the paper: the returns diminish once the single agent is already strong. The better your one agent, the less a team adds on top of it.
-
 <!--
 Entry 21, slide 2 of 2. 25 s of 60. The second paragraph is now stated as the speaker's inference, per review 021.
-TODO evidence: "diminishing returns once the single agent is already strong" is in the outline but research/evidence.md does not list a number or quote for it from Kim et al. If the evidence-finder supplies one, move it to a cite line and drop "my reading."
 Transition: "Here is the rest of the evidence, both sides."
 -->
 
@@ -812,7 +809,7 @@ model: haiku
 ```
 
 <!--
-Entry 24, slide 1 of 5. 25 s of 120. examples/exoplanet-lookup/.claude/agents/exoplanet-lookup.md, lines 1-6; description truncated at […] so the block renders legibly. Full text continues: "Returns a compact table, not a dump. Use for quick target-list checks." The outline says "under 2,000 tokens"; the agent file as built says 600.
+Entry 24, slide 1 of 5. 40 s of 180. examples/exoplanet-lookup/.claude/agents/exoplanet-lookup.md, lines 1-6; description truncated at […] so the block renders legibly. Full text continues: "Returns a compact table, not a dump. Use for quick target-list checks." The outline says "under 2,000 tokens"; the agent file as built says 600.
 Transition: "The instructions."
 -->
 
@@ -834,7 +831,7 @@ Do this:
 ```
 
 <!--
-Entry 24, slide 2 of 5. 20 s of 120. Lines 7-14 of the agent file, exact. Read aloud the three rules: read, query, say "not found" rather than invent.
+Entry 24, slide 2 of 5. 30 s of 180. Lines 7-14 of the agent file, exact. Read aloud the three rules: read, query, say "not found" rather than invent.
 Transition: "Then what to send back."
 -->
 
@@ -853,7 +850,7 @@ header stating the source ("NASA Exoplanet Archive, pscomppars"). Keep the whole
 ```
 
 <!--
-Entry 24, slide 3 of 5. 15 s of 120. Lines 16-20 of the agent file, exact. Weave in: summaries, not dumps.
+Entry 24, slide 3 of 5. 25 s of 180. Lines 16-20 of the agent file, exact. Weave in: summaries, not dumps.
 Transition: "One command."
 -->
 
@@ -870,7 +867,7 @@ env -u CLAUDECODE claude -p --agent exoplanet-lookup --allowedTools "Read,Bash" 
 ```
 
 <!--
-Entry 24, slide 4 of 5. 25 s of 120. From examples/exoplanet-lookup/RESULT.md; run.sh in the same directory wraps it and saves the JSON under runs/.
+Entry 24, slide 4 of 5. 40 s of 180. From examples/exoplanet-lookup/RESULT.md; run.sh in the same directory wraps it and saves the JSON under runs/.
 Transition: "And here is what actually came back."
 -->
 
@@ -891,21 +888,8 @@ NASA Exoplanet Archive, pscomppars
 Ten rows, about 250 tokens. Model `claude-haiku-4-5`, cost $0.0751, wall time 82.5 seconds, 8 turns. One caveat: total output including thinking was 7,321 tokens, so the cap applies to the table I see, not to everything the agent emits.
 
 <!--
-Entry 24, slide 5 of 5. 35 s of 120. Three of the ten rows shown; the full table is in examples/exoplanet-lookup/RESULT.md and the handout. It succeeded on the first real attempt.
+Entry 24, slide 5 of 5. 45 s of 180. Three of the ten rows shown; the full table is in examples/exoplanet-lookup/RESULT.md and the handout. It succeeded on the first real attempt.
 Transition: "That is the simple end. The difficult end is this talk."
--->
-
----
-
-# Difficult example
-
-The difficult example is this pipeline: ten agents, a script that owns order, loop, and isolation, and logs for every call.
-
-When to bother: when the work exceeds one context window, the pieces are independent, and the output needs an independent check. Otherwise, one agent. Most of my own work is still one agent.
-
-<!--
-Entry 25. 60 s.
-Transition: "And it is not free."
 -->
 
 ---
@@ -917,7 +901,7 @@ Multi-agent runs three to fifteen times a single chat's tokens, by Anthropic's o
 <p class="cite">Anthropic (June 2025), How we built our multi-agent research system, anthropic.com/engineering: multi-agent systems use about 15× more tokens than chats. Anthropic, Phillips et al. (January 2026), Building multi-agent systems: when and how to use them, claude.com/blog: multi-agent implementations typically use 3 to 10× more tokens. Vendor figures; the range on the slide spans both.</p>
 
 <!--
-Entry 26, slide 1 of 2. 25 s of 60.
+Entry 26, slide 1 of 3. 20 s of 60.
 Transition: "So spend the multiple carefully."
 -->
 
@@ -927,13 +911,24 @@ Transition: "So spend the multiple carefully."
 
 Put cheap or local models on subagents and the frontier model on the orchestrator. Claude Code's subagent frontmatter takes a `model` field, so you can pin a cheap model on a subagent, for example your own Explore pinned to Haiku, while the orchestrator stays on the frontier model. Which model, and what it costs, was Nick's talk this morning.
 
-The checklist: the work exceeds one window; the pieces are independent; the output needs verification; and you can afford the multiple.
-
 <p class="cite">Anthropic (2026), Create custom subagents, Claude Code documentation: <code>model</code> takes haiku, sonnet, opus, fable, or inherit; the built-in Explore inherits the main conversation's model by default unless you define a custom Explore pinned to a cheaper one (fetched 2026-09-17).</p>
 
 <!--
-Entry 26, slide 2 of 2. 35 s of 60. Do not present pricing; point to Nick.
+Entry 26, slide 2 of 3. 20 s of 60. Do not present pricing; point to Nick.
 Transition: "Let me close."
+-->
+
+---
+
+# Cost, and when it is worth it (3): the difficult example
+
+The difficult example is this pipeline: ten agents, a script that owns order, loop, and isolation, and a log for every call.
+
+When to bother: the work exceeds one window, the pieces are independent, the output needs an independent check, and you can afford the multiple. Otherwise, one agent. Most of my own work is still one agent.
+
+<!--
+Entry 26, slide 3 of 3. 20 s of 60. Folded from the old entry 25 on 2026-09-17.
+Transition: "So, to close."
 -->
 
 ---

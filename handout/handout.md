@@ -1,80 +1,82 @@
 # Multi-agent workflows — handout
 
-GRITS AI workshop, Day 2, advanced track. Shooby Hemmati, IPAC. This page is for someone who
-was not in the room. The thesis: multi-agent buys you **context, not intelligence** — a fresh
-context window, parallel wall-clock, and an independent reviewer. Two copies of the same model
-know exactly the same things. Most tasks do not need more than one agent.
+Shooby Hemmati, IPAC. GRITS AI workshop, Day 2, advanced track. Multi-agent buys you **context, not
+intelligence**: a fresh context window, parallel wall-clock, and a reviewer not anchored to the
+draft. Two copies of the same model already know the same things. Most tasks do not need more than
+one agent.
 
-## The four patterns, and the task shape that calls for each
+## The four patterns, and when each one fits
 
-1. **Fan-out and merge** — independent pieces, one merge point. Use when you have several
-   independent lookups or subtasks that need combining into one output (e.g., one agent per
-   archive — IRSA, NED, the Exoplanet Archive — merged into one table).
+1. **Fan-out and merge** — independent subtasks run in parallel, one merge point collects their
+   summaries. Use when the work splits into pieces that don't depend on each other: one agent per
+   archive (IRSA, NED, the Exoplanet Archive) for a target list, merged into one table.
 2. **Pipeline** — sequential stages, each with a fresh context, files as the hand-off. Use when
-   the work must happen in order and each stage benefits from starting clean (planner →
-   implementer → tester).
-3. **Writer and critic** — one agent produces, another reviews adversarially with tools in hand
+   each step depends on the last and you want no stage inheriting the previous stage's clutter:
+   planner → implementer → tester.
+3. **Writer and critic** — one agent produces, a second reviews adversarially with tools in hand
    (tests, data, schema), for a fixed number of rounds. Use when the output needs an independent
-   check, not just a re-read by its own author. A critic without tools just rubber-stamps.
+   check, not just the same agent re-reading its own work. A critic without tools rubber-stamps.
 4. **Parallel isolated workers** — fan-out with the isolation choice made explicit: one git
-   worktree per agent, merged at the end. Use when several workers would otherwise edit the same
-   files — this is what prevents two agents, one file, last write wins.
+   worktree per agent, merged at the end. Use when independent pieces would otherwise write to the
+   same files — this is what prevents two agents on one file, last write wins.
 
-## The recipe
+## The recipe, literally, from `examples/exoplanet-lookup/`
 
-**An agent is a markdown file.** Frontmatter, then plain-English instructions. Skeleton (shape
-matches `.claude/agents/reviewer.md` and `examples/exoplanet-lookup/.claude/agents/exoplanet-lookup.md`
-in this repo):
+**1. Subagent frontmatter skeleton** (from `.claude/agents/exoplanet-lookup.md`):
 
 ```
 ---
-name: <agent-name>
-description: <when to use this agent, one or two sentences>
-tools: <comma-separated list, e.g. Read, Bash>
-model: <haiku | sonnet | opus | inherit>
+name: exoplanet-lookup
+description: Read-only lookup of confirmed exoplanet parameters from the NASA Exoplanet Archive for a given list of planet names. Returns a compact table, not a dump. Use for quick target-list checks.
+tools: Read, Bash
+model: haiku
 ---
-You are given <what it is handed>.
-
-Do this:
-1. <step>
-2. <step>
-
-Return only <the exact shape of the reply, and a token cap>. Say "not found" rather than
-invent a number.
 ```
+Below the frontmatter: plain-English instructions (what to read, what to do, what to return), and
+an explicit return-format section with a token cap and an instruction to say "not found" rather
+than invent a number.
 
-**A script calls it headless, with a budget cap.** This is the exact command from
-`examples/exoplanet-lookup/README.md` and `RESULT.md`:
+**2. The headless command, with a budget cap** (from `examples/exoplanet-lookup/run.sh`):
 
 ```
-env -u CLAUDECODE claude -p --agent exoplanet-lookup --allowedTools "Read,Bash" \
-  --max-budget-usd 1 --output-format json \
-  "Look up the exoplanets listed one per line in targets.txt in the NASA Exoplanet Archive and return the table."
+env -u CLAUDECODE claude -p \
+  --agent exoplanet-lookup \
+  --allowedTools "Read,Bash" \
+  --max-budget-usd 1 \
+  --output-format json \
+  "Look up the exoplanets listed one per line in targets.txt in the NASA Exoplanet Archive and return the table." \
+  > "$OUT"
 ```
+`env -u CLAUDECODE` matters if you're already inside a Claude Code session. `--max-budget-usd 1`
+is the cap; `--output-format json` returns the cost and token counts along with the answer.
 
-**The one check to run on the return** (from `examples/exoplanet-lookup/RESULT.md`): does the
-reply start with the one-line source header and a single compact table under the stated token
-cap, with "not found" for any name that had no match — not an invented number? In the real run,
-the visible table was ~250 tokens against a 600-token cap, but total output including thinking
-was 7,321 tokens — so the check is on what the reply *shows* you, not on everything the agent
-emitted internally.
+**3. The one check to run on the return** (from `examples/exoplanet-lookup/README.md` and
+`RESULT.md`): the reply should be a single compact markdown table, one row per input name, under
+600 tokens, with no prose before or after it except a one-line source header. On the real run this
+returned in 82.5 s for $0.0751 on Haiku — but total output including internal thinking tokens was
+7,321, well over the 600-token line. **The check is on the table you're shown, not on the agent's
+total token spend** — if you need to bound the whole call, budget for that separately with
+`--max-budget-usd`, not the return-format instruction alone.
 
-## First thing to try
+## The first thing to try, Monday
 
-Pull one bounded, read-only task into its own agent file. Run it once, headless, with a budget
-cap. Check that the return is short.
+Pull one bounded, read-only task into its own agent file. Run it once, headless, with a budget cap.
+Check that the return is short. That's it — that's the whole first step. Many unsupervised agents
+means you need sandboxing; that's the next talk in this workshop, not this one.
 
 ## Where to find it
 
-- The runnable example: `examples/exoplanet-lookup/` in this repo (agent file, `targets.txt`,
-  `run.sh`, and the real result in `RESULT.md`).
-- This repo (multiGrits): the pipeline that built this talk — `.claude/agents/`,
-  `pipeline/run.sh`, `research/build-log.md`, and one `runs/NNN-<stage>/` directory per agent
-  call, each with the exact prompt sent, the full JSON result, and a cost row.
+- The working example: `examples/exoplanet-lookup/` in this repo (agent file, `run.sh`, `README.md`,
+  and the real result in `RESULT.md`).
+- This talk's own build, as a recipe: `.claude/agents/` (ten subagent files), `pipeline/run.sh`
+  (the orchestrating script), and `runs/` (one directory per agent call — exact prompt, full JSON
+  result, return text, and a cost row for every run, so the pipeline can be audited rather than
+  trusted).
 
-## Links (three)
+## Three links
 
-- Anthropic (Dec 2024), *Building effective agents* — https://www.anthropic.com/research/building-effective-agents
-- Anthropic (2026), *Subagents*, Claude Code docs — https://code.claude.com/docs/en/sub-agents
-- Kim et al. (2026), *Towards a Science of Scaling Agent Systems*, arXiv 2512.08296 —
-  https://arxiv.org/abs/2512.08296
+- Claude Code, Subagents (frontmatter reference): https://code.claude.com/docs/en/sub-agents
+- Claude Code, Run parallel sessions with worktrees (pattern 4's isolation mechanism):
+  https://code.claude.com/docs/en/worktrees
+- Anthropic, Building effective agents (the workflow-pattern taxonomy this talk builds on):
+  https://www.anthropic.com/research/building-effective-agents

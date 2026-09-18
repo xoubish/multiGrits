@@ -36,8 +36,8 @@ full sentences and complete citations, not talking points.
 10. **Pattern 4, parallel isolated workers.** {{diagram:parallel-workers}} Not a fourth topology: fan-out with the
     isolation choice made explicit. One git worktree per agent, merged at the end. The failure it prevents: two
     agents, one file, last write wins. 60 s.
-11. **How many agents?** One is today's default (Claude Code, Codex, Cursor run one agent that spawns a subagent
-    occasionally). Working systems use one orchestrator and two to five workers (Anthropic's research system,
+11. **How many agents?** One is today's default (Claude Code runs one agent that spawns a subagent occasionally; only Claude Code
+    is documented, so name only it). Working systems use one orchestrator and two to five workers (Anthropic's research system,
     MetaGPT's five roles, ChatDev's seven). Past a thousand exists in research (MacNet, Project Sid) and nobody
     uses it for work. There is no published histogram of practitioner usage; say so. 45 s.
 12. **You already do this.** Running the same task in Claude Code and Codex and comparing is writer-and-critic with
@@ -77,8 +77,7 @@ Source for every entry in this segment: `research/build-log.md`. Copy file text 
 
 21. **The one paper that says both.** Kim et al. 2026, Towards a science of scaling agent systems: centralized
     multi-agent improved a decomposable task by about 80% and every multi-agent variant made a sequential planning
-    task 39 to 70% worse, in the same experiment. Task shape decides. Diminishing returns once the single agent is
-    already strong. 60 s.
+    task 39 to 70% worse, in the same experiment. Task shape decides. 60 s.
 22. **The rest of the evidence, both sides.** For: Anthropic's research system, lead plus subagents, about 90% better
     than a single agent on breadth research, at about 15 times the tokens. Against: Tran & Kiela 2026, at an equal
     thinking budget a single agent matched or beat five multi-agent designs; Kapoor et al. 2024, one agent framework
@@ -90,15 +89,18 @@ Source for every entry in this segment: `research/build-log.md`. Copy file text 
 
 ## E. Setting it up: simple and difficult (300 s)
 
+Decisions of 2026-09-17: entry 21 lost its unsupported "diminishing returns" sentence; entry 11 names Claude Code
+only; attempt one is described as eleven agent files (fourteen roles if the four researchers and three critics are
+counted separately).
+
 24. **Simple example you can run Monday.** One read-only subagent: given ten target names, query one archive with
     astroquery and return a table under 2,000 tokens. Show the agent file, the one command, and the real result from
-    `examples/*/RESULT.md`: what it returned, what it cost, how long it took. 120 s.
-25. **Difficult example.** This pipeline: ten agents, a script that owns order, loop, and isolation, logs for every
-    call. When to bother: when the work exceeds one context window, the pieces are independent, and the output
-    needs an independent check. Otherwise one agent. 60 s.
+    `examples/*/RESULT.md`: what it returned, what it cost, how long it took. 180 s.
+25. **Folded into 26 on 2026-09-17** (it repeated entries 13 and 26); its minute went to entry 24. 0 s.
 26. **Cost, and when it is worth it.** Multi-agent runs 3 to 15 times a single chat's tokens (Anthropic's own
     figures). Cheap or local models on subagents, the frontier model on the orchestrator; pricing is Nick's talk.
-    Checklist for "worth it": exceeds one window, independent pieces, needs verification, can afford the multiple. 60 s.
+    The difficult example is this pipeline. Checklist for "worth it": exceeds one window, independent pieces,
+    needs verification, can afford the multiple. Otherwise one agent. 60 s.
 27. **Close.** Context, not intelligence. Most tasks need one agent. First step Monday: pull one bounded, read-only
     task into its own agent file, run it once headless, check the return is short. Hand-off in one line: many
     unsupervised agents means you need sandboxing, and that is BJ, next. 60 s.

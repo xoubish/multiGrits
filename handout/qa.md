@@ -15,7 +15,7 @@ fixed pipeline did better. Kim et al. (2026) make the same point quantitatively:
 decomposable tasks and hurts sequential ones by 39–70% (arXiv 2512.08296).
 
 **If pressed:** one prompt works until the task exceeds one context window or needs a reviewer not anchored
-to the draft — most of my own work is still one agent (slide "Difficult example").
+to the draft — most of my own work is still one agent (slide "Cost, and when it is worth it").
 
 ## 2. What did it actually cost to make this talk?
 

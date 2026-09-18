@@ -24,3 +24,9 @@ Review round 2 (run 021): REVISE, 5 must-fix. Revise 022 applied 3, declined the
   longer runs on Haiku by default; reworded to the `model` field). Verified by hand that commit 707ad48 exists
   (`git log`), closing fact-check 025's edit 2. Done during run 026 (notes-writer and qa-skeptic running; both
   read the deck, neither writes it). Check speaker-script.md afterwards for the old Explore wording.
+
+## Speaker decisions applied by the orchestrator (2026-09-17, after the pipeline finished)
+
+Dropped the unsupported diminishing-returns sentence (entry 21). Named Claude Code only (entry 11). "Eleven agent
+files" for attempt one. Folded entry 25 into 26 and gave its 60 s to the Monday example (entry 24, now 180 s).
+Outline, deck, and handout/qa.md updated by hand; the notes stage re-run so the script and handout match.
