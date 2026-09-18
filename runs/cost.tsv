@@ -31,3 +31,4 @@ runs/024-revise	claude-fable-5-1,claude-haiku-4-5-20251001	10	98	108724	5589	1.2
 runs/025-factcheck	claude-haiku-4-5-20251001,claude-sonnet-5	70	50	2085503	26460	1.6628976000000002	314
 runs/026-notes	claude-haiku-4-5-20251001,claude-sonnet-5	16	12	199996	33637	0.6607932	300
 runs/026-qa	claude-haiku-4-5-20251001,claude-sonnet-5	7	8	83273	4979	0.21521360000000003	60
+runs/027-notes	claude-haiku-4-5-20251001,claude-sonnet-5	16	12	216430	29539	0.605864	288
