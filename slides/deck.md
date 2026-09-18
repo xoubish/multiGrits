@@ -22,7 +22,7 @@ style: |
   .cols-even { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
   .cols-even img, .cols-even svg { max-width: 100%; height: auto; }
   .wide { width: 100%; margin-top: 8px; }
-  .cite { font-size: 22px; color: #555; line-height: 1.35; margin-top: -6px; }
+  .cite { font-size: 24px; color: #555; line-height: 1.35; margin-top: -6px; }
   pre {
     font-size: 19px; line-height: 1.35; background: #f4f6f9; border-left: 4px solid #1e3a5f;
     padding: 12px 18px; margin: 0 0 16px; white-space: pre-wrap; word-break: break-word;
@@ -36,7 +36,7 @@ style: |
 
 <!-- _class: title -->
 
-![bg right:45%](illustrations/title.svg)
+![bg right:45% fit](illustrations/title.svg)
 
 # Multi-agent workflows
 
@@ -232,23 +232,16 @@ Transition: "Pattern three adds an adversary."
 
 # Pattern 3: writer and critic
 
-<div class="cols-even">
-<div>
+Pattern three is writer and critic. One agent produces; another reviews adversarially with tools in hand: the tests, the data, the schema. The loop runs a fixed number of rounds, and the script decides that number. A critic without tools rubber-stamps, because all it can do is agree or disagree with prose.
 
-Pattern three is writer and critic. One agent produces; another reviews adversarially with tools in hand: the tests, the data, the schema.
-
-The loop runs a fixed number of rounds, and the script decides that number. A critic without tools rubber-stamps, because all it can do is agree or disagree with prose.
-
-</div>
-<div>
+<div class="wide">
 
 {{diagram:writer-critic}}
 
 </div>
-</div>
 
 <!--
-Entry 9. 60 s. Independence is the point: a reviewer not anchored to the draft.
+Entry 9. 60 s. Independence is the point: a reviewer not anchored to the draft. Diagram runs full width under the text, as on the pipeline slide, so its labels are legible from the back.
 Transition: "Pattern four is not really a fourth topology."
 -->
 
@@ -366,7 +359,7 @@ Everything you are looking at, the slides, the diagrams, the evidence, the notes
 </div>
 
 <!--
-Entry 13, slide 1 of 2. 20 s of 45. Diagram runs full width under the text; in the narrow column it rendered as an unreadable strip.
+Entry 13, slide 1 of 2. 20 s of 45. Diagram runs full width under the text; in the narrow column it rendered as an unreadable strip. Review 021 found the edge labels still small at full width; that is a diagrammer fix (larger Mermaid font or shorter edge labels), not a layout one.
 Transition: "This is the repository."
 -->
 
@@ -459,7 +452,7 @@ Transition: "And then the pipeline finished, and passed every check."
 
 # What came out
 
-<div class="cols">
+<div class="cols-even">
 <div>
 
 Every constraint was met: citations complete, word counts under the cap, segment timing to the second. The fact-checker confirmed 44 citations, 2 partial, 0 not found.
@@ -469,7 +462,7 @@ And it was a wall of cited percentages, plus a twelve-minute demo of screenshots
 </div>
 <div>
 
-![w:440](shots/first-deck-gotcha.png)
+![w:560](shots/first-deck-gotcha.png)
 
 </div>
 </div>
@@ -483,7 +476,7 @@ Transition: "Why did that happen?"
 
 # What came out (2): why
 
-<div class="cols">
+<div class="cols-even">
 <div>
 
 The three critics scored what could be counted: citation counts, words per second, and seconds per slide. Nobody scored whether it was a talk.
@@ -493,7 +486,7 @@ Agents optimize the rubric you write. Taste is not in the rubric, and it cannot 
 </div>
 <div>
 
-![w:440](shots/first-deck-thesis.png)
+![w:560](shots/first-deck-thesis.png)
 
 </div>
 </div>
@@ -605,7 +598,7 @@ evidence  →  example  →  chronicle  →  write (slide-writer + diagrammer + 
   →  notes & qa (parallel)  →  cost
 ```
 
-Evidence, example, and chronicle run one after another: a pipeline. Write is pattern four, three worktrees merged. The loop is writer and critic, and the script owns the loop. Notes and Q&A are fan-out. Cost is a Python script; no model at all.
+Evidence, example, and chronicle run one after another: a pipeline. Write is pattern four, three worktrees merged. The loop is writer and critic, and the script owns the loop. Chronicle runs again, then one revise pass places the new build-log entries. Notes and Q&A are fan-out. Cost is a Python script; no model at all.
 
 <!--
 Entry 18, slide 2 of 2. 30 s of 60. Stage order from README.md and the `all` case of pipeline/run.sh, via the build log. Chronicle runs twice so the deck can describe its own build honestly.
@@ -670,10 +663,10 @@ Transition: "Now the evidence for when this helps and when it hurts."
 
 Kim and colleagues ran the same experiment both ways. Centralized multi-agent improved a decomposable task by about 80 percent, and every multi-agent variant made a sequential planning task 39 to 70 percent worse.
 
-<p class="cite">Kim et al. (2026), Towards a Science of Scaling Agent Systems, arXiv 2512.08296: +80.8% on decomposable financial reasoning with a centralized design; sequential planning degraded by 39 to 70% across all four multi-agent variants (hybrid −39.0%, decentralized −41.4%, centralized −50.4%, independent −70.0%); 260 configurations, 6 benchmarks, 3 model families.</p>
+<p class="cite">Kim et al. (2026), Towards a Science of Scaling Agent Systems, arXiv 2512.08296: +80.8% on decomposable financial reasoning with a centralized design; sequential planning degraded by 39 to 70% across all four multi-agent variants; 260 configurations, 6 benchmarks, 3 model families.</p>
 
 <!--
-Entry 21, slide 1 of 2. 35 s of 60.
+Entry 21, slide 1 of 2. 35 s of 60. Per-variant figures, if asked: hybrid −39.0%, decentralized −41.4%, centralized −50.4%, independent −70.0%.
 Transition: "So what decides? The shape of the task."
 -->
 
@@ -683,11 +676,11 @@ Transition: "So what decides? The shape of the task."
 
 Task shape decides. If the work decomposes into independent pieces, fan out. If each step depends on the last, keep it in one head.
 
-And the returns diminish once the single agent is already strong: the better your one agent, the less a team adds on top of it.
+And my reading of their results, not a number from the paper: the returns diminish once the single agent is already strong. The better your one agent, the less a team adds on top of it.
 
 <!--
-Entry 21, slide 2 of 2. 25 s of 60.
-TODO evidence: "diminishing returns once the single agent is already strong" is in the outline but research/evidence.md does not list a number or quote for it from Kim et al.
+Entry 21, slide 2 of 2. 25 s of 60. The second paragraph is now stated as the speaker's inference, per review 021.
+TODO evidence: "diminishing returns once the single agent is already strong" is in the outline but research/evidence.md does not list a number or quote for it from Kim et al. If the evidence-finder supplies one, move it to a cite line and drop "my reading."
 Transition: "Here is the rest of the evidence, both sides."
 -->
 
@@ -697,10 +690,10 @@ Transition: "Here is the rest of the evidence, both sides."
 
 For. Anthropic's research system, a lead agent plus subagents, did about 90 percent better than a single agent on breadth research, at about 15 times the tokens of a chat.
 
-<p class="cite">Anthropic (June 2025), How we built our multi-agent research system, anthropic.com/engineering: outperformed single-agent Claude Opus 4 by 90.2% on an internal breadth-research evaluation; multi-agent systems use about 15× more tokens than chats, and token count alone explained 80% of the variance. A vendor claim, not independently replicated.</p>
+<p class="cite">Anthropic (June 2025), How we built our multi-agent research system, anthropic.com/engineering: outperformed single-agent Claude Opus 4 by 90.2% on an internal breadth-research evaluation; multi-agent systems use about 15× more tokens than chats. A vendor claim, not independently replicated.</p>
 
 <!--
-Entry 22, slide 1 of 3. 25 s of 75. (Cut candidate 2: drop entry 22, keep Kim et al. only.)
+Entry 22, slide 1 of 3. 25 s of 75. Same post: token count alone explained 80% of the variance in performance. (Cut candidate 2: drop entry 22, keep Kim et al. only.)
 Transition: "Against, twice."
 -->
 
@@ -710,11 +703,11 @@ Transition: "Against, twice."
 
 Against. At an equal thinking budget, a single agent matched or beat five multi-agent designs. Multi-agent won only when most of the context had been masked or corrupted.
 
-<p class="cite">Tran and Kiela (April 2026), arXiv 2604.02460: at a 5,000-token budget, single-agent scored 0.427 against 0.386 for sequential multi-agent, aggregated over three model families; multi-agent won only with up to 70% of the context masked.</p>
+<p class="cite">Tran and Kiela (April 2026), arXiv 2604.02460, title to be confirmed by the fact-checker: at a 5,000-token budget, single-agent scored 0.427 against 0.386 for sequential multi-agent, aggregated over three model families; multi-agent won only with up to 70% of the context masked.</p>
 
 <!--
 Entry 22, slide 2 of 3. 25 s of 75.
-TODO evidence: research/evidence.md gives no title for Tran and Kiela 2026 (nor does any file in the repo; checked at run 020); the citation on the slide has authors, year, and arXiv id only. The evidence-finder or fact-checker must supply the title; I will not invent one.
+TODO evidence: research/evidence.md gives no title for Tran and Kiela 2026 (nor does any file in the repo; re-checked at run 022); the citation carries authors, year, and arXiv id and says the title is unconfirmed. The fact-checker stage must supply it; I will not invent one. If none is verified before talk day, taking the outline's cut 2 (Kim et al. only) is the speaker's call, not mine.
 Transition: "And the cost side."
 -->
 
@@ -780,13 +773,15 @@ model: haiku
 ```
 
 <!--
-Entry 24, slide 1 of 4. 30 s of 120. examples/exoplanet-lookup/.claude/agents/exoplanet-lookup.md, lines 1-6; description truncated at […] so the block renders legibly. Full text continues: "Returns a compact table, not a dump. Use for quick target-list checks." The outline says "under 2,000 tokens"; the agent file as built says 600.
+Entry 24, slide 1 of 5. 25 s of 120. examples/exoplanet-lookup/.claude/agents/exoplanet-lookup.md, lines 1-6; description truncated at […] so the block renders legibly. Full text continues: "Returns a compact table, not a dump. Use for quick target-list checks." The outline says "under 2,000 tokens"; the agent file as built says 600.
 Transition: "The instructions."
 -->
 
 ---
 
 # Simple example you can run Monday (2): the instructions
+
+Below the frontmatter, three rules in plain English: read the file, query the archive, and say "not found" rather than invent a number.
 
 ```
 You are given a path to a text file with one exoplanet name per line (up to ten names).
@@ -797,7 +792,20 @@ Do this:
    columns: `pl_name, hostname, pl_orbper, pl_rade, pl_bmasse, disc_year`. One Python process,
    one query per name (or a single `where` clause with all names), is fine.
 3. If a name has no match, say "not found" in that row. Do not invent numbers.
+```
 
+<!--
+Entry 24, slide 2 of 5. 20 s of 120. Lines 7-14 of the agent file, exact. Read aloud the three rules: read, query, say "not found" rather than invent.
+Transition: "Then what to send back."
+-->
+
+---
+
+# Simple example you can run Monday (3): the return format
+
+Then the return format. This is the part that keeps the subagent from dumping its whole session back into my window: one table, a source line, and a token cap.
+
+```
 Return only a single compact markdown table, one row per input name, columns:
 `name | host | period_days | radius_earth | mass_earth | disc_year`.
 Round numbers to 3 significant figures. No prose before or after the table, except a one-line
@@ -806,13 +814,13 @@ header stating the source ("NASA Exoplanet Archive, pscomppars"). Keep the whole
 ```
 
 <!--
-Entry 24, slide 2 of 4. 30 s of 120. Lines 7-20 of the agent file, exact. Read aloud the three rules: read, query, say "not found" rather than invent.
+Entry 24, slide 3 of 5. 15 s of 120. Lines 16-20 of the agent file, exact. Weave in: summaries, not dumps.
 Transition: "One command."
 -->
 
 ---
 
-# Simple example you can run Monday (3): the command
+# Simple example you can run Monday (4): the command
 
 One command, headless, with a one-dollar cap. The output is JSON, so the cost and the token counts come back with the answer.
 
@@ -823,13 +831,13 @@ env -u CLAUDECODE claude -p --agent exoplanet-lookup --allowedTools "Read,Bash" 
 ```
 
 <!--
-Entry 24, slide 3 of 4. 25 s of 120. From examples/exoplanet-lookup/RESULT.md; run.sh in the same directory wraps it and saves the JSON under runs/.
+Entry 24, slide 4 of 5. 25 s of 120. From examples/exoplanet-lookup/RESULT.md; run.sh in the same directory wraps it and saves the JSON under runs/.
 Transition: "And here is what actually came back."
 -->
 
 ---
 
-# Simple example you can run Monday (4): the real result
+# Simple example you can run Monday (5): the real result
 
 ```
 NASA Exoplanet Archive, pscomppars
@@ -844,7 +852,7 @@ NASA Exoplanet Archive, pscomppars
 Ten rows, about 250 tokens. Model `claude-haiku-4-5`, cost $0.0751, wall time 82.5 seconds, 8 turns. One caveat: total output including thinking was 7,321 tokens, so the cap applies to the table I see, not to everything the agent emits.
 
 <!--
-Entry 24, slide 4 of 4. 35 s of 120. Three of the ten rows shown; the full table is in examples/exoplanet-lookup/RESULT.md and the handout. It succeeded on the first real attempt.
+Entry 24, slide 5 of 5. 35 s of 120. Three of the ten rows shown; the full table is in examples/exoplanet-lookup/RESULT.md and the handout. It succeeded on the first real attempt.
 Transition: "That is the simple end. The difficult end is this talk."
 -->
 
@@ -893,7 +901,7 @@ Transition: "Let me close."
 
 # Close
 
-![bg right:45%](illustrations/close.svg)
+![bg right:45% fit](illustrations/close.svg)
 
 Context, not intelligence. Most tasks need one agent.
 

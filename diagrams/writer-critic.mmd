@@ -1,8 +1,8 @@
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "22px", "primaryColor": "#eef3f8", "primaryBorderColor": "#1e3a5f", "primaryTextColor": "#111", "lineColor": "#1e3a5f"}}}%%
 flowchart LR
-  S["Script\n(owns the loop)"] -->|"task"| W["Writer"]
+  S["Script"] -->|"task"| W["Writer"]
   W -->|"draft"| C["Critic"]
-  Tt["Tests, schema, data"] -.->|"read by"| C
+  T["Tests, data"] -.-> C
   C -->|"critique"| S
   S -->|"revise"| W
-  C -->|"pass"| F["Approved artifact"]
+  C -->|"pass"| F["Approved"]
