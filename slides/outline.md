@@ -1,6 +1,6 @@
 # Outline — Multi-agent workflows (GRITS AI workshop, IPAC, September 2026)
 
-> Edited 2026-09-18 on the speaker's instruction: entries 1, 2, 24, 26 and 27 reworded so the posted slides stand
+> Edited 2026-09-18 on the speaker's instruction: entries 1, 2, 24, 26 and 27 reworded, entries 2 and 3 merged, so the posted slides stand
 > alone (no other speakers or sessions named) and read in a formal register. Structure and timing unchanged.
 
 Written by the speaker, 2026-09-17. This file is the structure of the talk. Agents draft slides for each entry
@@ -11,15 +11,17 @@ full sentences and complete citations, not talking points.
 ## A. One collaborator, then more (240 s)
 
 1. **Title.** Multi-agent workflows. Shoubaneh Hemmati, Caltech/IPAC. GRITS AI workshop, September 2026. 15 s.
-2. **One collaborator.** One-line framing only: the reader has used a coding agent such as Claude Code or Codex
-   on real work; that is assumed and not re-explained. The question of this talk is when a second agent is worth
-   having. 45 s.
-3. **Why not more than one?** These agents have been the best collaborator I have had: do this, check that, write
-   the code, debug it. The obvious next thought is a team of them. Pose the question honestly; do not answer yet. 60 s.
+2. **One collaborator, then more.** The reader has used a coding agent such as Claude Code or Codex on real work;
+   that is assumed and not re-explained. A single agent already plans, writes, checks, and debugs on request, and
+   has been the best collaborator I have had. The obvious next step is a team of them; the talk poses that
+   question before answering it. 105 s.
+3. *(Merged into entry 2 on 2026-09-18 on the speaker's instruction; kept as a placeholder so later entry numbers
+   and the cuts list stay valid.)*
 4. **Why do people work in teams?** Three reasons: limited time, limited knowledge, limited attention. For agents
-   only two of the three hold. Two copies of the same model know exactly the same things, so adding agents adds no
-   expertise. It adds attention (a fresh context window) and time (parallel wall-clock), plus one thing people
-   also get from a colleague: independence, a reviewer not anchored to the draft. 60 s.
+   the knowledge reason is the weakest: two copies of one model know the same things, though different models, or
+   agents given different tools and data, can add some expertise. What an added agent reliably brings is attention
+   (a fresh context window) and time (parallel wall-clock), plus one thing people also get from a colleague:
+   independence, a reviewer not anchored to the draft. 60 s. *(Reworded 2026-09-18 on the speaker's instruction.)*
 5. **So what multi-agent brings, and the thesis.** Context, not intelligence. One agent's window fills and its
    quality degrades before it hits the token limit (lost-in-the-middle, RULER). Parallelism and specialization are
    second-order. Most tasks do not need it. 60 s.

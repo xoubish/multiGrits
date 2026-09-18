@@ -53,30 +53,16 @@ Transition: "One collaborator first."
 
 ---
 
-# One collaborator
+# One collaborator, then more
 
-This talk assumes prior use of a coding agent such as Claude Code or Codex on real work. That experience is taken as given and is not re-explained here.
-
-The question of this talk is when a second agent is worth having.
-
-<!--
-Entry 2. 45 s. One-line framing only; do not re-teach agents or Claude Code.
-Transition: "The temptation to add more is obvious."
--->
-
----
-
-# Why not more than one?
-
-These agents have been the best collaborator I have had. A single coding agent already plans, writes, checks, and debugs on request.
+This talk assumes prior use of a coding agent such as Claude Code or Codex on real work. A single agent already plans, writes, checks, and debugs on request, and it has been the best collaborator I have had.
 
 When one collaborator works that well, the obvious next step is a team of them. This talk poses that question before answering it.
 
 <!--
-Entry 3. 60 s. Pose the question; do not answer. (Cut candidate 4: fold into entry 4 if running long.)
+Entries 2 and 3, merged 2026-09-18 on the speaker's instruction. 105 s. Do not re-teach agents or the tools; pose the question, do not answer it yet.
 Transition: "A different question comes first: why do people work in teams?"
 -->
-
 ---
 
 # Why do people work in teams?
@@ -105,12 +91,11 @@ Transition: "For agents, only two of those three hold."
 
 # Which of those reasons hold for agents?
 
-For agents, only two of those three reasons hold. Two copies of the same model know exactly the same things, so adding an agent adds no expertise.
+For agents, the knowledge reason is the weakest. Two copies of one model know the same things; different models, or agents given different tools and data, can add some expertise, but that is the smaller gain.
 
-It does add attention, a fresh context window, and time, parallel wall-clock. And it adds one thing a colleague also provides: independence, a reviewer who is not anchored to the draft.
-
+What an added agent reliably brings is attention, a fresh context window, and time, parallel wall-clock. It also brings independence: a reviewer who is not anchored to the draft.
 <!--
-Entry 4, slide 2 of 2. 30 s of 60.
+Entry 4, slide 2 of 2. 30 s of 60. Reworded 2026-09-18: heterogeneous agents (different models, tools, or data) can add knowledge; the point is that the reliable gains are attention and time.
 Transition: "That is the thesis."
 -->
 
