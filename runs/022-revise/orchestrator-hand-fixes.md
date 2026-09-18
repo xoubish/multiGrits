@@ -9,3 +9,10 @@ Applied by the orchestrating session, not by an agent, because the files belong 
 - `slides/deck.md` (after run 022 finished, before run 024 started): inserted the Tran and Kiela title on the
   citation slide and the Sources slide, and replaced the TODO note. The slide-writer had declined twice, correctly,
   because it could not verify the title itself.
+
+## Loop outcome (from runs/pipeline-all.log)
+
+Review round 1 (run 019): REVISE, 4 must-fix. Revise 020 applied 3, declined the paper title (unverifiable).
+Review round 2 (run 021): REVISE, 5 must-fix. Revise 022 applied 3, declined the title and the diagram labels
+(diagrammer's files). Both declined items were then applied by the orchestrator, above. The script stopped at its
+2-round limit with the verdict REVISE and printed "Human review needed"; that human review is this file.

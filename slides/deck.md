@@ -614,7 +614,7 @@ Transition: "Here is what attempt two has done so far, run by run."
 **Run 016, example.** `example-builder`, the only agent with Bash, built and ran the exoplanet lookup you will see shortly. 28 turns, $0.3209, 207 seconds.
 
 <!--
-Entry 19, slide 1 of 2. 40 s of 75. (Cut candidate 1: drop entry 19 and say "every stage is in runs/, one line each in the handout" on entry 20.)
+Entry 19, slide 1 of 5. 27 s of 75. (Cut candidate 1: drop entry 19 and say "every stage is in runs/, one line each in the handout" on entry 20.)
 Transition: "Then the chronicler."
 -->
 
@@ -622,12 +622,51 @@ Transition: "Then the chronicler."
 
 # Attempt two, step by step (2)
 
-**Run 017, chronicle.** `chronicler` read every run directory, the cost report, the agent files, and the outline, and wrote `research/build-log.md`, the source for everything in this segment. Its own cost was not yet recorded when it wrote that file.
+**Run 017, chronicle.** `chronicler`, Haiku 4.5 and Sonnet 5, read every run directory, the cost report, the agent files, the outline, and the README, and wrote the first `research/build-log.md`. 38 turns, $0.4361, 128 seconds.
 
-**Run 018 onward:** write, the review loop, a second chronicle pass, fact-check, notes and Q&A, cost. The second chronicle pass records those, and the build log fills in.
+**Run 018, write.** Pattern four: `slide-writer`, `diagrammer`, and `illustrator` in three git worktrees at once, merged by the script with no conflict. 42 turns, $4.1925 for the stage.
 
 <!--
-Entry 19, slide 2 of 2. 35 s of 75. If the second chronicle pass has run by talk day, the revise stage should replace the last paragraph with the recorded runs.
+Entry 19, slide 2 of 5. 12 s of 75. Per worktree, from the build log: slide-writer, session model, 16 turns, $3.0735, 359 s, wrote slides/deck.md with 53 slides; diagrammer, Sonnet 5, 16 turns, $0.1811, 60 s, five Mermaid files; illustrator, session model, 10 turns, $0.9379, 115 s, five SVGs plus slides/illustrations/README.md. Disjoint files, so the merge was clean.
+Transition: "Then the loop: a critic, then the writer, twice."
+-->
+
+---
+
+# Attempt two, step by step (3)
+
+**Run 019, critique.** `reviewer`, session model, read the deck and all 54 rendered slide images. 64 turns, $2.9727, 150 seconds. Verdict: REVISE. The illustrations were never placed, two code blocks rendered at about 7 pixels, two diagrams were squeezed unreadable.
+
+**Run 020, revise.** `slide-writer` placed the illustrations, fixed the code blocks, took the diagrams full width. 27 turns, $1.6625, 132 seconds.
+
+<!--
+Entry 19, slide 3 of 5. 12 s of 75. Round one of the writer-critic loop. Run 020 also declined the Tran & Kiela title because no file in the repo had one.
+Transition: "Round two."
+-->
+
+---
+
+# Attempt two, step by step (4)
+
+**Run 021, critique.** `reviewer` again: 63 turns, $2.9859, 171 seconds. Verdict: REVISE. Two illustrations were cover-cropped, the Tran and Kiela citation still lacked a title, and one sentence about diminishing returns had no source.
+
+**Run 022, revise.** `slide-writer` fixed the crops, split a fourteen-line code slide in two, and rewrote that sentence as my own inference. 29 turns, $1.4847, 100 seconds.
+
+<!--
+Entry 19, slide 4 of 5. 12 s of 75. Run 022 was the second and last round `--rounds 2` allows. The script logs "rounds exhausted; human review needed" if the verdict is still REVISE; no run 023-critique exists, so the loop's final verdict is not recorded.
+Transition: "Then the chronicler came back."
+-->
+
+---
+
+# Attempt two, step by step (5)
+
+**Run 023, chronicle.** The second chronicler pass wrote the build log this segment is read from, covering runs 015 through 022. Its own cost was not yet recorded when it wrote that file.
+
+Then one revise pass to place those entries, which is the one you are reading. Not yet run when the log was written: fact-check, notes and Q&A in parallel, and cost.
+
+<!--
+Entry 19, slide 5 of 5. 12 s of 75. If the remaining stages have run by talk day, their numbers are in runs/ and the handout; do not quote them from memory.
 Transition: "Which brings me to the bill."
 -->
 
@@ -637,10 +676,10 @@ Transition: "Which brings me to the bill."
 
 Attempt one, runs 002 through 014: $29.22, 1,222 turns, 578,569 output tokens, 6,169 seconds of agent time. Run 001, the interactive research fan-out, is extra and was recorded by hand.
 
-Attempt two, through run 016: $1.0495 and 65 turns. Running total across both attempts, as of run 016: $30.27.
+Attempt two, runs 015 through 022: $14.7838, 328 turns, 1,593 seconds of wall time. Running total across both attempts, as of run 022: about $44.00. The chronicle pass that recorded this, and every stage after it, are not in that number.
 
 <!--
-Entry 20, slide 1 of 2. 20 s of 45. Numbers from research/build-log.md section 5.
+Entry 20, slide 1 of 2. 20 s of 45. Numbers from research/build-log.md section 5: $29.22 + $14.7838 = $44.0038, summed from each run's own cost-row.tsv because runs/cost-report.md has not been regenerated past run 014.
 Transition: "And every dollar has a receipt."
 -->
 
