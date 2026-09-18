@@ -1,0 +1,2 @@
+time	run_dir	agent	models	turns	input	cache_read	cache_write	output	usd	duration_ms	wall_s	is_error
+2026-09-17T17:00:01	runs/018-write/slides	slide-writer	claude-fable-5-1,claude-haiku-4-5-20251001	16	194	226550	72102	31436	3.0734994999999996	357782	359	False
