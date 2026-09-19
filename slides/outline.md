@@ -38,7 +38,7 @@ full sentences and complete citations, not talking points.
 
 6. **Elements of a multi-agent system, one slide each.** In this talk's terms, three choices: who orchestrates
    (script, model, or human; code deciding the order is a workflow, the model deciding is an agent, Anthropic 2024;
-   this pipeline is a workflow), isolation (shared or fresh context, shared files or separate worktrees; a Claude
+   do not say yet that this repo's pipeline is a workflow, that is the reveal in entry 13), isolation (shared or fresh context, shared files or separate worktrees; a Claude
    Code subagent starts fresh), and topology (shared or fresh context, shared files or separate worktrees; a
    Claude Code subagent starts fresh). The literature says coordination architecture or structure (Kim et al. 2026;
    Tran et al. 2025), orchestrator-workers (Anthropic 2024), context or worktree isolation (Anthropic 2026); the

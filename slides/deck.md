@@ -233,7 +233,7 @@ Transition: "The first axis: who decides the order."
 - A script fixes the sequence in advance: which agent runs, in what order, how many rounds. Anthropic calls this a workflow.
 - The model chooses each next step at run time, including whether to call another agent. Anthropic calls this an agent (Anthropic 2024).
 - A person can orchestrate too: two terminals, the human as merge point.
-- Scripts are reproducible; a model deciding is flexible but hard to reproduce. This pipeline is a workflow.
+- Scripts are reproducible; a model deciding is flexible but hard to reproduce.
 
 </div>
 <div>
@@ -243,7 +243,7 @@ Transition: "The first axis: who decides the order."
 </div>
 </div>
 <!--
-Entry 6, slide 2 of 4. 20 s of 80. Illustration: orchestrator.svg, one robot at a desk with two laptops, right of the text. Anthropic's advice in the same post: use the simplest arrangement that works. Anthropic, "Building effective agents", December 2024, also names five workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer); they map onto the four here and are not used further. This is Anthropic's taxonomy, not a field consensus.
+Entry 6, slide 2 of 4. 20 s of 80. Illustration: orchestrator.svg, one robot at a desk with two laptops, right of the text. Anthropic's advice in the same post: use the simplest arrangement that works. Anthropic, "Building effective agents", December 2024, also names five workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer); they map onto the four here and are not used further. This is Anthropic's taxonomy, not a field consensus. Do not say here that this repo's pipeline is a workflow; that is the reveal on the "This deck was built by the pipeline in this repo" slide (removed 2026-09-18 on the speaker's instruction).
 Transition: "The second axis: what the agents share."
 -->
 
