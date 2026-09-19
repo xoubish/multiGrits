@@ -168,9 +168,18 @@ counted separately).
 
 Open floor. Likely questions are in `handout/qa.md`.
 
-## Sources (not presented)
+## References (not presented)
 
-Every URL cited on a slide, one per line, grouped by segment.
+One slide, two columns at 14px, alphabetical, merged from the two Sources slides on 2026-09-19. Thirty unique
+entries after removing three duplicates that appeared on both. URLs without the `https://` prefix so each entry
+fits one line. Full reference text, with the finding
+each source supports, is in `research/evidence.md`.
+
+## Appendix (not presented, not counted)
+
+A1. **The same stage in Codex.** A mapping table from the Claude Code call to `codex exec`, plus the two things
+    that do not translate: there is no per-call `--agent` flag, and there is no budget cap. Added 2026-09-19
+    after a question about running an OpenAI model from the same script.
 
 ## Cuts if running long
 

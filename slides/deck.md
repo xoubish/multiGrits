@@ -55,6 +55,11 @@ style: |
   }
   pre code { white-space: pre-wrap; word-break: break-word; font-size: inherit; }
   code { font-family: Menlo, Consolas, "Courier New", monospace; }
+  section.refs { justify-content: flex-start; }
+  section.refs h1 { font-size: 36px; margin: 0 0 16px; }
+  section.refs .twocol { columns: 2; column-gap: 36px; }
+  section.refs p { font-size: 14px; line-height: 1.32; margin: 0 0 5px; break-inside: avoid; }
+  section.refs .note { font-size: 14px; color: #555; margin-top: 12px; columns: 1; }
   section.sources { font-size: 17px; line-height: 1.5; }
   section.sources h1 { font-size: 30px; margin-bottom: 14px; }
   section.sources p { margin: 0 0 6px; }
@@ -1062,86 +1067,97 @@ Transition: hand off to the following session.
 
 ---
 
-<!-- _class: sources -->
+<!-- _class: refs -->
 
-# Sources: segments A and B
+# References
 
-Simon, H. A. (1971), Designing Organizations for an Information-Rich World, in M. Greenberger (ed.), Computers, Communications, and the Public Interest, Johns Hopkins Press, pp. 37–72.
+<div class="twocol">
 
-Brown et al. (2020), Language Models are Few-Shot Learners: https://arxiv.org/abs/2005.14165
+Altera.AL (2024), Project Sid. arxiv.org/abs/2411.00114
 
-Gemini Team (2024), Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context: https://arxiv.org/abs/2403.05530
+Anthropic (Dec 2024), Building effective agents. anthropic.com/research/building-effective-agents
 
-Anthropic (2026), Models overview, Claude Platform docs: https://platform.claude.com/docs/en/about-claude/models
+Anthropic (Jun 2025), How we built our multi-agent research system. anthropic.com/engineering/multi-agent-research-system
 
-Liu et al. (2023), Lost in the Middle: https://arxiv.org/abs/2307.03172
+Anthropic, Phillips et al. (Jan 2026), Building multi-agent systems: when and how to use them. claude.com/blog
 
-Hsieh et al. (2024), RULER: https://arxiv.org/abs/2404.06654
+Anthropic (2026), Models overview. platform.claude.com/docs/en/about-claude/models
 
-Tran et al. (2025), Multi-Agent Collaboration Mechanisms: A Survey of LLMs: https://arxiv.org/abs/2501.06322
+Anthropic (2026), Subagents, Claude Code docs. code.claude.com/docs/en/sub-agents
 
-Kuratov et al. (2024), BABILong: Testing the Limits of LLMs with Long Context Reasoning-in-a-Haystack: https://arxiv.org/abs/2406.10149
+Anthropic (2026), Run parallel sessions with worktrees. code.claude.com/docs/en/worktrees
 
-Modarressi et al. (2025), NoLiMa: Long-Context Evaluation Beyond Literal Matching: https://arxiv.org/abs/2502.05167
+Anthropic (2026), Orchestrate teams of Claude Code sessions. code.claude.com/docs/en/agent-teams
 
-Jarvella, R. J. (1971), Syntactic processing of connected speech, Journal of Verbal Learning and Verbal Behavior 10, 409–416.
+Brown et al. (2020), Language Models are Few-Shot Learners. arxiv.org/abs/2005.14165
 
-Guo and Vosoughi (2025), Serial Position Effects of Large Language Models, Findings of ACL 2025: https://arxiv.org/abs/2406.15981
+Cemri et al. (2025), Why Do Multi-Agent LLM Systems Fail? (MAST). arxiv.org/abs/2503.13657
 
-Hu et al. (2026), Memory in the Age of AI Agents: A Survey, Forms, Functions and Dynamics: https://arxiv.org/abs/2512.13564
+Gao et al. (2026), A Survey of Self-Evolving Agents, TMLR. arxiv.org/abs/2507.21046
 
-Gao et al. (2026), A Survey of Self-Evolving Agents: What, When, How, and Where to Evolve, TMLR: https://arxiv.org/abs/2507.21046
+Gemini Team (2024), Gemini 1.5: multimodal understanding across millions of tokens. arxiv.org/abs/2403.05530
 
-Li et al. (2024), Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach: https://arxiv.org/abs/2407.16833
+Guo and Vosoughi (2025), Serial Position Effects of LLMs, Findings of ACL. arxiv.org/abs/2406.15981
 
-Anthropic (December 2024), Building effective agents: https://www.anthropic.com/research/building-effective-agents
+Hong et al. (2024), MetaGPT. arxiv.org/abs/2308.00352
 
-Anthropic (2026), Run parallel sessions with worktrees, Claude Code docs: https://code.claude.com/docs/en/worktrees
+Hsieh et al. (2024), RULER: What's the Real Context Size? arxiv.org/abs/2404.06654
 
-Anthropic (2026), Subagents, Claude Code docs: https://code.claude.com/docs/en/sub-agents
+Hu et al. (2026), Memory in the Age of AI Agents: A Survey. arxiv.org/abs/2512.13564
 
-Anthropic (June 2025), How we built our multi-agent research system: https://www.anthropic.com/engineering/multi-agent-research-system
+Jarvella (1971), Syntactic processing of connected speech. J. Verbal Learning and Verbal Behavior 10, 409–416
 
-Li et al. (2024), More Agents Is All You Need, TMLR: https://arxiv.org/abs/2402.05120
+Kapoor et al. (2024), AI Agents That Matter. arxiv.org/abs/2407.01502
 
-Anthropic (2026), Orchestrate teams of Claude Code sessions, Claude Code docs: https://code.claude.com/docs/en/agent-teams
+Kim et al. (2026), Towards a Science of Scaling Agent Systems. arxiv.org/abs/2512.08296
 
-Hong et al. (2024), MetaGPT: https://arxiv.org/abs/2308.00352
+Kuratov et al. (2024), BABILong. arxiv.org/abs/2406.10149
 
-Qian et al. (2024), ChatDev: https://arxiv.org/abs/2307.07924
+Li et al. (2024), More Agents Is All You Need, TMLR. arxiv.org/abs/2402.05120
 
-Qian et al. (2024), MacNet, Scaling Large Language Model-based Multi-Agent Collaboration: https://arxiv.org/abs/2406.07155
+Li et al. (2024), RAG or Long-Context LLMs? EMNLP. arxiv.org/abs/2407.16833
 
-Altera.AL (2024), Project Sid: https://arxiv.org/abs/2411.00114
+Liu et al. (2023), Lost in the Middle. arxiv.org/abs/2307.03172
+
+Modarressi et al. (2025), NoLiMa, ICML. arxiv.org/abs/2502.05167
+
+OpenAI (2026), Codex: non-interactive mode, and subagents. learn.chatgpt.com/codex
+
+Qian et al. (2024), ChatDev. arxiv.org/abs/2307.07924
+
+Qian et al. (2024), MacNet: Scaling LLM-based Multi-Agent Collaboration. arxiv.org/abs/2406.07155
+
+Simon (1971), Designing Organizations for an Information-Rich World, in Greenberger (ed.), Johns Hopkins Press
+
+Tran and Kiela (2026), Single-Agent LLMs Outperform Multi-Agent Systems. arxiv.org/abs/2604.02460
+
+Tran et al. (2025), Multi-Agent Collaboration Mechanisms: A Survey. arxiv.org/abs/2501.06322
+
+</div>
 
 <!--
-Not presented.
+Not presented. The two Sources slides were merged into one on 2026-09-19 on the speaker's instruction, alphabetical, two columns at 14px, with three duplicate entries removed (Anthropic June 2025, Gao et al. 2026, and the subagents doc, each of which appeared on both). URLs are given without the https:// prefix to fit one line each; every one resolves. Full reference text, including the findings each source supports, is in research/evidence.md. The note about segment C citing only this repository was removed on 2026-09-19; the repository URL is already on the title slide and the repository slide.
 -->
 
 ---
 
-<!-- _class: sources -->
+# Appendix: the same stage in Codex
 
-# Sources: segments C, D, and E
+The shape is portable. The agent file becomes TOML, and `codex exec` is the headless call.
 
-Segment C has no external sources: research/build-log.md, README.md, pipeline/run.sh, .claude/agents/reviewer.md, examples/exoplanet-lookup/, and runs/ in this repository: https://github.com/xoubish/multiGrits. The first deck is at commit 707ad48.
+| Claude Code | Codex |
+|---|---|
+| `.claude/agents/reviewer.md` | `.codex/agents/reviewer.toml` |
+| `claude -p "…"` | `codex exec "…"` |
+| `--output-format json` | `--json`, a JSON Lines stream |
+| `--no-session-persistence` | `--ephemeral` |
+| `--allowedTools "Read,Grep"` | `sandbox_mode` in the file, or `--sandbox` |
+| `--model sonnet` | `--model gpt-5.6-luna` |
 
-Kim et al. (2026), Towards a Science of Scaling Agent Systems: https://arxiv.org/abs/2512.08296
-
-Anthropic (June 2025), How we built our multi-agent research system: https://www.anthropic.com/engineering/multi-agent-research-system
-
-Tran and Kiela (April 2026), Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets: https://arxiv.org/abs/2604.02460
-
-Kapoor et al. (2024), AI Agents That Matter: https://arxiv.org/abs/2407.01502
-
-Cemri et al. (2025), Why Do Multi-Agent LLM Systems Fail? (MAST): https://arxiv.org/abs/2503.13657
-
-Gao et al. (2026), A Survey of Self-Evolving Agents, TMLR (deployment checklist, Table 12): https://arxiv.org/abs/2507.21046
-
-Anthropic, Phillips et al. (January 2026), Building multi-agent systems: when and how to use them: https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them
-
-Anthropic (2026), Create custom subagents, Claude Code docs: https://code.claude.com/docs/en/sub-agents
+- **No `--agent` flag.** Codex spawns a subagent when the prompt asks, so concatenate the agent file and the prompt.
+- **No budget cap.** Nothing corresponds to `--max-budget-usd`.
 
 <!--
-Not presented.
+Sources: OpenAI (2026), Codex non-interactive mode and Codex subagents, learn.chatgpt.com/codex, fetched 2026-09-19; model names change, so check the docs before quoting gpt-5.6-luna. The budget-cap gap matters because `--max-budget-usd` is the flag that caught the run 006 failure.
+Appendix, not presented and not counted in the time budget. Added 2026-09-19 on the speaker's instruction, after a question about whether `claude -p` can drive an OpenAI model. It cannot: `--model` takes Claude aliases and Claude model IDs only, and the Bedrock, Vertex and Foundry backends all serve Claude. If anyone asks in Q&A, the useful line is that `--agent` is doing nothing magic, it prepends a file as the system prompt, and you can do that by hand in any tool. Also worth saying: `--json` in Codex is a stream of events, not one object with the cost in it, so a cost logger would read the last event rather than parse a single result.
 -->

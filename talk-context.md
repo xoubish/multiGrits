@@ -108,6 +108,7 @@ Stages: `evidence` (one source per claim in the outline) → `example` (build an
   Rhetorical questions only as slide titles. First person is allowed where the build narrative needs it (what the
   speaker did and decided), and nowhere else.
 - The speaker reads from the slides. Slides are complete: full sentences that read well aloud.
+- An appendix after the Sources slides is allowed, is not presented, and is not counted in the time budget.
 - Marp markdown. One or more slides per outline entry, in outline order; split rather than shrink; continuation
   slides carry their own subtitle, never a "(2)" suffix. The repository URL appears on the title and Sources slides. At most about
   60 words of body per slide so it stays readable at 24px from the back. Graphics welcome alongside text.
