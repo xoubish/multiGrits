@@ -42,30 +42,25 @@ full sentences and complete citations, not talking points.
    Code subagent starts fresh), and topology (shared or fresh context, shared files or separate worktrees; a
    Claude Code subagent starts fresh). The literature says coordination architecture or structure (Kim et al. 2026;
    Tran et al. 2025), orchestrator-workers (Anthropic 2024), context or worktree isolation (Anthropic 2026); the
-   three-way split is the speaker's own. Then the four patterns as settings of the three choices. 80 s.
+   three-way split is the speaker's own. The topology slide is a grid of three shapes with a figure and an example each: chain (pipeline), fan-out and
+   merge, loop (writer and critic). Isolation is spoken as a property any shape can have, not a fourth shape
+   (corrected 2026-09-19). 140 s.
    *(Restructured 2026-09-18 on the speaker's instruction; was "Workflows, architectures, and three axes", 60 s.
    The 20 s came from entry 11.)*
-7. **Pattern 1, fan-out and merge.** {{diagram:fan-out}} Independent pieces, one merge point. Astronomy: one agent
-   per archive (IRSA, NED, Exoplanet Archive) for a target list, merged into one table. 60 s.
-8. **Pattern 2, pipeline.** {{diagram:pipeline}} Sequential steps, each with a fresh context, files as the hand-off.
-   Planner, implementer, tester. 60 s.
-9. **Pattern 3, writer and critic.** {{diagram:writer-critic}} One produces, one reviews adversarially with tools in
-   hand (tests, data, schema), the loop runs a fixed number of rounds. A critic without tools rubber-stamps. 60 s.
-10. **Pattern 4, parallel isolated workers.** {{diagram:parallel-workers}} Not a fourth topology: fan-out with the
-    isolation choice made explicit. One git worktree per agent, merged at the end. The failure it prevents: two
-    agents, one file, last write wins. 60 s.
+7. to 10. *(Folded into entry 6's topology slide on 2026-09-19 on the speaker's instruction: the 2x2 grid carries
+   each pattern's figure, shape, and one example, including the archive fan-out, files as hand-off, the critic with
+   tools, and `isolation: worktree`. Entry 6 is now 140 s; the remaining 180 s of the former 240 s are unallocated
+   and fall to Q&A unless the speaker moves them.)*
 11. **How many agents?** One is today's default (Claude Code runs one agent that spawns a subagent occasionally; only Claude Code
     is documented, so name only it). Working systems use one orchestrator and two to five workers (Anthropic's research system,
     MetaGPT's five roles, ChatDev's seven). Past a thousand exists in research (MacNet, Project Sid) and nobody
-    uses it for work. There is no published histogram of practitioner usage; say so. 25 s. *(45 s until 2026-09-18; 20 s moved to entry 6.)*
-12. **You already do this.** Running the same task in Claude Code and Codex and comparing is writer-and-critic with
-    you as orchestrator. Two terminals on two tasks is fan-out. Claude Code spawns an Explore subagent without
-    asking. The question is when to make it deliberate, and when to replace yourself with a script. 45 s.
-
-## C. Example: this talk was made by agents (480 s)
-
-Source for every entry in this segment: `research/build-log.md`. Copy file text and numbers exactly.
-
+    uses it for work. There is no published histogram of practitioner usage; say so. 45 s. *(One landscape slide since 2026-09-19: 1, a handful, tens, 1,000+, with a
+   "who" column marked as assessment; 20 s taken back from the pool left by entries 7 to 10.)*
+12. **You already do this.** Five everyday habits, each named as the pattern it already is: the same task in two
+    tools then a comparison (writer and critic, human as orchestrator); two terminals on two tasks then a merge by
+    hand (fan-out and merge); a new session for the next phase handed a plan file (a chain); two clones of the repo
+    for two experiments (isolated workers); Claude Code spawning an Explore subagent unasked. Then the question:
+    when to make it deliberate, and when to hand the orchestration to a script. 45 s. *(Bullets since 2026-09-19.)*
 13. **This deck was built by the pipeline in this repo.** {{diagram:meta-pipeline}} The repo layout as text:
     talk-context.md, slides/outline.md, .claude/agents/, pipeline/run.sh, research/, diagrams/, runs/. 45 s.
 14. **Attempt one, from scratch.** Eleven agents: four researchers in parallel, an outliner, a slide-writer and

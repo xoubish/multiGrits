@@ -22,12 +22,16 @@ style: |
   .cols-even { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
   .cols-even img, .cols-even svg { max-width: 100%; height: auto; }
   .wide { width: 100%; margin-top: 8px; }
-  table { font-size: 22px; border-collapse: collapse; margin: 6px 0 12px; }
+  table { font-size: 21px; border-collapse: collapse; margin: 6px 0 12px; }
   th, td { padding: 6px 16px; border-bottom: 1px solid #ccd3dc; text-align: left; vertical-align: top; }
   th { color: #1e3a5f; font-weight: 600; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 36px; margin-top: 4px; }
-  .grid2 img { width: 100%; max-height: 162px; display: block; margin: 0 auto; }
-  .grid2 p { font-size: 20px; line-height: 1.3; margin: 2px 0 8px; text-align: center; color: #333; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 28px; margin-top: 10px; align-items: start; }
+  .grid3 img { width: 100%; max-height: 200px; display: block; margin: 0 auto 6px; }
+  .grid3 p { font-size: 20px; line-height: 1.32; margin: 4px 0 0; color: #333; }
+  .grid2 img { width: 100%; max-height: 144px; display: block; margin: 0 auto; }
+  .grid2 p { font-size: 19px; line-height: 1.3; margin: 2px 0 10px; text-align: left; color: #333; }
+  .grid2 code { font-size: 17px; }
   .wide img { display: block; margin: 0 auto; }
   .cite { font-size: 24px; color: #555; line-height: 1.35; margin-top: -6px; }
   pre {
@@ -207,8 +211,8 @@ Transition: "Before the patterns, definitions first."
 Designing a multi-agent system means thinking along three axes, taken one at a time on the next three slides.
 
 - **Who orchestrates**: a script, a model, or a human.
-- **Isolation**: shared or fresh context; shared files or separate git worktrees.
 - **Topology**: how the agents are connected.
+- **Isolation**: shared or fresh context; shared files or separate git worktrees.
 
 
 </div>
@@ -219,7 +223,7 @@ Designing a multi-agent system means thinking along three axes, taken one at a t
 </div>
 </div>
 <!--
-Entry 6, slide 1 of 4. 20 s of 80. If asked whether the axes are standard terms: the literature says coordination architecture (Kim et al. 2026) or structure (Tran et al. 2025) for topology, orchestrator-workers (Anthropic 2024), and context or worktree isolation (Anthropic 2026); the three-axis framing is the speaker's. Illustration: orchestra.svg, a conductor robot with a score on a stand and five robot musicians, right of the text. Restructured 2026-09-18 on the speaker's instruction; order is orchestration, isolation, topology. If entry 11 is cut, add one spoken sentence here: "in practice, one orchestrator and two to five workers."
+Entry 6, slide 1 of 4. 20 s of 140. If asked whether the axes are standard terms: the literature says coordination architecture (Kim et al. 2026) or structure (Tran et al. 2025) for topology, orchestrator-workers (Anthropic 2024), and context or worktree isolation (Anthropic 2026); the three-axis framing is the speaker's. Illustration: orchestra.svg, a conductor robot with a score on a stand and five robot musicians, right of the text. Restructured 2026-09-18 on the speaker's instruction; order is orchestration, topology, isolation. If entry 11 is cut, add one spoken sentence here: "in practice, one orchestrator and two to five workers."
 Transition: "The first axis: who decides the order."
 -->
 
@@ -243,13 +247,48 @@ Transition: "The first axis: who decides the order."
 </div>
 </div>
 <!--
-Entry 6, slide 2 of 4. 20 s of 80. Illustration: orchestrator.svg, one robot at a desk with two laptops, right of the text. Anthropic's advice in the same post: use the simplest arrangement that works. Anthropic, "Building effective agents", December 2024, also names five workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer); they map onto the four here and are not used further. This is Anthropic's taxonomy, not a field consensus. Do not say here that this repo's pipeline is a workflow; that is the reveal on the "This deck was built by the pipeline in this repo" slide (removed 2026-09-18 on the speaker's instruction).
-Transition: "The second axis: what the agents share."
+Entry 6, slide 2 of 4. 20 s of 140. Illustration: orchestrator.svg, one robot at a desk with two laptops, right of the text. Anthropic's advice in the same post: use the simplest arrangement that works. Anthropic, "Building effective agents", December 2024, also names five workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer); they map onto the four here and are not used further. This is Anthropic's taxonomy, not a field consensus. Do not say here that this repo's pipeline is a workflow; that is the reveal on the "This deck was built by the pipeline in this repo" slide (removed 2026-09-18 on the speaker's instruction).
+Transition: "The second axis: how the agents are connected."
 -->
 
 ---
 
-# Axis 2, isolation: what the agents share
+# Axis 2, topology: how the agents are connected
+
+Three shapes cover most systems. Errors are caught at the merge point, or not at all (Kim et al. 2026).
+
+<div class="grid3">
+<div>
+
+![](illustrations/pattern-pipeline.svg)
+
+**Chain**: each stage hands its output to the next, files as the hand-off. A planner writes the plan, an implementer the code, a tester runs it.
+
+</div>
+<div>
+
+![](illustrations/pattern-fan-out.svg)
+
+**Fan-out and merge**: independent pieces, one merge point. Each worker returns a summary, not its raw material.
+
+</div>
+<div>
+
+![](illustrations/pattern-writer-critic.svg)
+
+**Loop**: writer and critic pass work back and forth a fixed number of times. The critic holds the tests and data; a critic that can only read prose agrees with it.
+
+</div>
+</div>
+
+<!--
+Entry 6, slide 3 of 4. 80 s of 140. Say aloud: in any of these shapes, each agent can share context and files with the others or work in isolation, down to its own git worktree; that is Axis 2, not a fourth shape. Kim et al. 2026: independent agents with no central check amplified errors 17.2 times, a centralized check 4.4 times. Entries 7 to 10 were folded into this slide on 2026-09-19 on the speaker's instruction. Figures: slides/illustrations/pattern-*.svg.
+Transition: "The third axis: what the agents share."
+-->
+
+---
+
+# Axis 3, isolation: what the agents share
 
 - Context: shared, so one agent carries everything; or fresh, so each stage starts empty and receives only what it needs. Fresh context is the gain the previous section argued for.
 - Files: shared, so two agents can write the same file; or one git worktree per agent, merged at the end.
@@ -257,187 +296,35 @@ Transition: "The second axis: what the agents share."
 - The failure isolation prevents is two agents writing one file; an instance appears in attempt one.
 
 <!--
-Entry 6, slide 3 of 4. 20 s of 80. Anthropic (2026), Subagents, Claude Code documentation: a subagent's context starts fresh with its system prompt, the delegation message, CLAUDE.md and a git snapshot, not the parent's history.
-Transition: "The third axis: how the agents are connected."
+Entry 6, slide 4 of 4. 20 s of 140. Anthropic (2026), Subagents, Claude Code documentation: a subagent's context starts fresh with its system prompt, the delegation message, CLAUDE.md and a git snapshot, not the parent's history.
+Transition: "So how many agents should a system actually have?"
 -->
+
 
 ---
 
-# Axis 3, topology: how the agents are connected
 
-Four common topologies, each a pattern that follows. Where errors are caught matters: independent agents amplified errors 17.2 times, a centralized check 4.4 times (Kim et al. 2026).
 
-<div class="grid2">
-<div>
 
-![](illustrations/pattern-fan-out.svg)
 
-Fan-out and merge: independent pieces, one merge point.
 
-</div>
-<div>
+# The more the merrier?
 
-![](illustrations/pattern-pipeline.svg)
+| Scale | What it is | Who |
+|---|---|---|
+| 1 | The default. One conversation; a subagent is spawned only when the model decides to (Anthropic 2026). | Everyday use |
+| 2 to 7 | One orchestrator and a few workers: a lead plus subagents (Anthropic 2025), five fixed roles (Hong et al. 2024), seven (Qian et al. 2024); three to five teammates is the vendor's own guidance (Anthropic 2026). | Working systems |
+| Tens | Sampling and voting keeps improving into the tens of samples, but 40 samples of a weak model still trail one call of a strong one (Li et al. 2024), and returns diminish once the single agent is strong (Kim et al. 2026). | Benchmarks |
+| 1,000+ | Collaboration among over a thousand agents (Qian et al. 2024); simulations of 10 to 1,000+ (Altera 2024). Nobody uses this for work. | Research |
 
-Pipeline: a chain, each stage hands its output to the next.
-
-</div>
-<div>
-
-![](illustrations/pattern-writer-critic.svg)
-
-Writer and critic: a loop, run a fixed number of rounds.
-
-</div>
-<div>
-
-![](illustrations/pattern-isolated.svg)
-
-Isolated workers: fan-out with one worktree per agent.
-
-</div>
-</div>
-<!--
-Entry 6, slide 4 of 4. 20 s of 80. Figures: slides/illustrations/pattern-*.svg, redrawn 2026-09-18 from the Mermaid diagrams; the same figures appear at full size on the four pattern slides. The 17.2x and 4.4x figures were confirmed by the fact-checker in the first deck (runs/009-factcheck).
-Transition: "Pattern one: fan-out and merge."
--->
-
----
-
-# Pattern 1: fan-out and merge
-
-<div class="cols-even">
-<div>
-
-Pattern 1, fan-out and merge, suits work with independent pieces and one merge point.
-
-For a target list, one agent per archive, IRSA, NED, and the Exoplanet Archive, queries its archive, and the orchestrator merges their summaries into one table. The orchestrator never reads the raw query results, only the summaries.
-
-</div>
-<div>
-
-![w:560](illustrations/pattern-fan-out.svg)
-
-</div>
-</div>
+There is no published survey of what practitioners run; the "Who" column is an assessment.
 
 <!--
-Entry 7. 60 s. Weave in: subagents do not see your conversation; pass what they need, get summaries back, not dumps.
-Transition: "Pattern two is for pieces that are not independent."
+Entry 11. 45 s (was three slides at 25 s; 20 s taken from the 180 s left unallocated when entries 7 to 10 were folded). Condensed 2026-09-19 on the speaker's instruction. Sources by row: Claude Code subagent docs; Anthropic multi-agent research system, MetaGPT, ChatDev, Claude Code agent-teams docs (3 to 5 teammates); Li et al. 2024 "More Agents Is All You Need" (TMLR), Kim et al. 2026; MacNet (Qian et al. 2024), Project Sid (Altera 2024). Say aloud: the optimum with unlimited resources is not known; what is known is that gains flatten fast and that the biggest systems are demonstrations.
+Transition: "And most people in this room are already doing some of this."
 -->
 
----
 
-# Pattern 2: pipeline
-
-Pattern 2, the pipeline, is a sequence of steps, each with a fresh context and files as the hand-off.
-
-A planner writes the plan to a file. An implementer reads it and writes the code. A tester reads the code and runs it. No stage inherits another stage's clutter.
-
-<div class="wide">
-
-![w:560](illustrations/pattern-pipeline.svg)
-
-</div>
-
-<!--
-Entry 8. 60 s. The point is the fresh context at each stage, not the sequence itself. Diagram runs full width under the text because a five-node left-to-right chain is unreadable in a narrow column.
-Transition: "Pattern three adds an adversary."
--->
-
----
-
-# Pattern 3: writer and critic
-
-Pattern 3, writer and critic, has one agent produce and another review adversarially with tools in hand: the tests, the data, the schema. The loop runs a fixed number of rounds, and the script decides that number. A critic without tools rubber-stamps, because all it can do is agree or disagree with prose.
-
-<div class="wide">
-
-![w:560](illustrations/pattern-writer-critic.svg)
-
-</div>
-
-<!--
-Entry 9. 60 s. Independence is the point: a reviewer not anchored to the draft. Diagram runs full width under the text, as on the pipeline slide, so its labels are legible from the back.
-Transition: "Pattern four is not really a fourth topology."
--->
-
----
-
-# Pattern 4: parallel isolated workers
-
-<div class="cols-even">
-<div>
-
-Pattern 4, parallel isolated workers, is not a fourth topology. It is fan-out with the isolation choice made explicit: one git worktree per agent, merged at the end.
-
-The failure it prevents is the classic one: two agents, one file, last write wins.
-
-</div>
-<div>
-
-![w:560](illustrations/pattern-isolated.svg)
-
-</div>
-</div>
-
-<!--
-Entry 10, slide 1 of 2. 35 s of 60.
-Transition: "The tooling for this already exists."
--->
-
----
-
-# Pattern 4: worktree isolation in practice
-
-Claude Code supports this directly. With `isolation: worktree` in a subagent's frontmatter, the subagent runs in a temporary git worktree, and Claude Code blocks any Edit or Write that targets a path in the main checkout.
-
-<p class="cite">Anthropic (2026), Run parallel sessions with worktrees, Claude Code documentation: <code>isolation: worktree</code> runs a subagent in a temporary git worktree and blocks edits to the main checkout. A tool-behavior claim from the framework docs, not independently tested outside Claude Code.</p>
-
-<!--
-Entry 10, slide 2 of 2. 25 s of 60. The merge at the end still has to be verified; a clean merge is not a correct merge.
-Transition: "So how many agents should one actually run?"
--->
-
----
-
-# How many agents?
-
-One agent is the default in current tools. Claude Code runs one main conversation and spawns a built-in subagent such as Explore only when it decides to.
-
-<p class="cite">Anthropic (2026), Subagents, Claude Code documentation: Claude Code runs one main conversation agent by default, with built-in subagents such as Explore used automatically when appropriate.</p>
-
-<!--
-Entry 11, slide 1 of 3. 15 s of 45. (Cut candidate 3: drop entry 11 and say one sentence on entry 6.)
-Codex and Cursor were dropped from this slide on 2026-09-17: only Claude Code is documented, so the citation covers Claude Code only.
-Transition: "Working systems are small."
--->
-
----
-
-# How many agents? Working systems are small
-
-Working systems use one orchestrator and two to five workers. Anthropic's research system is one Opus 4 lead plus Sonnet 4 subagents. MetaGPT assigns five fixed roles. ChatDev assigns seven.
-
-<p class="cite">Anthropic (June 2025), How we built our multi-agent research system, anthropic.com/engineering. Hong et al. (2024), MetaGPT: Meta Programming for a Multi-Agent Collaborative Framework, arXiv 2308.00352: five roles. Qian et al. (2024), ChatDev: Communicative Agents for Software Development, arXiv 2307.07924: seven roles.</p>
-
-<!--
-Entry 11, slide 2 of 3. 15 s of 45. Three separate scale points, not a survey.
-Transition: "Larger systems exist in research."
--->
-
----
-
-# How many agents? The large end
-
-Systems past a thousand agents exist in research, and nobody uses them for work. That last statement is an assessment, not a measurement. There is no published histogram of how many agents practitioners run, and none is claimed here.
-
-<p class="cite">Qian et al. (2024), Scaling Large Language Model-based Multi-Agent Collaboration (MacNet), arXiv 2406.07155: supports collaboration among over a thousand agents. Altera.AL (2024), Project Sid: Many-agent simulations toward AI civilization, arXiv 2411.00114: simulations from 10 to 1000+ agents.</p>
-
-<!--
-Entry 11, slide 3 of 3. 15 s of 45.
-Transition: "And some of this is already common practice."
--->
 
 ---
 
@@ -446,21 +333,24 @@ Transition: "And some of this is already common practice."
 <div class="cols">
 <div>
 
-Running the same task in Claude Code and in Codex and comparing the answers is writer and critic, with the human as orchestrator. Two terminals on two tasks is fan-out. Claude Code spawns an Explore subagent without being asked.
+- The same task in Claude Code and in Codex, then a comparison: writer and critic, you as orchestrator.
+- Two terminals on two tasks, then a merge by hand: fan-out and merge.
+- A new session for the next phase, handed a plan file: a chain, fresh context.
+- Two clones of the repository for two experiments: isolated workers.
+- Claude Code spawning an Explore subagent unasked: a fan-out nobody chose.
 
-The question is when to make this deliberate, and when to replace the human orchestrator with a script.
+The question: when to make it deliberate, and when to hand the orchestration to a script.
 
 </div>
 <div>
 
-![w:520](illustrations/two-terminals.svg)
+![w:460](illustrations/two-terminals.svg)
 
 </div>
 </div>
-
 <!--
-Entry 12. 45 s. Illustration: two-terminals.svg, right of the text.
-Transition: "Here is what happened when I replaced myself with a script."
+Entry 12. 45 s. Rewritten as bullets 2026-09-19 on the speaker's instruction: five everyday habits, each named as the pattern it already is; the closing line is the hand-off to segment C, where the speaker replaced themself with a script. Illustration: two-terminals.svg, right of the text.
+Transition: "Here is what happened when the orchestration was handed to a script."
 -->
 
 ---
@@ -742,7 +632,7 @@ Transition: "Then the chronicler."
 
 **Run 017, chronicle.** `chronicler`, Haiku 4.5 and Sonnet 5, read every run directory, the cost report, the agent files, the outline, and the README, and wrote the first `research/build-log.md`. 38 turns, $0.4361, 128 seconds.
 
-**Run 018, write.** Pattern 4: `slide-writer`, `diagrammer`, and `illustrator` in three git worktrees at once, merged by the script with no conflict. 42 turns, $4.1925 for the stage.
+**Run 018, write.** A fan-out with isolated workers: `slide-writer`, `diagrammer`, and `illustrator` in three git worktrees at once, merged by the script with no conflict. 42 turns, $4.1925 for the stage.
 
 <!--
 Entry 19, slide 2 of 5. 12 s of 75. Per worktree, from the build log: slide-writer, session model, 16 turns, $3.0735, 359 s, wrote slides/deck.md with 53 slides; diagrammer, Sonnet 5, 16 turns, $0.1811, 60 s, five Mermaid files; illustrator, session model, 10 turns, $0.9379, 115 s, five SVGs plus slides/illustrations/README.md. Disjoint files, so the merge was clean.
@@ -1107,6 +997,10 @@ Anthropic (2026), Run parallel sessions with worktrees, Claude Code docs: https:
 Anthropic (2026), Subagents, Claude Code docs: https://code.claude.com/docs/en/sub-agents
 
 Anthropic (June 2025), How we built our multi-agent research system: https://www.anthropic.com/engineering/multi-agent-research-system
+
+Li et al. (2024), More Agents Is All You Need, TMLR: https://arxiv.org/abs/2402.05120
+
+Anthropic (2026), Orchestrate teams of Claude Code sessions, Claude Code docs: https://code.claude.com/docs/en/agent-teams
 
 Hong et al. (2024), MetaGPT: https://arxiv.org/abs/2308.00352
 
