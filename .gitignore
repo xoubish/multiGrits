@@ -8,7 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+/build/
 develop-eggs/
 dist/
 downloads/
@@ -220,4 +220,8 @@ __marimo__/
 # multiGrits pipeline
 .worktrees/
 node_modules/
-slides/build/
+# rendered deck: track the HTML and PDF, not the intermediate markdown or the per-slide PNGs
+slides/build/*
+!slides/build/deck.html
+!slides/build/deck.pdf
+diagrams/build/
