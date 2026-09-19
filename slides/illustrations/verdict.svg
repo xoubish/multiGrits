@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 36 362 236" font-family="-apple-system, Helvetica Neue, Helvetica, Arial, sans-serif">
+  <g fill="#e8edf2" stroke="#1e3a5f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- raised sign: PASS, held clear of the head -->
+    <line x1="100" y1="152" x2="100" y2="96" fill="none"/>
+    <rect x="32" y="44" width="124" height="52" rx="9"/>
+    <text x="94" y="79" font-size="30" font-weight="700" fill="#1e3a5f" text-anchor="middle" stroke="none">PASS</text>
+
+    <!-- lowered sign: REVISE -->
+    <rect x="254" y="220" width="124" height="44" rx="8" fill="#fff"/>
+    <text x="316" y="250" font-size="23" font-weight="600" fill="#5e6b7a" text-anchor="middle" stroke="none">REVISE</text>
+
+    <!-- antenna -->
+    <line x1="200" y1="110" x2="200" y2="94" fill="none"/>
+    <circle cx="200" cy="87" r="7"/>
+
+    <!-- head -->
+    <rect x="160" y="110" width="80" height="64" rx="11"/>
+    <line x1="170" y1="129" x2="230" y2="129" fill="none"/>
+    <circle cx="182" cy="151" r="5.5" fill="#1e3a5f" stroke="none"/>
+    <circle cx="218" cy="151" r="5.5" fill="#1e3a5f" stroke="none"/>
+
+    <!-- body -->
+    <rect x="166" y="188" width="68" height="70" rx="11"/>
+    <line x1="178" y1="218" x2="222" y2="218" fill="none"/>
+
+    <!-- arms -->
+    <line x1="166" y1="200" x2="100" y2="152" fill="none"/>
+    <line x1="234" y1="202" x2="268" y2="222" fill="none"/>
+  </g>
+</svg>

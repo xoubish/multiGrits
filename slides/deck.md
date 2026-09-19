@@ -18,6 +18,14 @@ style: |
   section.title h1 { font-size: 60px; border-bottom: 3px solid #1e3a5f; padding-bottom: 18px; margin-bottom: 24px; }
   section.title p { font-size: 28px; color: #444; }
   section { position: relative; }
+  section.code-sm, section.code-xs { justify-content: flex-start; }
+  section.code-sm pre { font-size: 16px; line-height: 1.42; white-space: pre-wrap; }
+  section.code-xs pre { font-size: 15px; line-height: 1.38; white-space: pre-wrap; }
+  section.code-xs p { font-size: 21px; }
+  .hl { background: #cfdced; border-radius: 3px; padding: 1px 2px; font-weight: 600; }
+  section.code-sm p { font-size: 22px; }
+  .fig { text-align: center; margin: 14px 0 0; }
+  .fig p { margin: 6px 0 0; font-size: 20px; color: #555; }
   .corner { position: absolute; right: 52px; bottom: 46px; margin: 0; }
   .corner img { display: block; }
   .cols { display: grid; grid-template-columns: 3fr 2fr; gap: 32px; align-items: center; }
@@ -309,7 +317,6 @@ Entry 6, slide 4 of 4. 20 s of 140. Anthropic (2026), Subagents, Claude Code doc
 Transition: "So how many agents should a system actually have?"
 -->
 
-
 ---
 
 
@@ -332,8 +339,6 @@ There is no published survey of what practitioners run; the "Who" column is an a
 Entry 11. 45 s (was three slides at 25 s; 20 s taken from the 180 s left unallocated when entries 7 to 10 were folded). Condensed 2026-09-19 on the speaker's instruction. Sources by row: Claude Code subagent docs; Anthropic multi-agent research system, MetaGPT, ChatDev, Claude Code agent-teams docs (3 to 5 teammates); Li et al. 2024 "More Agents Is All You Need" (TMLR), Kim et al. 2026; MacNet (Qian et al. 2024), Project Sid (Altera 2024). Gao et al. 2026 §8.4: agents "often risk becoming overly reliant on group consensus, thereby diminishing their independent reasoning capabilities"; the survey also notes multi-agent benchmarks are predominantly static and that latency, cost, and safety are not consistently reported. Say aloud: the optimum with unlimited resources is not known; what is known is that gains flatten fast and that the biggest systems are demonstrations.
 Transition: "And most people in this room are already doing some of this."
 -->
-
-
 
 ---
 
@@ -408,86 +413,153 @@ Transition: "Then three decisions, the ones from the last segment."
 
 # The decisions, on the three axes
 
-- **Who orchestrates.** Claude Code itself, interactively, with me steering. It then wrote the shell script that replaced it, and the script has run every stage since.
-- **Topology.** A chain: each stage finishes before the next begins. Two of the stages fan out to several agents at once, and one is a loop between a writer and a reviewer.
-- **Isolation.** Every agent starts with an empty conversation and remembers nothing from the last one. The three that run at the same time also get their own copy of the repository, so they cannot overwrite each other's files.
+- **Who orchestrates.** Claude Code itself, interactively, with me steering. It then wrote the script that has run every stage since.
+- **Topology.** A chain: each step finishes before the next begins. Two stages fan out to several agents at once, and one is a writer-and-reviewer loop.
+- **Isolation.** Every agent starts with an empty conversation. The three that run at the same time also get their own copy of the repository.
 
-None of it needed a framework: three decisions, a few lines of shell.
+<div class="fig">
+
+![w:470](shots/agents-started.png)
+
+Claude Code creating two agents and starting them. None of it needed a framework.
+
+</div>
 
 <!--
 Entry 13, slide 3 of 3. 20 s of 60. New 2026-09-19; this is the payoff of segment B, so use its words. The bootstrap is worth saying aloud: an interactive agent wrote the script that then ran the agents, which is how you get a workflow without writing one first.
-Accuracy, corrected 2026-09-19: only the three agents in the write stage get worktrees, because they are the only ones that run concurrently. Every other stage runs in the main checkout, one at a time. Fresh context, by contrast, is every agent: each headless call passes --no-session-persistence, so nothing carries between calls.
-The code block was removed 2026-09-19 on the speaker's instruction: three lines of shell are not readable in eight seconds by this audience, and the script is shown properly two slides later. Say the definitions aloud if anyone looks lost: a worktree is a second copy of the repository's files on disk, and you need one only when two agents are editing at the same moment. The two fan-outs are the write stage (slide-writer, diagrammer, illustrator) and the notes-and-Q&A stage.
+Accuracy, corrected 2026-09-19: only the three agents in the write stage get worktrees, because they are the only ones that run concurrently. Every other stage runs in the main checkout, one at a time. Fresh context, by contrast, is every agent, and it is the default: a `claude -p` call starts a new session unless `--resume` or `--continue` is passed, and neither ever is. The `--no-session-persistence` flag on the call is a separate thing: it stops the transcript being saved to disk.
+The code block was removed 2026-09-19 on the speaker's instruction: three lines of shell are not readable in eight seconds by this audience, and the script is shown properly two slides later. Screenshot added 2026-09-19 on the speaker's instruction: Claude Code creating two agents and reporting that they started work. Confirm before the talk which session it came from; the agent names in it are not this repo's. Say the definitions aloud if anyone looks lost: a worktree is a second copy of the repository's files on disk, and you need one only when two agents are editing at the same moment. The two fan-outs are the write stage (slide-writer, diagrammer, illustrator) and the notes-and-Q&A stage.
 Transition: "So what is an agent, as a file?"
 -->
 
 ---
 
-# Recipe: an agent is a markdown file
+# Recipe: what a stage is
 
-This is `.claude/agents/reviewer.md`, trimmed to fit. The frontmatter names the agent, says when to use it, lists its tools, and picks the model.
+The pipeline is a sequence of stages. Every stage is the same four things, and the next four slides are those four things, in that order.
 
-```
----
-name: reviewer
-description: Sits in the audience. Reads the deck as a skeptical IPAC engineer
-  and looks at the rendered slide images. […]
-tools: Read, Glob, Grep, Write
-model: inherit
----
-```
+- **Who does it.** An agent file: `.claude/agents/reviewer.md`, holding the tools, the model, and what that agent always does.
+- **What it is asked, this time.** A prompt template: `pipeline/prompts/critique.md`, the task for this stage.
+- **How it is called.** One `claude -p` line from the script.
+- **What it leaves behind.** A run directory: `runs/021-critique/`, holding the prompt sent, the JSON result, the return text and the cost.
 
 <!--
-Entry 17, slide 1 of 5. 30 s of 150. Lines 1-6 of .claude/agents/reviewer.md; the description is truncated at […] so the block renders at 19px instead of auto-shrinking. Full text: "...Scores whether each slide earns its time, not whether it complies with a rubric. Never edits; writes a PASS or REVISE review the script uses to decide whether to loop." The other nine files are in the repo and the handout.
-Transition: "Below the frontmatter, plain English."
+Entry 17, slide 1 of 9. 25 s of 240. New 2026-09-19 on the speaker's instruction: "stage" was used from the pipeline figure onward and never defined, and the pieces arrived out of order. This slide is the contract for the next four. Say the run number aloud, 021-critique, so the receipts slide later lands.
+Transition: "First, who."
 -->
-
 ---
 
-# Recipe: the instructions
+<!-- _class: code-sm -->
 
-Below the frontmatter come instructions in plain English, like a brief to a colleague. The last line matters, because the script parses it to decide whether to loop.
+# Recipe: an agent is a markdown file
 
-```
+`.claude/agents/reviewer.md`, all 38 lines across three slides. Lines 1 to 11: the frontmatter, and what it must read.
+
+<pre><code>---
+name: reviewer
+description: Sits in the audience. Reads the deck as a skeptical IPAC engineer and looks at the rendered slide images. Scores whether each slide earns its time, not whether it complies with a rubric. Never edits; writes a PASS or REVISE review the script uses to decide whether to loop.
+<span class="hl">tools: Read, Glob, Grep, Write</span>
+<span class="hl">model: inherit</span>
+---
 You are the one reviewer. You replace three earlier critics whose rubrics counted citations, words per second, and
 seconds per slide; the deck they passed was unpresentable. Do not count things. Judge whether the talk works.
 
-5. Is there a moment where the speaker admits something did not work? If not, say where one belongs.
-
-Write to the run directory you are given as `review.md`. First line exactly `Verdict: PASS` or `Verdict: REVISE`.
-```
+Read `talk-context.md`, `slides/outline.md` (the speaker&#x27;s plan; you review the deck against it, not the other way
+round), `slides/deck.md` with its notes, and LOOK at every `slides/build/png/deck.NNN.png` with the Read tool.</code></pre>
 
 <!--
-Entry 17, slide 2 of 5. 30 s of 150. Lines 7-8, 25 and 36 of reviewer.md, verbatim; the seven review questions in between are in the handout. Worth saying: the agent is told why it exists, including that its predecessors failed.
-Transition: "The orchestrator wrote more than prompts."
+Entry 17, slide 2 of 9. 25 s of 240. Complete since 2026-09-19 on the speaker's instruction: nothing is elided. Highlighted: `tools` and `model`, the two lines that set the axes for this agent. The description is what Claude Code reads when deciding whether to delegate, which is why it is written for a reader, not as a label.
+Transition: "Then the questions it has to answer."
 -->
 
 ---
 
-# Recipe: what the orchestrator wrote
+<!-- _class: code-xs -->
 
-Ten agent files, and 418 lines of shell and Python underneath them: the runner, the cost logger, the renderer, the diagram inliner.
+# Recipe: an agent is a markdown file
 
-```
-talk-context.md          the spec above, read by every agent
-slides/outline.md        HUMAN-WRITTEN. Slide order, message, time budgets. No agent edits it.
-.claude/agents/          ten agent definitions, one markdown file each
-pipeline/run.sh          203 lines: stages, the review loop, worktree isolation
-pipeline/*.py            cost report, result logger, diagram inliner, renderer
-research/evidence.md     one source per claim in the outline
-runs/                    one directory per agent call: prompt, JSON result, return, cost
-```
+Lines 13 to 30: the seven questions it has to answer.
+
+<pre><code>Answer these, with slide numbers, in a short paragraph each:
+1. Would I know what this talk is about by slide 3, and would I care?
+2. Which slides could I delete without anyone noticing? Name them.
+3. The speaker reads from the slides. Can I read every slide from the back of the room (nothing under about
+   24px, no slide over about 60 words), and does the text read naturally aloud rather than like a caption or a
+   table row? Name any slide that should be split in two.
+3b. Is every citation complete on the slide itself: authors, year, title, venue or arXiv id, and the finding in
+   plain words with its number? Name any that is just a tag or a bare number.
+4. After 30 minutes, could I write one subagent file and call it from a script, and could I replicate this repo&#x27;s
+   workflow from the slides alone (layout, an agent file, the outline format, the command, the stage order)? Which
+   slides taught me, and what is missing? Check the build-story slides against `research/build-log.md`: any number
+   or file text that differs is a must-fix.
+<span class="hl">5. Is there a moment where the speaker admits something did not work? If not, say where one belongs.</span>
+6. Does it look like one deck? Point at the slide that looks most out of place in the images. Read
+   `slides/illustrations/README.md` if it exists: is every illustration placed on its slide, does it sit well
+   beside the text, and is any of them doing harm (clutter, competing with a diagram)? Unplaced is a must-fix.
+7. Does any slide say something a neighbouring talk covers (the non-goals in talk-context.md), or say something the
+   notes do not support?</code></pre>
 
 <!--
-Entry 17, slide 3 of 5. 30 s of 150. New framing 2026-09-19: the listing is no longer "the repository", it is the answer to "what did you have to write". Line counts from wc -l on 2026-09-19: run.sh 203, render_diagrams.py 53, cost_report.py 53, log_result.py 44, inline_diagrams.py 44, render.sh 21. The full listing is in the handout and at github.com/xoubish/multiGrits.
-Transition: "And this is how the script calls one."
+Entry 17, slide 3 of 9. 35 s of 240. Lines 13 to 30 of reviewer.md, verbatim. Same title as the slide before and after on the speaker's instruction, so the three read as one file; the lead line says which lines. Highlighted: question 5, which is why this deck has a slide admitting the first attempt failed. Do not read all seven aloud; read 2 and 5, and say the rest are on the slide.
+Transition: "And what it has to return."
+-->
+
+---
+
+<!-- _class: code-sm -->
+
+# Recipe: an agent is a markdown file
+
+Lines 32 to 38, the end of the file: what it must write, and the one word the script parses.
+
+<pre><code>Then findings: slide number, the problem in one sentence, the fix in one sentence, severity must-fix or
+nice-to-have. A structural problem in the outline is reported to the speaker, not to the slide-writer: put it
+under a separate `## For the speaker` heading and do not count it in the verdict.
+
+<span class="hl">Write to the run directory you are given as `review.md`. First line exactly `Verdict: PASS` or `Verdict: REVISE`.</span>
+REVISE only if at least one must-fix remains. Fewer, sharper findings beat many small ones. Return the verdict
+and the three findings that matter most.</code></pre>
+
+<div class="fig">
+
+![w:300](illustrations/verdict.svg)
+
+</div>
+
+<!--
+Entry 17, slide 4 of 9. 25 s of 240. Lines 32 to 38 of reviewer.md, verbatim; that is the whole file across these three slides. Illustration: verdict.svg, the two words the script accepts, with PASS raised. The `code-sm` and `code-xs` slides are pinned to the top of the frame so the title does not move between them. Highlighted: the verdict line. `stage_critique` greps for it, and `stage_loop` stops on PASS or after two rounds. The "For the speaker" heading is how an agent escalates a structural problem instead of silently fixing the outline.
+Transition: "And the prompt that calls it."
+-->
+
+---
+
+<!-- _class: code-sm -->
+
+# Recipe: the prompt for this stage
+
+The agent file says who the agent is and what it always does. The prompt template says what this stage wants this time. This is `pipeline/prompts/critique.md`, the whole file, and it calls the reviewer from the last three slides.
+
+<pre><code>Read `talk-context.md`, `slides/outline.md`, and `slides/deck.md` with its notes, then look at every image in
+`slides/build/png/` (`deck.001.png` is slide 1) with the Read tool.
+
+<span class="hl">Review as described in your agent instructions: does each slide earn its time, can I read it from the back, is</span>
+<span class="hl">every citation complete on the slide, would I be able to do this afterwards. Write `{{RUN_DIR}}/review.md`; first line exactly `Verdict: PASS` or</span>
+`Verdict: REVISE`. Structural problems go under `## For the speaker` and do not affect the verdict.
+
+Do not edit any other file. Return the verdict and the three findings that matter most.</code></pre>
+
+Eleven templates, one per stage. `{{RUN_DIR}}` is filled in per call, and the result is saved as that run's `prompt.md`.
+
+<!--
+Entry 17, slide 5 of 9. 30 s of 240. New 2026-09-19 on the speaker's instruction: the agent-versus-template split was only in the notes before. Highlighted: the line that defers to the agent file, and the line that names the output path. Eleven templates for ten agents, because the slide-writer is called twice, with slides.md for the first draft and revise.md to apply a review: same agent, same tools, same model, different job. Nothing in reviewer.md mentions this deck; the template is what sends it to slides/build/png/.
+Transition: "The orchestrator wrote more than prompts and agent files."
 -->
 
 ---
 
 # Recipe: one headless call per agent
 
-`--agent` picks the markdown file, `--output-format json` returns a parseable result with the cost in it, `--max-budget-usd` caps the spend, and `--no-session-persistence` means no state carries between calls.
+`--agent` picks the markdown file, `--output-format json` returns a parseable result with the cost in it, `--max-budget-usd` caps the spend, and `--no-session-persistence` discards the transcript so nothing accumulates on disk.
 
 ```
   env -u CLAUDECODE claude -p --agent "$agent" \
@@ -499,14 +571,17 @@ Transition: "And this is how the script calls one."
     "$(cat "$run_dir/prompt.md")" > "$run_dir/result.json"
 ```
 
-<!--
-Entry 17, slide 4 of 5. 30 s of 150. The exact call from pipeline/run.sh. $BUDGET defaults to 5 after the failure two slides from now. The prompt is a template with {{RUN_DIR}} substituted, saved as prompt.md before the call, which is why every run directory holds the exact text sent.
-Transition: "And the script owns the order."
--->
+The last line is the prompt and the record. `cat` reads this stage's prompt file, so the run directory holds the exact text sent; `>` writes the JSON reply beside it.
 
+<!--
+Entry 17, slide 6 of 9. 30 s of 240. The exact call from pipeline/run.sh. $BUDGET defaults to 5 after the failure two slides from now. Where prompt.md comes from, if asked: there are eleven templates in pipeline/prompts/, one per stage, not one shared prompt. `run_agent` takes the template as an argument, substitutes {{RUN_DIR}} and any other placeholders with sed, and writes the result as prompt.md in that run's directory before calling anything. Eleven templates for ten agents because slide-writer is called twice, once with slides.md for the first draft and once with revise.md to apply a review. The division of labour: the agent file says who the agent is and what it always does, the template says what this stage wants this time.
+Last line, if asked: `$(cat ...)` is command substitution, so the whole prompt file becomes the one positional argument `claude -p` takes; the outer quotes keep it as a single argument instead of splitting it at every space. `>` redirects standard output, and since `--output-format json` makes the reply a JSON object, that object lands in result.json. Together they are why every run directory holds both halves of the call.
+Accuracy, corrected 2026-09-19: the flag does not make the calls independent; they already are. Every `claude -p` starts a fresh session unless you pass `--resume` or `--continue`. What the flag does is stop the transcript being written to disk, so it cannot be resumed later and nothing piles up. The record we want is result.json in the run directory, not a resumable session. Docs: "sessions will not be saved to disk and cannot be resumed".
+Transition: "Those four things, repeated, in this order."
+-->
 ---
 
-# Recipe: the stage order
+# Recipe: the stages, in order
 
 ```
 evidence  →  example  →  chronicle  →  write (slide-writer + diagrammer + illustrator, 3 worktrees, merged)
@@ -517,8 +592,63 @@ evidence  →  example  →  chronicle  →  write (slide-writer + diagrammer + 
 Evidence, example and chronicle run one after another, which is a chain. Write is a fan-out into three worktrees. The loop is writer and critic, and the script owns the loop, not the agents. Cost is a Python script and uses no model at all.
 
 <!--
-Entry 17, slide 5 of 5. 30 s of 150. Stage order from the `all` case of pipeline/run.sh. Chronicle runs twice so the deck can describe its own build honestly. Point back to the three axes here: this is the topology slide made concrete.
+Entry 17, slide 7 of 9. 25 s of 240. Moved before the write stage 2026-09-19: the map first, then the one stage worth opening up. Stage order from the `all` case of pipeline/run.sh. Chronicle runs twice so the deck can describe its own build honestly. Point back to the three axes here: this is the topology slide made concrete.
 Transition: "That machinery is attempt two. Attempt one had one more agent, and one fewer human."
+-->
+
+---
+
+<!-- _class: code-sm -->
+
+# Recipe: the write stage, in full
+
+This is the fan-out: three agents, three worktrees, one merge. Verbatim from `pipeline/run.sh`, apart from the guard clause, the log lines and the merge-conflict branch.
+
+```
+for w in slides diagrams illustrations; do
+  case $w in
+    slides)        agent=slide-writer; tools="Read,Write,Edit,Glob,Grep" ;;
+    diagrams)      agent=diagrammer;   tools="Read,Write,Glob,Grep" ;;
+    illustrations) agent=illustrator;  tools="Read,Write,Glob,Grep" ;;
+  esac
+  git worktree add -q -B "wt/$w" ".worktrees/$w" HEAD
+  (
+    cd ".worktrees/$w"
+    run_agent "$agent" "$run_dir/$w" "$ROOT/pipeline/prompts/$w.md" "$tools"
+    git add -A && git commit -qm "pipeline: $agent in worktree $w"
+  ) &
+done
+wait
+for w in slides diagrams illustrations; do
+  git merge -q --no-edit -m "pipeline: merge $w worktree" "wt/$w"
+  git worktree remove --force ".worktrees/$w"
+done
+```
+
+<!--
+Entry 17, slide 8 of 9. 30 s of 240. New 2026-09-19 on the speaker's instruction: the three summarised lines that were cut from the decisions slide, restored here in full and in context. Walk it in four moves: the loop names three agents and their tool lists; `git worktree add` gives each its own checkout; the parenthesis and the trailing `&` launch it in the background; `wait` blocks until all three finish, and the second loop merges them back. Do not read the case block aloud, it only maps a directory name to an agent. Set at 16px for this slide only; everything is real text from the repository.
+Transition: "One of those stages is not a single agent."
+-->
+---
+
+# Recipe: what the orchestrator wrote
+
+Ten agent files, eleven prompt templates, and 418 lines of shell and Python underneath them: the runner, the cost logger, the renderer, the diagram inliner.
+
+```
+talk-context.md          the spec above, read by every agent
+slides/outline.md        HUMAN-WRITTEN. Slide order, message, time budgets. No agent edits it.
+.claude/agents/          ten agent definitions, one markdown file each
+pipeline/run.sh          203 lines: stages, the review loop, worktree isolation
+pipeline/*.py            cost report, result logger, diagram inliner, renderer
+pipeline/prompts/        eleven prompt templates, one per stage; {{RUN_DIR}} filled in per call
+research/evidence.md     one source per claim in the outline
+runs/                    one directory per agent call: prompt, JSON result, return, cost
+```
+
+<!--
+Entry 17, slide 9 of 9. 15 s of 240. New framing 2026-09-19: the listing is no longer "the repository", it is the answer to "what did you have to write". Line counts from wc -l on 2026-09-19: run.sh 203, render_diagrams.py 53, cost_report.py 53, log_result.py 44, inline_diagrams.py 44, render.sh 21. The full listing is in the handout and at github.com/xoubish/multiGrits.
+Transition: "And this is how the script calls one."
 -->
 
 ---
@@ -786,32 +916,18 @@ Transition: "The simple example follows."
 
 ---
 
+<!-- _class: code-xs -->
+
 # A simple example to run first
 
-The example is one read-only subagent. Given ten target names, it queries the NASA Exoplanet Archive with astroquery and returns a table under a token cap. It has two tools, Read and Bash, and the cheapest model. The description is cut short with an ellipsis; the full file is in `examples/`.
+One read-only subagent, the whole file. Given ten target names it queries the NASA Exoplanet Archive and returns a table.
 
-```
----
+<pre><code>---
 name: exoplanet-lookup
-description: Read-only lookup of confirmed exoplanet parameters from the
-  NASA Exoplanet Archive for a given list of planet names. […]
-tools: Read, Bash
-model: haiku
+description: Read-only lookup of confirmed exoplanet parameters from the NASA Exoplanet Archive for a given list of planet names. Returns a compact table, not a dump. Use for quick target-list checks.
+<span class="hl">tools: Read, Bash</span>
+<span class="hl">model: haiku</span>
 ---
-```
-
-<!--
-Entry 24, slide 1 of 5. 40 s of 180. examples/exoplanet-lookup/.claude/agents/exoplanet-lookup.md, lines 1-6; description truncated at […] so the block renders legibly. Full text continues: "Returns a compact table, not a dump. Use for quick target-list checks." The outline says "under 2,000 tokens"; the agent file as built says 600.
-Transition: "The instructions."
--->
-
----
-
-# The example: the instructions
-
-Below the frontmatter are three rules in plain English: read the file, query the archive, and say "not found" rather than invent a number.
-
-```
 You are given a path to a text file with one exoplanet name per line (up to ten names).
 
 Do this:
@@ -819,31 +935,17 @@ Do this:
 2. For each name, query the NASA Exoplanet Archive (table `pscomppars`) with astroquery for
    columns: `pl_name, hostname, pl_orbper, pl_rade, pl_bmasse, disc_year`. One Python process,
    one query per name (or a single `where` clause with all names), is fine.
-3. If a name has no match, say "not found" in that row. Do not invent numbers.
-```
+<span class="hl">3. If a name has no match, say &quot;not found&quot; in that row. Do not invent numbers.</span>
 
-<!--
-Entry 24, slide 2 of 5. 30 s of 180. Lines 7-14 of the agent file, exact. Read aloud the three rules: read, query, say "not found" rather than invent.
-Transition: "Then what to send back."
--->
-
----
-
-# The example: the return format
-
-The return format follows. This is the part that keeps the subagent from dumping its whole session back into the orchestrator's window: one table, a source line, and a token cap.
-
-```
 Return only a single compact markdown table, one row per input name, columns:
 `name | host | period_days | radius_earth | mass_earth | disc_year`.
 Round numbers to 3 significant figures. No prose before or after the table, except a one-line
-header stating the source ("NASA Exoplanet Archive, pscomppars"). Keep the whole reply under
-600 tokens.
-```
+<span class="hl">header stating the source (&quot;NASA Exoplanet Archive, pscomppars&quot;). Keep the whole reply under</span>
+<span class="hl">600 tokens.</span></code></pre>
 
 <!--
-Entry 24, slide 3 of 5. 25 s of 180. Lines 16-20 of the agent file, exact. Weave in: summaries, not dumps.
-Transition: "One command."
+Entry 24, slide 1 of 3. 60 s of 180. Complete since 2026-09-19: the three slides that showed this file in pieces are merged. Highlighted: the two tools and the cheap model; the instruction not to invent numbers; and the token cap on the reply. Say the three rules aloud: read the file, query the archive, say "not found" rather than invent. The cap is on the table it returns, not on everything it emits, which the result slide comes back to.
+Transition: "One command runs it."
 -->
 
 ---
@@ -859,11 +961,13 @@ env -u CLAUDECODE claude -p --agent exoplanet-lookup --allowedTools "Read,Bash" 
 ```
 
 <!--
-Entry 24, slide 4 of 5. 40 s of 180. From examples/exoplanet-lookup/RESULT.md; run.sh in the same directory wraps it and saves the JSON under runs/.
+Entry 24, slide 2 of 3. 60 s of 180. From examples/exoplanet-lookup/RESULT.md; run.sh in the same directory wraps it and saves the JSON under runs/.
 Transition: "And here is what actually came back."
 -->
 
 ---
+
+<!-- _class: code-xs -->
 
 # The example: the real result
 
@@ -873,14 +977,21 @@ NASA Exoplanet Archive, pscomppars
 | name | host | period_days | radius_earth | mass_earth | disc_year |
 |------|------|-------------|--------------|------------|-----------|
 | Kepler-10 b | Kepler-10 | 0.837 | 1.47 | 3.24 | 2011 |
+| Kepler-22 b | Kepler-22 | 290 | 2.10 | 9.10 | 2011 |
 | TRAPPIST-1 e | TRAPPIST-1 | 6.10 | 0.920 | 0.692 | 2017 |
+| HD 209458 b | HD 209458 | 3.52 | 15.6 | 232 | 1999 |
+| WASP-12 b | WASP-12 | 1.09 | 22.0 | 467 | 2008 |
+| GJ 1214 b | GJ 1214 | 1.58 | 2.73 | 8.41 | 2009 |
+| 55 Cnc e | 55 Cnc | 0.737 | 1.88 | 7.99 | 2004 |
+| HAT-P-7 b | HAT-P-7 | 2.20 | 16.9 | 585 | 2008 |
+| K2-18 b | K2-18 | 32.9 | 2.37 | 8.92 | 2015 |
 | Proxima Cen b | Proxima Cen | 11.2 | 1.02 | 1.05 | 2016 |
 ```
 
-The reply was ten rows and about 250 tokens. The model was `claude-haiku-4-5`, the cost $0.0751, the wall time 82.5 seconds over 8 turns. One caveat: total output including thinking was 7,321 tokens, so the cap applies to the table returned, not to everything the agent emits.
+Ten rows, about 250 tokens, on `claude-haiku-4-5`, for $0.0751 in 82.5 seconds over 8 turns. One caveat: total output including thinking was 7,321 tokens, so the cap applies to the table returned, not to everything the agent emits.
 
 <!--
-Entry 24, slide 5 of 5. 45 s of 180. Three of the ten rows shown; the full table is in examples/exoplanet-lookup/RESULT.md and the handout. It succeeded on the first real attempt.
+Entry 24, slide 3 of 3. 60 s of 180. All ten rows since 2026-09-19; three were shown before. Verbatim from examples/exoplanet-lookup/RESULT.md. It succeeded on the first real attempt.
 Transition: "That is the simple end. The difficult end is this talk."
 -->
 

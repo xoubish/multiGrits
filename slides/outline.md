@@ -83,13 +83,24 @@ earlier edit and is restored here.)
      copy of the repository so they cannot overwrite each other. Define "worktree" in words, not code; the script
      itself is shown two slides later. 20 s.
 
-**Beat 2, the recipe (entry 17, 5 slides, 150 s).**
+**Beat 2, the recipe (entry 17, 9 slides, 240 s; the extra 90 s from the segment-B pool).**
+Rebuilt in dependency order 2026-09-19 on the speaker's instruction: define a stage first, then show its four
+parts in the order they are needed, then the whole pipeline, then the one stage worth opening up, then the
+inventory. Nothing is elided; the load-bearing lines are highlighted.
 
-17a. **An agent is a markdown file.** `reviewer.md` frontmatter: name, description, tools, model. 30 s.
-17b. **The instructions.** Plain English below the frontmatter; the last line is parsed by the script. 30 s.
-17c. **What the orchestrator wrote.** Ten agent files and 418 lines of shell and Python; the repository listing. 30 s.
-17d. **One headless call per agent.** The exact `claude -p` line from `pipeline/run.sh`, flag by flag. 30 s.
-17e. **The stage order.** The `all` case, named in the vocabulary of the three axes: chain, fan-out, loop. 30 s.
+17a. **What a stage is.** The definition the rest of the segment depends on: every stage is an agent file, a
+     prompt template, one `claude -p` call, and a run directory of receipts. The next four slides are those four
+     things in that order. 25 s.
+17b-d. **An agent is a markdown file.** All 38 lines of `reviewer.md` across three slides that share one title;
+     the lead line on each says which lines. Highlight `tools` and `model`, then question 5, then the verdict
+     line. 25 + 35 + 25 s.
+17e. **The prompt for this stage.** `pipeline/prompts/critique.md` in full. The agent file says who the agent is;
+     the template says what this stage wants. Eleven templates, `{{RUN_DIR}}` substituted per call. 30 s.
+17f. **One headless call per agent.** The exact `claude -p` line, flag by flag, and what the last line does. 30 s.
+17g. **The stages, in order.** The `all` case: the whole pipeline, now that a stage is defined. 25 s.
+17h. **The write stage, in full.** The one stage that is not a single agent: `stage_write` verbatim apart from
+     error handling, the fan-out into three worktrees and the merge. 30 s.
+17i. **What the orchestrator wrote.** The inventory as a closer: ten agent files, eleven templates, 418 lines. 15 s.
 
 **Beat 3, attempt one and what broke (entry 14, 4 slides, 75 s).**
 
@@ -140,7 +151,8 @@ Decisions of 2026-09-17: entry 21 lost its unsupported "diminishing returns" sen
 only; attempt one is described as eleven agent files (fourteen roles if the four researchers and three critics are
 counted separately).
 
-24. **A simple example to run first.** One read-only subagent: given ten target names, query one archive with
+24. **A simple example to run first.** *(Three slides since 2026-09-19, was five: the agent file complete on one
+    slide with highlights, the command, then all ten result rows.)* One read-only subagent: given ten target names, query one archive with
     astroquery and return a table under 2,000 tokens. Show the agent file, the one command, and the real result from
     `examples/*/RESULT.md`: what it returned, what it cost, how long it took. 180 s.
 25. **Folded into 26 on 2026-09-17** (it repeated entries 13 and 26); its minute went to entry 24. 0 s.
