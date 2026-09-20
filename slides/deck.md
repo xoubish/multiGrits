@@ -653,6 +653,29 @@ This excludes the initial interactive research session and the later slide-by-sl
 
 ---
 
+# Not all glory
+
+The receipts record the failures too. Five that cost me real time.
+
+- **Tokens go fast.** 18.6 million tokens through the models to build this deck, nineteen read for every one written. One fact-check read 2.1 million to write 26 thousand.
+- **The budget cap fired mid-edit.** A revision crossed its $3 ceiling on turn 34 and stopped at $3.45, half-applied, exiting 1 rather than the documented 2.
+- **Isolation did not prevent a merge conflict.** Two agents in separate worktrees never touched each other's files, and collided on the pipeline's own cost log.
+- **The logged total is not the whole bill.** It leaves out every interactive session, one of which filled 613K of a one-million-token window.
+- **And attempt one was not presentable.** An earlier pipeline wrote its own outline and produced forty-two slides that met every rule I gave it.
+
+<!--
+New 2026-09-19 on the speaker's instruction, between the cost slide and the editing slide. This is the slide that pays off "and then what went wrong with it" on the pipeline slide, and question 5 of the reviewer file two slides earlier. Do not apologise for any of it; these are the four things a person copying this workflow will hit in their first week.
+Every number is checked against the repo. 18.6M = input + cache creation + cache read + output summed over the 35 `result.json` files under `runs/`: 2,562 + 2,687,482 + 14,945,041 + 929,919 = 18,565,004. Nineteen to one = 17,635,085 read against 929,919 written, 18.96. The fact-check pass is `runs/025-factcheck`: 2,085,503 cache read, 26,460 output, $1.66, 314 s. Say aloud if asked why it is so lopsided: every turn re-sends the whole window, which is the point made on "What fills a context window".
+Budget cap is `runs/006-revise`: `num_turns` 34, `total_cost_usd` 3.4482, `subtype: error_max_budget_usd`, `terminal_reason: budget_exhausted`, and `runs/006-revise/exit-code` contains 1. The cap was the then-default $3; it is now $5, and `run.sh` reads the result file instead of trusting the exit code. `runs/006-revise/changes.md` shows it had already applied 20 of 24 items when it stopped, which is why the half-changed deck is the real cost, not the $0.45 overshoot.
+Merge conflict is `runs/004-write`: `slide-writer` and `diagrammer` in `.worktrees/slides` and `.worktrees/diagrams`, disjoint output folders, conflicting on `runs/cost.tsv` because `log_result.py` appended to one shared file from inside both worktrees. Fixed by giving each run directory its own `cost-row.tsv`. This is the concrete form of the write contention named on the isolation axis slide; say that link aloud.
+The 613K of 1M figure is the same /context panel already shown on "What fills a context window", so point back at it rather than re-explaining. The honest version of the last bullet, if anyone presses: I did not meter the interactive sessions, so I cannot tell you what the deck really cost.
+Fifth bullet added 2026-09-19 on the speaker's instruction. Attempt one is the first pipeline, runs 000 to 014, retired 2026-09-17; its deck is in git history at commit 707ad48 and is forty-two slides (the speaker said fifty from memory; 707ad48 is the count). This bullet is also what introduces "the earlier build" that the cost slide before it refers to, so do not cut it without fixing that line.
+What made it unpresentable is best said aloud, not written: of its forty-two slides, ten were captioned screenshots of this repository's own run logs, four were sources, and twelve were an appendix printing each agent file in full. It met every rule in the brief. `slides/shots/first-deck-gotcha.png` is one of its slides if anyone wants to see one. The reason is on the next slides and in talk-context.md: three critics scored citation counts, words per second and seconds per slide, and none asked whether a slide earned its place. Agents optimise what you measure; taste has to be a person's.
+Transition: "And this is where the pipeline stopped and I took over."
+-->
+
+---
+
 <!-- _class: polish -->
 
 # Editing and polish: one agent, one slide at a time
