@@ -116,19 +116,19 @@ GRITS AI workshop, September 2026.
 
 <!--
 Entry 1. 15 s. Illustration: agents.svg, right half (replaced title.svg on 2026-09-18 on the speaker's instruction; the same figure returns on the second slide of entry 4).
-Transition: "One collaborator first."
+Transition: "One agent first."
 -->
 
 ---
 
-# One collaborator, then more
+# From one agent to many
 
-This talk assumes prior use of a coding agent such as Claude Code or Codex on real work. A single agent already plans, writes, checks, and debugs on request, and it has been the best collaborator I have had.
+An AI agent is a system that uses a model to pursue a goal, decide what to do next, and act through tools (OpenAI 2025).
 
-When one collaborator works that well, the obvious next step is a team of them. This talk poses that question before answering it.
+A single coding agent can plan, write, test, and debug. The question for this talk is when coordinating several agents improves the result.
 
 <!--
-Entries 2 and 3, merged 2026-09-18 on the speaker's instruction. 105 s. Do not re-teach agents or the tools; pose the question, do not answer it yet.
+Entries 2 and 3, merged 2026-09-18 on the speaker's instruction. 105 s. Definition synthesizes OpenAI's "A practical guide to building agents": agents independently accomplish tasks on a user's behalf, use an LLM to manage workflow execution and make decisions, and select tools based on workflow state. A run is commonly implemented as a loop, but the loop is an implementation detail rather than the definition. Briefly define agents; do not re-teach the tools. Pose the question, do not answer it yet.
 Transition: "A different question comes first: why do people work in teams?"
 -->
 
@@ -855,6 +855,8 @@ Li et al. (2024), RAG or Long-Context LLMs? EMNLP. arxiv.org/abs/2407.16833
 Liu et al. (2023), Lost in the Middle. arxiv.org/abs/2307.03172
 
 Modarressi et al. (2025), NoLiMa, ICML. arxiv.org/abs/2502.05167
+
+OpenAI (2025), A practical guide to building agents. openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents
 
 OpenAI (2026), Codex: non-interactive mode, and subagents. learn.chatgpt.com/codex
 
