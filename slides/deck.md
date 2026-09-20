@@ -28,6 +28,35 @@ style: |
   section.recipe-map h1 { margin-bottom: 14px; }
   section.recipe-map p, section.recipe-map li { margin-bottom: 8px; }
   section.recipe-map pre { font-size: 16px; line-height: 1.3; padding: 8px 18px; margin-bottom: 10px; }
+  section.polish .cols-even { align-items: start; }
+  section.polish .cols-even img { width: 100%; height: 245px; object-fit: contain; }
+  section.polish .robot-reactions { position: absolute; left: 72px; right: 72px; bottom: 46px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; text-align: center; }
+  section.polish .robot-reactions p { margin: 0; }
+  section.research-close h1 { margin-bottom: 16px; }
+  section.research-close .task-panels { display: grid; grid-template-columns: 450px 450px; justify-content: center; }
+  section.research-close .benchmark-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; font-size: 18px; line-height: 1.3; margin-bottom: 10px; }
+  section.research-close .benchmark-labels p { margin: 0; }
+  section.research-close .chart-crop { position: relative; width: 450px; height: 302px; overflow: hidden; }
+  section.research-close .chart-crop img, section.research-close .chart-legend img { position: absolute; width: 900px; max-width: none; height: 664px; }
+  section.research-close .finance-panel img { left: -450px; top: 0; }
+  section.research-close .planning-panel img { left: 0; top: -304px; }
+  section.research-close .chart-legend { position: relative; width: 900px; height: 44px; overflow: hidden; margin: 0 auto; }
+  section.research-close .chart-legend img { left: 0; top: -620px; }
+  section.research-close .chart-note { font-size: 18px; text-align: center; margin: 4px 0 12px; }
+  section.research-close .source-credit { font-size: 16px; color: #555; margin-top: 8px; }
+  section.research-close .reliability-panel { width: 560px; align-self: center; }
+  section.research-close .reliability-panel img { width: 560px; height: auto; }
+  section.research-close .reliability-panel p { margin: 0; }
+  section.research-overview { padding-top: 32px; }
+  section.research-overview h1 { margin-bottom: 10px; }
+  section.research-overview .architecture-strip { width: 780px; height: 152px; overflow: hidden; margin: 0 auto 8px; }
+  section.research-overview .architecture-strip img { width: 780px; max-width: none; }
+  section.research-overview .architecture-strip p { margin: 0; }
+  section.research-overview .task-panels, section.research-overview .chart-legend { zoom: 0.76; }
+  section.research-overview .benchmark-labels { grid-template-columns: 1fr 1fr 1.24fr; gap: 18px; margin-bottom: 6px; }
+  section.research-overview .task-panels { grid-template-columns: 450px 450px 560px; gap: 12px; }
+  section.research-overview .chart-takeaway { font-size: 22px; }
+  section.research-overview > p { margin-bottom: 8px; }
   .fig { text-align: center; margin: 14px 0 0; }
   .fig p { margin: 6px 0 0; font-size: 20px; color: #555; }
   .corner { position: absolute; right: 52px; bottom: 46px; margin: 0; }
@@ -598,6 +627,9 @@ runs/                   one folder per call: prompt, JSON result, return, cost
 
 # What it cost
 
+<div style="display:grid; grid-template-columns:minmax(0, 2.3fr) minmax(0, 1fr); gap:24px; align-items:center;">
+<div>
+
 | Work in the revised pipeline | Cost |
 | --- | ---: |
 | Evidence, runnable example, and build log | $1.49 |
@@ -607,15 +639,25 @@ runs/                   one folder per call: prompt, JSON result, return, cost
 | Revision from my written feedback, then updated notes | $5.12 |
 | **Revised pipeline total** | **$25.09** |
 
+</div>
+<div>
+
+![w:290](illustrations/counting-cash.svg)
+
+</div>
+</div>
+
 The earlier build cost $29.22: **$54.31 across both builds**, recorded in `runs/cost-report.md`. Each call saved its prompt, result, and cost.
 
 This excludes the initial interactive research session and the later slide-by-slide editing.
 
 ---
 
-# The first output still needed work
+<!-- _class: polish -->
 
-The pipeline produced a draft, but the structure, wording, and visual choices still needed my judgment.
+# Editing and polish: one agent, one slide at a time
+
+The pipeline produced the draft. I then edited and polished each slide with a single agent.
 
 <div class="cols-even">
 <div>
@@ -627,234 +669,88 @@ The pipeline produced a draft, but the structure, wording, and visual choices st
 </div>
 <div>
 
-**After slide-by-slide editing**
+**After editing with one agent**
 
 ![w:550](shots/edited-context-slide.png)
 
 </div>
 </div>
 
-Passing checks for citations and word counts did not make it ready to present.
+<div class="robot-reactions">
+
+![h:110](illustrations/sad-agent-team.svg)
+
+![h:110](illustrations/happy-single-agent.svg)
+
+</div>
 
 ---
 
-# How I finished it: one agent, one slide at a time
 
-Once I understood the procedure, I worked through the deck slide by slide with one agent.
+<!-- _class: research-close research-overview -->
 
-- I decided what each slide needed to say, and what to cut, combine, or explain.
-- The agent edited the deck and rendered the result.
-- I reviewed each change and asked for another pass when needed.
+# When more agents help
 
-The multi-agent workflow produced the draft. Working directly with one agent is how I made it a talk I could present.
+<div class="architecture-strip">
 
----
+![Architecture comparison: single agent, independent agents, decentralized agents, centralized orchestration, and hybrid coordination.](shots/google-agent-architectures.png)
 
-# The one paper that says both
+</div>
 
-Kim and colleagues ran the same experiment both ways, over 260 configurations, 6 benchmarks and 3 model families.
+<div class="benchmark-labels">
 
-- A decomposable financial-reasoning task improved by 80.8 percent with a centralized multi-agent design (Kim et al. 2026).
-- A sequential planning task got 39 to 70 percent worse, under every multi-agent variant they tried (Kim et al. 2026).
-- The inference is mine, not theirs: work that splits into independent pieces is a candidate for fan-out, and work where each step depends on the last belongs in one window.
+<p><strong>Finance Agent:</strong> research across company filings; e.g., Netflix's share repurchases between two years.</p>
 
-<!--
-Entry 21. 60 s (was two slides). Merged 2026-09-19. Per-variant figures on the planning task, if asked: hybrid −39.0%, decentralized −41.4%, centralized −50.4%, independent −70.0%. The third bullet is flagged as an inference, per review 021.
-Transition: "The rest of the evidence, both sides."
--->
+<p><strong>PlanCraft:</strong> dependent crafting steps; make green dye before using it to color a bed.</p>
 
----
+<p><strong>Error amplification:</strong> centralized coordination reduced error propagation, but did not eliminate it.</p>
 
-# The rest of the evidence, both sides
+</div>
 
-- **In favor.** A lead agent plus subagents did 90.2 percent better than a single agent on breadth research, at about 15 times the tokens of a chat. A vendor claim, not independently replicated (Anthropic 2025).
-- **Against.** At an equal thinking budget a single agent matched or beat five multi-agent designs, 0.427 to 0.386. Multi-agent won only when up to 70 percent of the context was masked (Tran and Kiela 2026).
-- **Against.** One agent framework cost over 50 times a simple baseline, and the baseline was more accurate, 93.2 percent to 88.0 (Kapoor et al. 2024).
+<div class="task-panels">
+<div class="chart-crop finance-panel">
 
-The honest summary is that it depends on the task, and the token multiple is real either way.
+![Finance Agent: multi-agent gains of 57 to 81 percent.](shots/google-agent-task-performance.png)
 
-<!--
-Entry 22. 75 s (was three slides). Merged 2026-09-19. Full references on the Sources slides. Anthropic's post also reports that token count alone explained 80% of the variance in performance. Kapoor: the framework is LATS, the baseline is their "Warming" strategy; say "matched or beat", not "similar", because the cheap baseline won on accuracy. Tran and Kiela's title was added by hand from the arXiv abstract page and verified by the fact-checker. (Cut candidate 2: drop this slide and keep Kim et al. only.)
-Transition: "When it fails, how does it fail?"
--->
+</div>
+<div class="chart-crop planning-panel">
 
----
+![PlanCraft: multi-agent losses of 39 to 70 percent.](shots/google-agent-task-performance.png)
 
-# How it fails
+</div>
+<div class="reliability-panel">
 
-The MAST study annotated over 1,600 traces across seven frameworks and found fourteen failure modes in three categories (Cemri et al. 2025).
+![Error amplification: single-agent 1.0, independent 17.2, decentralized 7.8, centralized 4.4, hybrid 5.1.](shots/google-agent-reliability.png)
 
-- System design and specification: 44.2 percent.
-- Inter-agent misalignment: 32.3 percent.
-- Task verification: 23.5 percent.
+</div>
+</div>
+<div class="chart-legend">
 
-Most failures are specification and coordination problems, not model errors.
+![Legend: single-agent; independent, decentralized, centralized, hybrid multi-agent; diamond marks mean.](shots/google-agent-task-performance.png)
 
-<!--
-Entry 23, slide 1 of 2. 35 s of 75. Inter-annotator agreement κ = 0.88; an o1 judge reproduced the labels at 94% accuracy. Converted to bullets 2026-09-19.
-Transition: "Three of those I see every week."
--->
+</div>
+
+<p class="chart-takeaway"><strong>Split independent work, keep dependent steps together, and validate the outputs.</strong></p>
+
+<p class="source-credit">SAS = single agent; MAS = multi-agent. Percentages are relative to SAS. Selected figures: Kim et al. (2026), <a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/">Google Research</a>.</p>
 
 ---
 
-# How it fails in practice
+<!-- _class: research-close -->
 
-First, subagents do not see the orchestrator's conversation. They must be given what they need in the prompt, and asked for a summary in return, not a dump.
+# Start with one agent. Add others for a reason.
 
-Second, two agents editing one file. Even agents in separate worktrees can conflict when their changes are merged; this pipeline's shared cost log did.
+More agents are not a general upgrade. On multi-hop reasoning tasks, one agent matched or beat multi-agent systems under equal thinking-token budgets across three model families (Tran and Kiela 2026).
 
-Third, agents spawning agents instead of a script calling agents. Once the model decides the order, reproducibility is lost.
+My practical conclusion:
 
-<!--
-Entry 23, slide 2 of 2. 40 s of 75.
-Transition: "The simple example follows."
--->
+- **Stay with one** when the context fits and each step depends on the last.
+- **Try multiple** when work separates into independent pieces or needs separate context windows, with clear handoffs and a way to check the combined output.
+- **Keep the extra agents only if they help.** Compare quality, elapsed time, and total cost against a strong single-agent baseline on the same tasks.
 
----
+**Start simple. Split deliberately. Measure the gain.**
 
-<!-- _class: code-xs -->
-
-# A simple example to run first
-
-One read-only subagent, the whole file. Given ten target names it queries the NASA Exoplanet Archive and returns a table.
-
-<pre><code>---
-name: exoplanet-lookup
-description: Read-only lookup of confirmed exoplanet parameters from the NASA Exoplanet Archive for a given list of planet names. Returns a compact table, not a dump. Use for quick target-list checks.
-<span class="hl">tools: Read, Bash</span>
-<span class="hl">model: haiku</span>
----
-You are given a path to a text file with one exoplanet name per line (up to ten names).
-
-Do this:
-1. Read the file.
-2. For each name, query the NASA Exoplanet Archive (table `pscomppars`) with astroquery for
-   columns: `pl_name, hostname, pl_orbper, pl_rade, pl_bmasse, disc_year`. One Python process,
-   one query per name (or a single `where` clause with all names), is fine.
-<span class="hl">3. If a name has no match, say &quot;not found&quot; in that row. Do not invent numbers.</span>
-
-Return only a single compact markdown table, one row per input name, columns:
-`name | host | period_days | radius_earth | mass_earth | disc_year`.
-Round numbers to 3 significant figures. No prose before or after the table, except a one-line
-<span class="hl">header stating the source (&quot;NASA Exoplanet Archive, pscomppars&quot;). Keep the whole reply under</span>
-<span class="hl">600 tokens.</span></code></pre>
-
-<!--
-Entry 24, slide 1 of 3. 60 s of 180. Complete since 2026-09-19: the three slides that showed this file in pieces are merged. Highlighted: the two tools and the cheap model; the instruction not to invent numbers; and the token cap on the reply. Say the three rules aloud: read the file, query the archive, say "not found" rather than invent. The cap is on the table it returns, not on everything it emits, which the result slide comes back to.
-Transition: "One command runs it."
--->
-
----
-
-# The example: the command
-
-The call is one command, headless, with a one-dollar cap. The output is JSON, so the cost and the token counts come back with the answer.
-
-```
-env -u CLAUDECODE claude -p --agent exoplanet-lookup --allowedTools "Read,Bash" \
-  --max-budget-usd 1 --output-format json \
-  "Look up the exoplanets listed one per line in targets.txt in the NASA Exoplanet Archive and return the table."
-```
-
-<!--
-Entry 24, slide 2 of 3. 60 s of 180. From examples/exoplanet-lookup/RESULT.md; run.sh in the same directory wraps it and saves the JSON under runs/.
-Transition: "And here is what actually came back."
--->
-
----
-
-<!-- _class: code-xs -->
-
-# The example: the real result
-
-```
-NASA Exoplanet Archive, pscomppars
-
-| name | host | period_days | radius_earth | mass_earth | disc_year |
-|------|------|-------------|--------------|------------|-----------|
-| Kepler-10 b | Kepler-10 | 0.837 | 1.47 | 3.24 | 2011 |
-| Kepler-22 b | Kepler-22 | 290 | 2.10 | 9.10 | 2011 |
-| TRAPPIST-1 e | TRAPPIST-1 | 6.10 | 0.920 | 0.692 | 2017 |
-| HD 209458 b | HD 209458 | 3.52 | 15.6 | 232 | 1999 |
-| WASP-12 b | WASP-12 | 1.09 | 22.0 | 467 | 2008 |
-| GJ 1214 b | GJ 1214 | 1.58 | 2.73 | 8.41 | 2009 |
-| 55 Cnc e | 55 Cnc | 0.737 | 1.88 | 7.99 | 2004 |
-| HAT-P-7 b | HAT-P-7 | 2.20 | 16.9 | 585 | 2008 |
-| K2-18 b | K2-18 | 32.9 | 2.37 | 8.92 | 2015 |
-| Proxima Cen b | Proxima Cen | 11.2 | 1.02 | 1.05 | 2016 |
-```
-
-Ten rows, about 250 tokens, on `claude-haiku-4-5`, for $0.0751 in 82.5 seconds over 8 turns. One caveat: total output including thinking was 7,321 tokens, so the cap applies to the table returned, not to everything the agent emits.
-
-<!--
-Entry 24, slide 3 of 3. 60 s of 180. All ten rows since 2026-09-19; three were shown before. Verbatim from examples/exoplanet-lookup/RESULT.md. It succeeded on the first real attempt.
-Transition: "That is the simple end. The difficult end is this talk."
--->
-
----
-
-# Cost, and when it is worth it
-
-- A multi-agent system uses about 15 times a chat's tokens (Anthropic 2025).
-- Later guidance from the same vendor says 3 to 10 times a single agent's (Anthropic 2026).
-- Both figures come from the party promoting multi-agent, which has no reason to overstate the cost.
-
-<!--
-Entry 26, slide 1 of 3. 20 s of 60. Converted to bullets 2026-09-19; the range on the old slide spanned both posts.
-Transition: "So the multiple has to be spent carefully."
--->
-
----
-
-# Spending the multiple
-
-- Cheap or local models belong on the subagents, and the frontier model on the orchestrator.
-- A subagent's frontmatter takes a `model` field, so the choice is one line per agent (Anthropic 2026).
-- In this pipeline the reviewer and the slide-writer run on the frontier model; everything else runs on the cheaper one.
-
-Model selection and pricing are covered elsewhere in the workshop and are not repeated here.
-
-<!--
-Entry 26, slide 2 of 3. 20 s of 60. Do not present pricing. Anthropic (2026), Create custom subagents: `model` takes haiku, sonnet, opus, fable, or inherit; the built-in Explore inherits the main conversation's model unless a custom Explore is defined and pinned to a cheaper one (fetched 2026-09-17). The cost table on the run-by-run slide shows the split: the two frontier-model agents account for most of the spend.
-Transition: "The difficult example."
--->
-
----
-
-# The difficult example
-
-The difficult example is this pipeline: ten agents, a script that owns order, loop and isolation, and a log for every call.
-
-It is worth it when all four hold:
-
-- The work exceeds one context window.
-- The pieces are independent of each other.
-- The output needs a check from something that did not write it.
-- The token multiple is affordable.
-
-Otherwise one agent suffices. Most of my own work is still one agent.
-
-<!--
-Entry 26, slide 3 of 3. 20 s of 60. Folded from the old entry 25 on 2026-09-17.
-Transition: "To close."
--->
-
----
-
-# Close
-
-![bg right:45% fit](illustrations/close.svg)
-
-More context than intelligence. Most tasks need one agent.
-
-A first step is to pull one bounded, read-only task into its own agent file, run it once headless with a budget cap, and check that the return is short.
-
-One closing line: unsupervised agents require sandboxing and approval gates, the first items on the field's own deployment checklist (Gao et al. 2026), and the subject of the following session.
-
-<!--
-Entry 27. 60 s. Illustration: close.svg, right half. Gao et al. 2026, Table 12: "Strict Sandboxing: All tools and agent-generated code execute in an isolated environment with no default access to host files, network, or sensitive processes"; "Human-in-the-Loop for Critical Actions". Then 180 s of Q&A; likely questions are in handout/qa.md.
-Transition: hand off to the following session.
--->
+<p class="source-credit">Evidence: <a href="https://arxiv.org/abs/2604.02460">Tran and Kiela (2026)</a>; <a href="https://arxiv.org/abs/2512.08296">Kim et al. (2026)</a>. The decision rule is my synthesis, not a universal benchmark result.</p>
 
 ---
 
@@ -884,6 +780,8 @@ Brown et al. (2020), Language Models are Few-Shot Learners. arxiv.org/abs/2005.1
 
 Cemri et al. (2025), Why Do Multi-Agent LLM Systems Fail? (MAST). arxiv.org/abs/2503.13657
 
+Dagan, Keller and Lascarides (2024/2025), Plancraft: an evaluation dataset for planning with LLM agents. arxiv.org/abs/2412.21033
+
 Gao et al. (2026), A Survey of Self-Evolving Agents, TMLR. arxiv.org/abs/2507.21046
 
 Gemini Team (2024), Gemini 1.5: multimodal understanding across millions of tokens. arxiv.org/abs/2403.05530
@@ -901,6 +799,8 @@ Jarvella (1971), Syntactic processing of connected speech. J. Verbal Learning an
 Kapoor et al. (2024), AI Agents That Matter. arxiv.org/abs/2407.01502
 
 Kim et al. (2026), Towards a Science of Scaling Agent Systems. arxiv.org/abs/2512.08296
+
+Kim and Liu (Jan. 2026), Google Research: Towards a science of scaling agent systems. <a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/">Blog and figures</a>
 
 Kuratov et al. (2024), BABILong. arxiv.org/abs/2406.10149
 
@@ -952,3 +852,21 @@ The shape is portable. The agent file becomes TOML, and `codex exec` is the head
 Sources: OpenAI (2026), Codex non-interactive mode and Codex subagents, learn.chatgpt.com/codex, fetched 2026-09-19; model names change, so check the docs before quoting gpt-5.6-luna. The budget-cap gap matters because `--max-budget-usd` is the flag that caught the run 006 failure.
 Appendix, not presented and not counted in the time budget. Added 2026-09-19 on the speaker's instruction, after a question about whether `claude -p` can drive an OpenAI model. It cannot: `--model` takes Claude aliases and Claude model IDs only, and the Bedrock, Vertex and Foundry backends all serve Claude. If anyone asks in Q&A, the useful line is that `--agent` is doing nothing magic, it prepends a file as the system prompt, and you can do that by hand in any tool. Also worth saying: `--json` in Codex is a stream of events, not one object with the cost in it, so a cost logger would read the last event rather than parse a single result.
 -->
+
+---
+
+<!-- _class: research-close research-overview -->
+
+# Appendix 2: PlanCraft
+
+PlanCraft is a crafting puzzle based on Minecraft. The agent gets a set of materials (e.g., a cactus and a white bed) and a goal (e.g., a green bed). It must choose and execute the steps that turn those materials into the target item.
+
+<div style="text-align:center;">
+
+![w:980](shots/plancraft-green-bed.png)
+
+</div>
+
+**Each action uses or creates materials, changing what the agent can do next.**
+
+<p class="source-credit">Dagan, Keller and Lascarides (2024/2025), Plancraft, Figure 1. <a href="https://arxiv.org/html/2412.21033v2">Paper</a></p>

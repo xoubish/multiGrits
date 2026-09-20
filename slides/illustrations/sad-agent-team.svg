@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" role="img" aria-label="Three robots with sad downturned mouths">
+  <defs>
+    <g id="robot" fill="#e8edf2" stroke="#1e3a5f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M40 24 V13"/>
+      <circle cx="40" cy="8" r="5"/>
+      <rect x="12" y="24" width="56" height="49" rx="8"/>
+      <path d="M19 36 H61" fill="none"/>
+      <circle cx="29" cy="48" r="3" fill="#1e3a5f" stroke="none"/>
+      <circle cx="51" cy="48" r="3" fill="#1e3a5f" stroke="none"/>
+      <path d="M29 65 Q40 53 51 65" fill="none"/>
+      <rect x="21" y="82" width="38" height="35" rx="7"/>
+      <path d="M21 89 L10 107 M59 89 L70 107 M31 117 V138 H21 M49 117 V138 H59" fill="none"/>
+    </g>
+  </defs>
+  <use href="#robot" x="10"/>
+  <use href="#robot" x="110"/>
+  <use href="#robot" x="210"/>
+</svg>

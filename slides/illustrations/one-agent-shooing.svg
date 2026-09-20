@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 170" role="img" aria-label="One determined robot pushes a surprised group of three robots away">
+  <defs>
+    <g id="surprised" stroke="#1e3a5f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#e8edf2">
+      <path d="M34 24 V12"/>
+      <circle cx="34" cy="8" r="4"/>
+      <rect x="7" y="24" width="54" height="45" rx="8"/>
+      <path d="M14 35 H54" fill="none"/>
+      <circle cx="23" cy="48" r="5" fill="#fff"/>
+      <circle cx="45" cy="48" r="5" fill="#fff"/>
+      <ellipse cx="34" cy="60" rx="4" ry="5" fill="#fff"/>
+      <rect x="15" y="77" width="39" height="39" rx="7"/>
+      <path d="M17 87 L0 72 M52 87 L73 62 M25 117 L17 139 L4 139 M44 117 L62 132 L74 132" fill="none"/>
+    </g>
+  </defs>
+  <g stroke="#1e3a5f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#e8edf2">
+    <g transform="translate(70 8) rotate(10 50 105)">
+      <path d="M46 30 V16" fill="none"/>
+      <circle cx="46" cy="10" r="5"/>
+      <rect x="15" y="30" width="62" height="50" rx="8"/>
+      <path d="M23 41 H69 M31 52 L39 55 M55 55 L63 52 M43 68 H59" fill="none"/>
+      <rect x="24" y="87" width="43" height="43" rx="7"/>
+      <path d="M63 96 L105 82 L148 82 M66 112 L109 103 L148 103" fill="none"/>
+      <path d="M148 72 V86 M148 96 V110 M34 130 L9 149 H0 M57 130 L79 146 H92" fill="none"/>
+    </g>
+    <path d="M42 83 H18 M45 97 H9 M48 111 H25" fill="none" stroke="#8d9caa" stroke-width="3"/>
+    <use href="#surprised" transform="translate(228 7) rotate(14 34 110)"/>
+    <use href="#surprised" transform="translate(332 0) rotate(18 34 110)"/>
+    <use href="#surprised" transform="translate(440 8) rotate(23 34 110)"/>
+    <path d="M311 52 L322 48 M414 51 L426 45 M524 87 L544 80 M529 100 L551 97" fill="none" stroke-width="3"/>
+  </g>
+</svg>
