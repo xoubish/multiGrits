@@ -1,4 +1,9 @@
 # Speaker script — clock and transitions, not a second deck
+> **Stale as of 2026-09-19.** Written by `notes-writer` against the 58-slide draft of 2026-09-18. Its
+> headline total (3,140 spoken words, 22:26 at 140 wpm) is for that deck. The current 30-slide deck
+> carries about 1,944 spoken words, roughly 18 minutes including spoken asides, against the same
+> 1,620 s content budget. The per-slide rows below no longer match the slide numbers. Regenerate with
+> `pipeline/run.sh notes` once the deck is final.
 
 The speaker reads the slides. This page is a clock and a transition guide: when each slide should
 start if the talk is on pace, how many spoken words are on it, what that implies at 140 words per

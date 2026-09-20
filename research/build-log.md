@@ -23,7 +23,7 @@ cache-creation tokens of system prompt [runs/000-scaffold-verification/README.md
 context/cost, astronomy), each writing one brief to `research/briefs/` and returning a summary of at most 200
 words. Totals: 270 tool calls, ~602k subagent tokens, 10.9 minutes wall-clock in parallel versus an estimated 38
 minutes sequential; ~7,100 words of briefs compressed to ~800 words of returned summaries
-[runs/001-research-fanout/README.md]. Merged by hand into `research/brief.md` (~2,100 words). Cost recorded by
+[runs/001-research-fanout/README.md]. Merged by hand into `archive/first-pipeline-brief.md` (~2,100 words). Cost recorded by
 hand from the session's `/cost`, not in `runs/cost-report.md` [runs/README.md].
 
 **Failure 1: the spec contradiction (run 002).** The `outliner` (Sonnet, 22 turns, ~40k output tokens, $0.84,
@@ -104,7 +104,7 @@ regenerated since run 014 (the `cost` stage runs at the end of the pipeline and 
 writing), so figures for runs 015 onward are cited to their individual `cost-row.tsv` files, not the report.
 
 - **Run 015 — `evidence`.** Agent `evidence-finder`, models `claude-haiku-4-5-20251001` and `claude-sonnet-5`, tools
-  WebSearch/WebFetch/Read/Write/Glob/Grep. Read `slides/outline.md` and `research/brief.md`/`research/briefs/`.
+  WebSearch/WebFetch/Read/Write/Glob/Grep. Read `slides/outline.md` and `archive/first-pipeline-brief.md`/`research/briefs/`.
   Wrote `research/evidence.md` and `runs/015-evidence/unsupported.md` (folded into `research/evidence.md`'s
   Unsupported section per its return). Return: found sources for 13 of 16 claims entirely from existing
   briefs/fact-check, needed the web for 3 (MacNet, Project Sid, ChatDev's seven roles), and flagged 4 claims as

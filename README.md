@@ -21,10 +21,13 @@ research/evidence.md     one source per claim in the outline (written by evidenc
 research/build-log.md    how this deck was built, step by step, with pointers into runs/ (written by chronicler)
 research/briefs/         the four briefs from the first pipeline's research fan-out; evidence-finder reuses them
 examples/                the take-home example, built and actually run by example-builder
-slides/deck.md           Marp deck; speaker-script.md; illustrations/ (SVGs); build/ (rendered, untracked)
-diagrams/                Mermaid, one file per diagram token in the deck
-handout/                 handout.md, qa.md
+slides/deck.md           Marp deck (30 slides); illustrations/ (SVGs); shots/ (screenshots)
+slides/build/            rendered output; deck.html and deck.pdf are tracked, the rest is not
+slides/speaker-script.md clock and transitions (STALE: written for the 58-slide draft)
+diagrams/                Mermaid sources; the current deck uses hand-drawn SVGs instead (see below)
+handout/                 handout.md (STALE: four patterns, 58 slides), qa.md
 runs/                    one directory per agent call: exact prompt, full JSON result, return text, cost row
+archive/                 retired material, kept readable; see archive/README.md
 ```
 
 ## The agents
@@ -46,14 +49,21 @@ Retired: `outliner` (the speaker owns the outline), four `researcher`s (push-mod
 pull-mode `evidence-finder`), `critic`, `design-critic`, `teaching-critic` (three rubrics that rewarded compliance;
 replaced by one `reviewer`), `demo-editor` (the screenshot demo is gone).
 
-## How the pipeline maps to the four patterns
+## How the pipeline maps to the three shapes
 
-| Pattern | Where it is used |
+The deck presents three topologies, with isolation as a property any of them can have rather than a
+fourth shape. The pipeline uses all three.
+
+| Shape | Where it is used |
 |---|---|
-| Fan-out and merge | `notes-writer` and `qa-skeptic` in parallel; earlier, four `researcher`s |
-| Pipeline | evidence → example → chronicle → write → review → chronicle → fact-check → notes, each with a fresh context, files as hand-off |
-| Writer and critic | `reviewer` writes a review, `slide-writer` revises; the script owns the loop and the round limit |
-| Parallel isolated workers | `slide-writer`, `diagrammer`, and `illustrator` in three git worktrees on disjoint folders, merged by the script |
+| Chain | evidence → example → chronicle → write → review → chronicle → fact-check → notes, each stage with a fresh context and files as the hand-off |
+| Fan-out and merge | `slide-writer`, `diagrammer` and `illustrator` in the `write` stage; `notes-writer` and `qa-skeptic` in parallel at the end; earlier, four `researcher`s |
+| Loop | `reviewer` writes a review, `slide-writer` revises; the script owns the loop and the round limit |
+
+| Isolation | Where it is used |
+|---|---|
+| Fresh context | every agent, always: `claude -p` starts a new session and neither `--resume` nor `--continue` is ever passed |
+| Separate git worktrees | only the three `write`-stage agents, because they are the only ones that run at the same time; every other stage runs in the main checkout |
 
 ## Running it
 
@@ -83,6 +93,30 @@ for PDF export and diagram pre-rendering.
 `pipeline/render.sh` turns each `diagrams/*.mmd` into a static SVG, inlines them into the deck, and runs Marp to
 `slides/build/deck.html` (and `deck.pdf` with `--pdf`, per-slide PNGs with `--png`). Present from `deck.html`
 offline; press `p` for presenter view with notes and a timer.
+
+## What is current, and what is history
+
+The repo deliberately keeps both versions of the pipeline, because the talk is about the difference
+between them. To avoid confusion:
+
+**Current and live** — `talk-context.md`, `slides/outline.md`, `slides/deck.md`, `.claude/agents/`
+(all ten are called by `run.sh`), `pipeline/` (all eleven prompt templates are used), `research/evidence.md`,
+`research/build-log.md`, `research/briefs/`, `research/notes-two-surveys.md`, `examples/`, `runs/015`–`030`.
+
+**History, kept on purpose** — `runs/000`–`014` (the first pipeline; see `runs/README.md` for the map)
+and `archive/` (things with no remaining consumer). Neither is read by the pipeline.
+
+**Stale, and labelled at the top of the file** — `handout/handout.md` and `slides/speaker-script.md`
+were written by `notes-writer` for the 58-slide draft of 2026-09-18 and have not been regenerated since
+the deck was cut to 30. Run `pipeline/run.sh notes` when the deck is final.
+
+**Wired up but unused by the current deck** — `diagrams/`. The five Mermaid sources still render and
+inline on every build, but the deck replaced every `{{diagram:...}}` token with a hand-drawn SVG from
+`slides/illustrations/` on 2026-09-18/19. The `diagrammer` agent still runs in the `write` stage.
+
+**Not orphans** — several files in `slides/shots/` and `slides/illustrations/` belong to slides cut
+while the deck was shortened from 58 to 30. `slides/illustrations/README.md` records which outline
+entry each one was drawn for.
 
 ## History
 

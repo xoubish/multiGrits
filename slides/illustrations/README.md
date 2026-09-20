@@ -1,6 +1,6 @@
 # Illustrations
 
-Twelve flat SVGs, one style: navy `#1e3a5f` lines and figures, light grey `#e8edf2` fills, transparent background,
+20 flat SVGs, one style: navy `#1e3a5f` lines and figures, light grey `#e8edf2` fills, transparent background,
 `viewBox="0 0 800 450"`, no text, no gradients/filters/masks/fonts. They scale to half a slide beside text
 (`w:520`) or to a full slide (`bg right` or full width). Entries that carry a `{{diagram:...}}` token or a code
 block were skipped on purpose; these are for moments, not mechanisms.
@@ -19,7 +19,15 @@ block were skipped on purpose; these are for moments, not mechanisms.
 | `verdict` | 17c. An agent is a markdown file, lines 32-38 | A robot holding a PASS sign raised in one hand and a REVISE sign lowered in the other: the only two words the script accepts as a first line. Drawn 2026-09-19. | `![w:300](illustrations/verdict.svg)` inside `<div class="fig">`, under the code block. |
 | `two-terminals` | 12. You already do this | A person from behind at a desk between two terminals, arms on both keyboards, attention swivelling from one screen to the other, coffee within reach. | `![w:520](illustrations/two-terminals.svg)` — right of the text; can also run full width above one sentence. |
 | `merge-conflict` | 14. Attempt one, from scratch (the merge-conflict failure) | Two agent windows both writing into the same single file, whose lines overlap and whose page has cracked down the middle. | `![w:460](illustrations/merge-conflict.svg)` — right of the three-failures list, or on the split slide that names the shared-cost-log conflict. |
-| `close` | 27. Close | One person hands one small card to one small read-only agent (padlock), and a short summary card comes back on the return arrow; one star and a crescent moon overhead. | `![bg right:45%](illustrations/close.svg)` — right half of the close, the Monday first step and the hand-off to BJ on the left. |
+| `close` | 27. Close | One person hands one small card to one small read-only agent (padlock), and a short summary card comes back on the return arrow; one star and a crescent moon overhead. | `![bg right:45%](illustrations/close.svg)` — right half of the close, the Monday first step and the hand-off to the sandboxing session on the left. |
+
+| `counting-cash` | 20a. What it cost | A robot holding a fan of banknotes with a stack beside it, grinning. Drawn 2026-09-19. | `![w:290](illustrations/counting-cash.svg)` — right of the cost table in a two-column grid. |
+| `sad-agent-team`, `happy-single-agent` | 20b. One agent, one slide at a time | A row of three glum agents against one cheerful single agent: the reaction shot for the pipeline draft against the hand-edited version. Drawn 2026-09-19. | `![h:110](illustrations/sad-agent-team.svg)` and `![h:110](illustrations/happy-single-agent.svg)` inside `.robot-reactions`. |
+| `one-agent-shooing` | 26/27. Close (drawn, not placed) | One agent waving the others away: the "start with one" punchline. Drawn 2026-09-19 and never placed on a slide. | `![w:400](illustrations/one-agent-shooing.svg)` beside the decision rule. |
+
+Not every illustration in the table above is on a slide. The deck was cut from 58 slides to 30 on 2026-09-18/19;
+`title`, `pattern-isolated`, `merge-conflict`, `one-agent-shooing` and `close` belong to slides that
+went with it. The outline entry column is kept so they can be put back.
 
 Placement notes for the slide-writer and reviewer:
 

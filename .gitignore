@@ -225,3 +225,6 @@ slides/build/*
 !slides/build/deck.html
 !slides/build/deck.pdf
 diagrams/build/
+
+# macOS
+.DS_Store

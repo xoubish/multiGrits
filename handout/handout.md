@@ -1,4 +1,9 @@
 # Multi-agent workflows — handout
+> **Stale as of 2026-09-19.** This handout was written by `notes-writer` for the 58-slide draft of
+> 2026-09-18. It still describes *four* patterns; the deck now presents three shapes (chain, fan-out,
+> loop) with isolation as a property rather than a fourth shape, and it is 30 slides. The recipe and
+> the `examples/exoplanet-lookup/` walkthrough below are still accurate. Regenerate with
+> `pipeline/run.sh notes` once the deck is final.
 
 Shoubaneh Hemmati, Caltech/IPAC. GRITS AI workshop, September 2026. Multi-agent buys **more context than
 intelligence**: a fresh context window, parallel wall-clock, and a reviewer not anchored to the
