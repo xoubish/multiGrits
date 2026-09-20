@@ -24,6 +24,10 @@ style: |
   section.code-xs p { font-size: 21px; }
   .hl { background: #cfdced; border-radius: 3px; padding: 1px 2px; font-weight: 600; }
   section.code-sm p { font-size: 22px; }
+  section.recipe-map { font-size: 22px; line-height: 1.25; }
+  section.recipe-map h1 { margin-bottom: 14px; }
+  section.recipe-map p, section.recipe-map li { margin-bottom: 8px; }
+  section.recipe-map pre { font-size: 16px; line-height: 1.3; padding: 8px 18px; margin-bottom: 10px; }
   .fig { text-align: center; margin: 14px 0 0; }
   .fig p { margin: 6px 0 0; font-size: 20px; color: #555; }
   .corner { position: absolute; right: 52px; bottom: 46px; margin: 0; }
@@ -388,14 +392,37 @@ What follows is how it was built, and then what went wrong with it.
 
 <!--
 Entry 13, slide 1 of 3. 15 s of 60. Segment C rebuilt 2026-09-19 to a six-beat arc on the speaker's instruction: what I gave it, the design decisions, the recipe, attempt one and its failures, the reset, attempt two and the per-slide pass. The recipe now comes before the failures so the audience knows what an agent file is before watching one break.
-Transition: "It started with one file."
+Transition: "Here is that workflow on the three axes."
 -->
 
 ---
 
-# What I gave it: one spec file
+# The decisions, on the three axes
 
-Not a prompt. `talk-context.md`, 122 lines in nine sections, read by every agent before its own instructions.
+- **Who orchestrates (`pipeline/run.sh`).** Claude Code, with me steering, wrote the script that now calls every agent.
+- **Topology (`run.sh`: stages).** A chain of stages, with parallel agents in the writing and notes/Q&A stages, plus a writer-and-reviewer loop.
+- **Isolation (`run.sh`: calls and worktrees).** Every agent gets a fresh conversation. The three concurrent write-stage agents also get separate copies of the repository.
+
+<div class="fig">
+
+![w:470](shots/agents-started.png)
+
+Claude Code creating two agents and starting them. None of it needed a framework.
+
+</div>
+
+<!--
+Entry 13, slide 2 of 3. 20 s of 60. New 2026-09-19; this is the payoff of segment B, so use its words. The bootstrap is worth saying aloud: an interactive agent wrote the script that then ran the agents, which is how you get a workflow without writing one first.
+Accuracy, corrected 2026-09-19: only the three agents in the write stage get worktrees, because they are the only ones that run concurrently. Every other stage runs in the main checkout, one at a time. Fresh context, by contrast, is every agent, and it is the default: a `claude -p` call starts a new session unless `--resume` or `--continue` is passed, and neither ever is. The `--no-session-persistence` flag on the call is a separate thing: it stops the transcript being saved to disk.
+The code block was removed 2026-09-19 on the speaker's instruction: three lines of shell are not readable in eight seconds by this audience, and the script is shown properly two slides later. Screenshot added 2026-09-19 on the speaker's instruction: Claude Code creating two agents and reporting that they started work. Confirm before the talk which session it came from; the agent names in it are not this repo's. Say the definitions aloud if anyone looks lost: a worktree is a second copy of the repository's files on disk, and you need one only when two agents are editing at the same moment. The two fan-outs are the write stage (slide-writer, diagrammer, illustrator) and the notes-and-Q&A stage.
+Transition: "Every agent also needed the same brief."
+-->
+
+---
+
+# The shared brief: `talk-context.md`
+
+Every agent reads the same brief before its own instructions: 122 lines covering the audience, scope, structure, and style.
 
 ```
 ## The event            speaker, venue, the binding 27 + 3 minute budget
@@ -410,31 +437,8 @@ Not a prompt. `talk-context.md`, 122 lines in nine sections, read by every agent
 ```
 
 <!--
-Entry 13, slide 2 of 3. 25 s of 60. New 2026-09-19. Say aloud: the schedule section lists every other session and what it covers, so the non-goals section can say "do not explain what an agent is" and name where it was covered. The headings are shown rather than the text because the text names colleagues. The transferable artifact is the written brief, not the clever prompt; this file is what a new collaborator would be handed.
-Transition: "Then three decisions, the ones from the last segment."
--->
-
----
-
-# The decisions, on the three axes
-
-- **Who orchestrates.** Claude Code itself, interactively, with me steering. It then wrote the script that has run every stage since.
-- **Topology.** A chain: each step finishes before the next begins. Two stages fan out to several agents at once, and one is a writer-and-reviewer loop.
-- **Isolation.** Every agent starts with an empty conversation. The three that run at the same time also get their own copy of the repository.
-
-<div class="fig">
-
-![w:470](shots/agents-started.png)
-
-Claude Code creating two agents and starting them. None of it needed a framework.
-
-</div>
-
-<!--
-Entry 13, slide 3 of 3. 20 s of 60. New 2026-09-19; this is the payoff of segment B, so use its words. The bootstrap is worth saying aloud: an interactive agent wrote the script that then ran the agents, which is how you get a workflow without writing one first.
-Accuracy, corrected 2026-09-19: only the three agents in the write stage get worktrees, because they are the only ones that run concurrently. Every other stage runs in the main checkout, one at a time. Fresh context, by contrast, is every agent, and it is the default: a `claude -p` call starts a new session unless `--resume` or `--continue` is passed, and neither ever is. The `--no-session-persistence` flag on the call is a separate thing: it stops the transcript being saved to disk.
-The code block was removed 2026-09-19 on the speaker's instruction: three lines of shell are not readable in eight seconds by this audience, and the script is shown properly two slides later. Screenshot added 2026-09-19 on the speaker's instruction: Claude Code creating two agents and reporting that they started work. Confirm before the talk which session it came from; the agent names in it are not this repo's. Say the definitions aloud if anyone looks lost: a worktree is a second copy of the repository's files on disk, and you need one only when two agents are editing at the same moment. The two fan-outs are the write stage (slide-writer, diagrammer, illustrator) and the notes-and-Q&A stage.
-Transition: "So what is an agent, as a file?"
+Entry 13, slide 3 of 3. 25 s of 60. New 2026-09-19. Say aloud: the schedule section lists every other session and what it covers, so the non-goals section can say "do not explain what an agent is" and name where it was covered. The headings are shown rather than the text because the text names colleagues. The transferable artifact is the written brief, not the clever prompt; this file is what a new collaborator would be handed.
+Transition: "So what does each stage need to run?"
 -->
 
 ---
@@ -540,322 +544,109 @@ Transition: "And the prompt that calls it."
 
 <!-- _class: code-sm -->
 
-# Recipe: the prompt for this stage
+# Recipe: from task template to agent call
 
-The agent file says who the agent is and what it always does. The prompt template says what this stage wants this time. This is `pipeline/prompts/critique.md`, the whole file, and it calls the reviewer from the last three slides.
+The agent file defines its role and standing rules. `run.sh` selects a task template from `pipeline/prompts/` for each call.
 
-<pre><code>Read `talk-context.md`, `slides/outline.md`, and `slides/deck.md` with its notes, then look at every image in
-`slides/build/png/` (`deck.001.png` is slide 1) with the Read tool.
+| Stage | Agent file in `.claude/agents/` | Prompt template |
+| --- | --- | --- |
+| Draft | `slide-writer.md` | `slides.md` |
+| Review | `reviewer.md` | `critique.md` |
+| Revise | `slide-writer.md` | `revise.md` |
 
-<span class="hl">Review as described in your agent instructions: does each slide earn its time, can I read it from the back, is</span>
-<span class="hl">every citation complete on the slide, would I be able to do this afterwards. Write `{{RUN_DIR}}/review.md`; first line exactly `Verdict: PASS` or</span>
-`Verdict: REVISE`. Structural problems go under `## For the speaker` and do not affect the verdict.
+```bash
+env -u CLAUDECODE claude -p --agent "$agent" \
+  --output-format json --permission-mode acceptEdits \
+  --allowedTools "$tools" --max-budget-usd "$BUDGET" \
+  --no-session-persistence \
+  "$(cat "$run_dir/prompt.md")" > "$run_dir/result.json"
+```
 
-Do not edit any other file. Return the verdict and the three findings that matter most.</code></pre>
-
-Eleven templates, one per stage. `{{RUN_DIR}}` is filled in per call, and the result is saved as that run's `prompt.md`.
-
-<!--
-Entry 17, slide 5 of 9. 30 s of 240. New 2026-09-19 on the speaker's instruction: the agent-versus-template split was only in the notes before. Highlighted: the line that defers to the agent file, and the line that names the output path. Eleven templates for ten agents, because the slide-writer is called twice, with slides.md for the first draft and revise.md to apply a review: same agent, same tools, same model, different job. Nothing in reviewer.md mentions this deck; the template is what sends it to slides/build/png/.
-Transition: "The orchestrator wrote more than prompts and agent files."
--->
+`--agent` selects the agent file; `--output-format json` returns a structured result including cost; `--max-budget-usd` caps spending; `--no-session-persistence` prevents saving the session transcript.
 
 ---
 
-# Recipe: one headless call per agent
+<!-- _class: recipe-map -->
 
-`--agent` picks the markdown file, `--output-format json` returns a parseable result with the cost in it, `--max-budget-usd` caps the spend, and `--no-session-persistence` discards the transcript so nothing accumulates on disk.
-
-```
-  env -u CLAUDECODE claude -p --agent "$agent" \
-    --output-format json \
-    --permission-mode acceptEdits \
-    --allowedTools "$tools" \
-    --max-budget-usd "$BUDGET" \
-    --no-session-persistence \
-    "$(cat "$run_dir/prompt.md")" > "$run_dir/result.json"
-```
-
-The last line is the prompt and the record. `cat` reads this stage's prompt file, so the run directory holds the exact text sent; `>` writes the JSON reply beside it.
-
-<!--
-Entry 17, slide 6 of 9. 30 s of 240. The exact call from pipeline/run.sh. $BUDGET defaults to 5 after the failure two slides from now. Where prompt.md comes from, if asked: there are eleven templates in pipeline/prompts/, one per stage, not one shared prompt. `run_agent` takes the template as an argument, substitutes {{RUN_DIR}} and any other placeholders with sed, and writes the result as prompt.md in that run's directory before calling anything. Eleven templates for ten agents because slide-writer is called twice, once with slides.md for the first draft and once with revise.md to apply a review. The division of labour: the agent file says who the agent is and what it always does, the template says what this stage wants this time.
-Last line, if asked: `$(cat ...)` is command substitution, so the whole prompt file becomes the one positional argument `claude -p` takes; the outer quotes keep it as a single argument instead of splitting it at every space. `>` redirects standard output, and since `--output-format json` makes the reply a JSON object, that object lands in result.json. Together they are why every run directory holds both halves of the call.
-Accuracy, corrected 2026-09-19: the flag does not make the calls independent; they already are. Every `claude -p` starts a fresh session unless you pass `--resume` or `--continue`. What the flag does is stop the transcript being written to disk, so it cannot be resumed later and nothing piles up. The record we want is result.json in the run directory, not a resumable session. Docs: "sessions will not be saved to disk and cannot be resumed".
-Transition: "Those four things, repeated, in this order."
--->
----
-
-# Recipe: the stages, in order
-
-```
-evidence  →  example  →  chronicle  →  write (slide-writer + diagrammer + illustrator, 3 worktrees, merged)
-  →  loop (critique → revise, until PASS or 2 rounds)  →  chronicle  →  revise  →  factcheck
-  →  notes & qa (parallel)  →  cost
-```
-
-Evidence, example and chronicle run one after another, which is a chain. Write is a fan-out into three worktrees. The loop is writer and critic, and the script owns the loop, not the agents. Cost is a Python script and uses no model at all.
-
-<!--
-Entry 17, slide 7 of 9. 25 s of 240. Moved before the write stage 2026-09-19: the map first, then the one stage worth opening up. Stage order from the `all` case of pipeline/run.sh. Chronicle runs twice so the deck can describe its own build honestly. Point back to the three axes here: this is the topology slide made concrete.
-Transition: "That machinery is attempt two. Attempt one had one more agent, and one fewer human."
--->
-
----
-
-<!-- _class: code-sm -->
-
-# Recipe: the write stage, in full
-
-This is the fan-out: three agents, three worktrees, one merge. Verbatim from `pipeline/run.sh`, apart from the guard clause, the log lines and the merge-conflict branch.
-
-```
-for w in slides diagrams illustrations; do
-  case $w in
-    slides)        agent=slide-writer; tools="Read,Write,Edit,Glob,Grep" ;;
-    diagrams)      agent=diagrammer;   tools="Read,Write,Glob,Grep" ;;
-    illustrations) agent=illustrator;  tools="Read,Write,Glob,Grep" ;;
-  esac
-  git worktree add -q -B "wt/$w" ".worktrees/$w" HEAD
-  (
-    cd ".worktrees/$w"
-    run_agent "$agent" "$run_dir/$w" "$ROOT/pipeline/prompts/$w.md" "$tools"
-    git add -A && git commit -qm "pipeline: $agent in worktree $w"
-  ) &
-done
-wait
-for w in slides diagrams illustrations; do
-  git merge -q --no-edit -m "pipeline: merge $w worktree" "wt/$w"
-  git worktree remove --force ".worktrees/$w"
-done
-```
-
-<!--
-Entry 17, slide 8 of 9. 30 s of 240. New 2026-09-19 on the speaker's instruction: the three summarised lines that were cut from the decisions slide, restored here in full and in context. Walk it in four moves: the loop names three agents and their tool lists; `git worktree add` gives each its own checkout; the parenthesis and the trailing `&` launch it in the background; `wait` blocks until all three finish, and the second loop merges them back. Do not read the case block aloud, it only maps a directory name to an agent. Set at 16px for this slide only; everything is real text from the repository.
-Transition: "One of those stages is not a single agent."
--->
----
-
-# Recipe: what the orchestrator wrote
+# Recipe: the stages and the files
 
 Ten agent files, eleven prompt templates, and 418 lines of shell and Python underneath them: the runner, the cost logger, the renderer, the diagram inliner.
 
 ```
-talk-context.md          the spec above, read by every agent
-slides/outline.md        HUMAN-WRITTEN. Slide order, message, time budgets. No agent edits it.
-.claude/agents/          ten agent definitions, one markdown file each
-pipeline/run.sh          203 lines: stages, the review loop, worktree isolation
+evidence → example → chronicle → write → loop (critique → revise)
+  → chronicle → revise → factcheck → notes & qa → cost
+```
+
+- **Evidence:** source the outline's claims and flag unsupported ones.
+- **Example:** build and run the take-home demo; record its actual result.
+- **Chronicle:** record build failures, runs, and costs; refresh after review to update the deck's story.
+- **Write and loop:** draft in parallel, merge, then review and revise until PASS or two rounds.
+- **Finish:** check facts, write notes and Q&A in parallel, then total costs with Python.
+
+```
+talk-context.md          shared brief, read by every agent
+slides/outline.md        human-written order, messages, and time budgets
+.claude/agents/          ten agent definitions
+pipeline/run.sh          203 lines: stages, review loop, worktree isolation
 pipeline/*.py            cost report, result logger, diagram inliner, renderer
-pipeline/prompts/        eleven prompt templates, one per stage; {{RUN_DIR}} filled in per call
-research/evidence.md     one source per claim in the outline
-runs/                    one directory per agent call: prompt, JSON result, return, cost
+pipeline/prompts/        eleven task templates, filled in per call
+research/               evidence.md: sources; build-log.md: the build history
+runs/                   one folder per call: prompt, JSON result, return, cost
 ```
 
-<!--
-Entry 17, slide 9 of 9. 15 s of 240. New framing 2026-09-19: the listing is no longer "the repository", it is the answer to "what did you have to write". Line counts from wc -l on 2026-09-19: run.sh 203, render_diagrams.py 53, cost_report.py 53, log_result.py 44, inline_diagrams.py 44, render.sh 21. The full listing is in the handout and at github.com/xoubish/multiGrits.
-Transition: "And this is how the script calls one."
--->
+---
+
+# What it cost
+
+| Work in the revised pipeline | Cost |
+| --- | ---: |
+| Evidence, runnable example, and build log | $1.49 |
+| Slides, diagrams, and illustrations in parallel | $4.19 |
+| Two review-and-revision rounds | $9.10 |
+| Build-log update, revision, fact-check, notes, and Q&A | $5.19 |
+| Revision from my written feedback, then updated notes | $5.12 |
+| **Revised pipeline total** | **$25.09** |
+
+The earlier build cost $29.22: **$54.31 across both builds**, recorded in `runs/cost-report.md`. Each call saved its prompt, result, and cost.
+
+This excludes the initial interactive research session and the later slide-by-slide editing.
 
 ---
 
-# Attempt one, from scratch
+# The first output still needed work
 
-The first pipeline let the agents write the outline as well as the slides. Eleven agent files did the work: four researchers in parallel, an outliner, a slide-writer and a diagrammer in worktrees, three critics for content, design and teaching, a fact-checker, a notes-writer, a Q&A skeptic and a demo editor.
-
-Runs 002 through 014 cost $29.22 over 455 turns. Three things broke.
-
-<!--
-Entry 14, slide 1 of 4. 15 s of 75. Source: research/build-log.md section 1. Run 001, the interactive research fan-out, is extra and not in that total. The one difference that matters is in the first sentence: the agents owned the outline.
-Transition: "The first was my own spec."
--->
-
----
-
-# Attempt one, failure 1: the spec contradiction
-
-In run 002, the outliner found that my segment table summed to 27 minutes of content plus 3 of Q&A, my prose said 25 plus 5, and its own instructions demanded 1500 seconds. It could not satisfy all three, so it picked one, scaled three segments down, and logged the choice in its notes rather than choosing silently.
-
-**Fix:** the spec, not the agent. The stage was re-run as run 003.
-
-<!--
-Entry 14, slide 2 of 4. 20 s of 75. Run 002: Sonnet, 22 turns, $0.84, 7.2 min. Run 003: Sonnet, 16 turns, $0.43, 133 s. The agent did the right thing; the spec was wrong. A less careful agent would have chosen silently, and I would never have known.
-Transition: "The second was the failure this talk warns about."
--->
-
----
-
-# Attempt one, failure 2: the shared cost log
-
-<div class="cols">
-<div>
-
-In run 004, the slide-writer and the diagrammer ran in two worktrees and never touched each other's outputs. But `log_result.py` appended one row to a single shared `runs/cost.tsv` from inside each worktree, so the merge conflicted on the pipeline's own bookkeeping.
-
-**Fix:** each run directory writes its own `cost-row.tsv`, and the report is regenerated from every `result.json`.
-
-</div>
-<div>
-
-![w:460](illustrations/merge-conflict.svg)
-
-</div>
-</div>
-
-<!--
-Entry 14, slide 3 of 4. 20 s of 75. Write contention, in the term from the isolation slide. The agents were isolated; my own orchestration was not. Say aloud: nothing appends to a shared file any more. Illustration: merge-conflict.svg, used once, here.
-Transition: "The third was money."
--->
-
----
-
-# Attempt one, failure 3: the budget cap
-
-In run 006, the first revise pass exhausted the then-default $3 `--max-budget-usd` ceiling after 34 turns. `result.json` said `terminal_reason: budget_exhausted`, but the exit code was 1, not the 2 the docs describe. It had already applied 20 of its 24 changes.
-
-**Fix:** the default budget went to $5, and the script reads `result.json` instead of trusting the exit code.
-
-<!--
-Entry 14, slide 4 of 4. 20 s of 75. Runs 007 ($2.64) and 008 ($1.62) finished the revision. The lesson is that a cap is not a clean stop: you get a partial result and an exit code that lies.
-Transition: "And then it finished, and passed every check."
--->
-
----
-
-# What came out
+The pipeline produced a draft, but the structure, wording, and visual choices still needed my judgment.
 
 <div class="cols-even">
 <div>
 
-Every constraint was met: citations complete, word counts under the cap, segment timing to the second. The fact-checker confirmed 44 citations, 2 partial, 0 not found.
+**Original draft**
 
-And it was a wall of cited percentages, plus a twelve-minute demo of screenshots of README files. This is one of its slides.
-
-</div>
-<div>
-
-![w:560](shots/first-deck-gotcha-crop.png)
-
-</div>
-</div>
-
-<!--
-Entry 15, slide 1 of 2. 30 s of 60. The old deck is at commit 707ad48 and can be rendered if anyone asks.
-Transition: "Why did that happen?"
--->
-
----
-
-# What came out, and why
-
-<div class="cols-even">
-<div>
-
-The three critics scored what could be counted: citation counts, words per second, and seconds per slide. Nobody scored whether it was a talk.
-
-Agents optimize the rubric they are given. Taste is not in the rubric, and it cannot be, so taste has to be a human's.
+![w:550](shots/first-deck-thesis-crop.png)
 
 </div>
 <div>
 
-![w:560](shots/first-deck-thesis-crop.png)
+**After slide-by-slide editing**
+
+![w:550](shots/edited-context-slide.png)
 
 </div>
 </div>
 
-<!--
-Entry 15, slide 2 of 2. 30 s of 60. This is the moment I admit it did not work. Do not rush it.
-Transition: "So I took back the one job that was mine."
--->
+Passing checks for citations and word counts did not make it ready to present.
 
 ---
 
-# The reset: the outline became mine
+# How I finished it: one agent, one slide at a time
 
-I wrote this outline by hand, and no agent generates or reorders it. This is its first entry exactly as it sits in `slides/outline.md`; every entry has that shape:
+Once I understood the procedure, I worked through the deck slide by slide with one agent.
 
-```
-1. **Title.** Multi-agent workflows. Shoubaneh Hemmati, Caltech/IPAC. GRITS AI workshop, September 2026. 15 s.
-```
+- I decided what each slide needed to say, and what to cut, combine, or explain.
+- The agent edited the deck and rendered the result.
+- I reviewed each change and asked for another pass when needed.
 
-Agents draft slides, diagrams, evidence, notes and reviews for that outline. If one finds a structural problem, it reports it under a "For the speaker" heading and does not fix it.
-
-<!--
-Entry 16, slide 1 of 3. 20 s of 60. Number, bold title, message, seconds. One change, and the roster changed with it.
-Transition: "That one change cascaded."
--->
-
----
-
-# The reset: retired and added
-
-**Retired.** The outliner, because I own the outline. The four researchers, whose push-mode briefs nobody used. The three critics, three rubrics that rewarded compliance. The demo editor.
-
-**Added.** An evidence-finder that sources only the claims I make. An example-builder that runs the take-home example for real. One reviewer that sits in the audience. A chronicler that records the build. An illustrator.
-
-<!--
-Entry 16, slide 2 of 3. 20 s of 60. Eleven agents then, ten now, and the ten do less deciding. The reviewer's file says out loud that it replaces three critics whose deck was unpresentable.
-Transition: "The research had to be redone, differently."
--->
-
----
-
-# The reset: research, pushed then pulled
-
-- **Pushed.** Four researchers wrote about 7,100 words of briefs on four topics I had guessed at in advance. Most of it was never used.
-- **Pulled.** One evidence-finder reads the finished outline and finds a source for each claim I actually make.
-- It sourced 13 of 16 claims from the old briefs and flagged 4 as unsupported rather than guessing at them.
-
-Research against the claims, not against the subject.
-
-<!--
-Entry 16, slide 3 of 3. 20 s of 60. New 2026-09-19. The old briefs were not wasted: they became the evidence-finder's first place to look, which is why run 015 cost $0.73 instead of running four web searches again. The four unsupported claims were either cut or restated as my own inference, which is why two slides say "the inference is mine".
-Transition: "Here is attempt two, run by run."
--->
-
----
-
-# Attempt two, run by run
-
-| Runs | Stage | What happened | Cost |
-|---|---|---|---|
-| 015–017 | evidence, example, chronicle | Sourced 13 of 16 claims; built and ran the exoplanet example; wrote the build log. | $1.49 |
-| 018 | write | Slide-writer, diagrammer and illustrator in three worktrees at once, merged with no conflict. | $4.19 |
-| 019–022 | critique, revise, twice | Both rounds returned REVISE: illustrations unplaced, code at 7 pixels, diagrams squeezed. | $9.10 |
-| 023–027 | chronicle, revise, fact-check, notes, Q&A | The log caught up with the build, every source was verified, the handout was written. | $5.19 |
-| 029–030 | revise, notes | An editorial review written by hand, not by the reviewer agent, made the posted slides stand alone. | $5.12 |
-
-<!--
-Entry 19. 45 s. One table since 2026-09-19, the way the scale slide is. Numbers from runs/cost.tsv, regenerated 2026-09-19 after run 030. Detail if asked: run 018 was slide-writer 16 turns $3.07, illustrator 10 turns $0.94, diagrammer 16 turns $0.18, disjoint files so the merge was clean; run 019 read the deck and all 54 rendered slide images in 64 turns; run 022 was the second and last round `--rounds 2` allows. Run 028 was the hand-written review and cost nothing.
-Transition: "And the bill."
--->
-
----
-
-# What it cost, and the receipts
-
-- Attempt one: $29.22 over 455 turns. Attempt two: $25.09 over 563. Both: **$54.31** over 1,018 turns.
-- Every call left a directory holding the exact prompt sent, the full JSON result, the return text, the exit code and its own cost row.
-- The report is regenerated from every `result.json`, which is how a pipeline is audited rather than trusted.
-- The field's own deployment checklist asks for exactly this: an immutable audit trail and version-controlled safe states (Gao et al. 2026).
-
-<!--
-Entry 20. 45 s. Merged from two slides 2026-09-19. Re-check the total the day before the talk; it is regenerated from every result.json and any stage run after 2026-09-19 adds a row. Run 001, the interactive research fan-out, is extra and was recorded by hand. Gao et al. 2026, Table 12: "Immutable Audit Trail... logged with details on the trigger, changes made, and outcome"; "Version Control for Safe States".
-Transition: "Which brings the story to now."
--->
-
----
-
-# One agent, one slide at a time
-
-- The reviewer reads the deck and looks at every rendered slide image, then writes `Verdict: PASS` or `Verdict: REVISE`.
-- The slide-writer applies one review at a time and logs each finding it declined, and why.
-- A review I write by hand goes in the same file, in the same format. The script cannot tell the difference; run 028 was one of mine.
-- That is where this deck is now. It has not returned PASS.
-
-<!--
-Entry 20b. 30 s. New 2026-09-19, the honest ending the speaker asked for. If asked what the reviewer catches that a human would not: it looks at the rendered PNGs, so it finds code at 7 pixels and cover-cropped illustrations, which never show up in the markdown.
-Transition: "Now the evidence for when this helps and when it hurts."
--->
+The multi-agent workflow produced the draft. Working directly with one agent is how I made it a talk I could present.
 
 ---
 
@@ -910,7 +701,7 @@ Transition: "Three of those I see every week."
 
 First, subagents do not see the orchestrator's conversation. They must be given what they need in the prompt, and asked for a summary in return, not a dump.
 
-Second, two agents editing one file; the shared cost log in attempt one is an instance.
+Second, two agents editing one file. Even agents in separate worktrees can conflict when their changes are merged; this pipeline's shared cost log did.
 
 Third, agents spawning agents instead of a script calling agents. Once the model decides the order, reproducibility is lost.
 
