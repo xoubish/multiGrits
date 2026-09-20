@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 150 770 275">
+  <g fill="#e8edf2" stroke="#1e3a5f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- ground line -->
+    <line x1="30" y1="410" x2="770" y2="410" fill="none"/>
+
+    <!-- CONDUCTOR on a podium, baton raised, reading the score on a stand -->
+    <rect x="80" y="372" width="130" height="38" rx="6"/>
+    <rect x="112" y="250" width="70" height="122" rx="10"/>
+    <line x1="130" y1="292" x2="164" y2="292" fill="none"/>
+    <rect x="118" y="190" width="58" height="50" rx="8"/>
+    <line x1="126" y1="204" x2="168" y2="204" fill="none"/>
+    <circle cx="136" cy="224" r="4.5" fill="#1e3a5f"/>
+    <circle cx="158" cy="224" r="4.5" fill="#1e3a5f"/>
+    <line x1="147" y1="190" x2="147" y2="176" fill="none"/>
+    <circle cx="147" cy="170" r="5"/>
+    <!-- left arm up with baton -->
+    <line x1="114" y1="270" x2="74" y2="222" fill="none"/>
+    <line x1="74" y1="222" x2="58" y2="172" fill="none" stroke-width="4"/>
+    <!-- right arm toward the stand -->
+    <line x1="180" y1="270" x2="222" y2="300" fill="none"/>
+    <!-- music stand with the score: the script -->
+    <line x1="258" y1="410" x2="258" y2="304" fill="none"/>
+    <rect x="228" y="266" width="60" height="42" rx="4" transform="rotate(-12 258 287)"/>
+    <line x1="238" y1="278" x2="278" y2="270" fill="none" stroke-width="3"/>
+    <line x1="240" y1="288" x2="280" y2="280" fill="none" stroke-width="3"/>
+    <line x1="242" y1="298" x2="270" y2="292" fill="none" stroke-width="3"/>
+
+    <!-- MUSICIANS -->
+    <rect x="350" y="346" width="60" height="64" rx="9"/>
+    <rect x="358" y="304" width="44" height="36" rx="7"/>
+    <line x1="364" y1="314" x2="396" y2="314" fill="none"/>
+    <circle cx="371" cy="328" r="3.5" fill="#1e3a5f"/>
+    <circle cx="389" cy="328" r="3.5" fill="#1e3a5f"/>
+    <line x1="380" y1="304" x2="380" y2="294" fill="none"/>
+    <circle cx="380" cy="290" r="4"/>
+    <ellipse cx="404" cy="356" rx="11" ry="19" transform="rotate(-35 404 356)"/>
+    <line x1="410" y1="340" x2="432" y2="308" fill="none"/>
+    <line x1="386" y1="372" x2="424" y2="348" fill="none" stroke-width="4"/>
+    <rect x="440" y="322" width="60" height="64" rx="9"/>
+    <rect x="448" y="280" width="44" height="36" rx="7"/>
+    <line x1="454" y1="290" x2="486" y2="290" fill="none"/>
+    <circle cx="461" cy="304" r="3.5" fill="#1e3a5f"/>
+    <circle cx="479" cy="304" r="3.5" fill="#1e3a5f"/>
+    <line x1="470" y1="280" x2="470" y2="270" fill="none"/>
+    <circle cx="470" cy="266" r="4"/>
+    <line x1="486" y1="306" x2="520" y2="306" fill="none"/>
+    <path d="M520 298 L538 292 L538 320 L520 314 Z"/>
+    <rect x="530" y="308" width="60" height="64" rx="9"/>
+    <rect x="538" y="266" width="44" height="36" rx="7"/>
+    <line x1="544" y1="276" x2="576" y2="276" fill="none"/>
+    <circle cx="551" cy="290" r="3.5" fill="#1e3a5f"/>
+    <circle cx="569" cy="290" r="3.5" fill="#1e3a5f"/>
+    <line x1="560" y1="266" x2="560" y2="256" fill="none"/>
+    <circle cx="560" cy="252" r="4"/>
+    <ellipse cx="560" cy="386" rx="17" ry="26"/>
+    <line x1="560" y1="360" x2="560" y2="318" fill="none"/>
+    <line x1="540" y1="404" x2="586" y2="364" fill="none" stroke-width="4"/>
+    <rect x="620" y="322" width="60" height="64" rx="9"/>
+    <rect x="628" y="280" width="44" height="36" rx="7"/>
+    <line x1="634" y1="290" x2="666" y2="290" fill="none"/>
+    <circle cx="641" cy="304" r="3.5" fill="#1e3a5f"/>
+    <circle cx="659" cy="304" r="3.5" fill="#1e3a5f"/>
+    <line x1="650" y1="280" x2="650" y2="270" fill="none"/>
+    <circle cx="650" cy="266" r="4"/>
+    <rect x="632" y="384" width="40" height="26" rx="4"/>
+    <ellipse cx="652" cy="384" rx="20" ry="7"/>
+    <line x1="636" y1="352" x2="646" y2="378" fill="none" stroke-width="4"/>
+    <line x1="668" y1="352" x2="660" y2="378" fill="none" stroke-width="4"/>
+    <rect x="710" y="346" width="60" height="64" rx="9"/>
+    <rect x="718" y="304" width="44" height="36" rx="7"/>
+    <line x1="724" y1="314" x2="756" y2="314" fill="none"/>
+    <circle cx="731" cy="328" r="3.5" fill="#1e3a5f"/>
+    <circle cx="749" cy="328" r="3.5" fill="#1e3a5f"/>
+    <line x1="740" y1="304" x2="740" y2="294" fill="none"/>
+    <circle cx="740" cy="290" r="4"/>
+    <line x1="726" y1="331" x2="776" y2="331" fill="none"/>
+  </g>
+</svg>

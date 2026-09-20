@@ -94,6 +94,22 @@ for PDF export and diagram pre-rendering.
 `slides/build/deck.html` (and `deck.pdf` with `--pdf`, per-slide PNGs with `--png`). Present from `deck.html`
 offline; press `p` for presenter view with notes and a timer.
 
+## Publishing to GitHub Pages
+
+`pipeline/publish.sh` builds `docs/` for Pages: the deck with speaker notes stripped, its illustrations
+and screenshots beside it, and the PDF. Enable it once under **Settings → Pages → Deploy from a branch →
+`main` / `docs`**; after that, run the script and push whenever the deck changes.
+
+```
+pipeline/publish.sh      # -> docs/index.html, docs/deck.pdf, docs/illustrations/, docs/shots/
+```
+
+Two things worth knowing. **Present from `slides/build/deck.html`, not from the hosted copy** — the local
+one keeps the speaker notes, so pressing `p` gives you presenter view with the notes and a timer; the
+hosted copy has them stripped, deliberately, so the public page does not ship working notes in its HTML.
+The notes are not secret either way: they are in `slides/deck.md`, which is public here. And **`docs/`
+is generated** — do not hand-edit it; edit `slides/deck.md` and re-run the script.
+
 ## What is current, and what is history
 
 The repo deliberately keeps both versions of the pipeline, because the talk is about the difference

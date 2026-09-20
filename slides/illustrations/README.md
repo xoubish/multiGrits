@@ -1,6 +1,6 @@
 # Illustrations
 
-20 flat SVGs, one style: navy `#1e3a5f` lines and figures, light grey `#e8edf2` fills, transparent background,
+21 flat SVGs, one style: navy `#1e3a5f` lines and figures, light grey `#e8edf2` fills, transparent background,
 `viewBox="0 0 800 450"`, no text, no gradients/filters/masks/fonts. They scale to half a slide beside text
 (`w:520`) or to a full slide (`bg right` or full width). Entries that carry a `{{diagram:...}}` token or a code
 block were skipped on purpose; these are for moments, not mechanisms.
@@ -24,6 +24,8 @@ block were skipped on purpose; these are for moments, not mechanisms.
 | `counting-cash` | 20a. What it cost | A robot holding a fan of banknotes with a stack beside it, grinning. Drawn 2026-09-19. | `![w:290](illustrations/counting-cash.svg)` — right of the cost table in a two-column grid. |
 | `sad-agent-team`, `happy-single-agent` | 20b. One agent, one slide at a time | A row of three glum agents against one cheerful single agent: the reaction shot for the pipeline draft against the hand-edited version. Drawn 2026-09-19. | `![h:110](illustrations/sad-agent-team.svg)` and `![h:110](illustrations/happy-single-agent.svg)` inside `.robot-reactions`. |
 | `one-agent-shooing` | 26/27. Close (drawn, not placed) | One agent waving the others away: the "start with one" punchline. Drawn 2026-09-19 and never placed on a slide. | `![w:400](illustrations/one-agent-shooing.svg)` beside the decision rule. |
+
+| `handshake` | 29. Why there is no live exercise (the closing joke) | A person and a robot shaking hands, standing on a ground line, nothing else in frame. Drawn 2026-09-19; a stack of banknotes between them was removed the same day on the speaker's instruction. | `![w:400](illustrations/handshake.svg)` above the centred text on a `closer` slide. |
 
 Not every illustration in the table above is on a slide. The deck was cut from 58 slides to 30 on 2026-09-18/19;
 `title`, `pattern-isolated`, `merge-conflict`, `one-agent-shooing` and `close` belong to slides that

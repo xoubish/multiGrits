@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 330" role="img" aria-label="A robot counting banknotes beside a stack of cash">
+  <g stroke="#1e3a5f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M158 54 V32" fill="none"/>
+    <circle cx="158" cy="24" r="8" fill="#e8edf2"/>
+    <rect x="92" y="54" width="132" height="106" rx="14" fill="#e8edf2"/>
+    <path d="M104 76 H212" fill="none"/>
+    <circle cx="128" cy="106" r="14" fill="#fff"/>
+    <circle cx="187" cy="106" r="14" fill="#fff"/>
+    <circle cx="131" cy="111" r="5" fill="#1e3a5f" stroke="none"/>
+    <circle cx="184" cy="111" r="5" fill="#1e3a5f" stroke="none"/>
+    <path d="M139 137 Q158 151 178 137" fill="none"/>
+    <path d="M146 161 V176 M170 161 V176" fill="none"/>
+    <rect x="111" y="176" width="94" height="91" rx="12" fill="#e8edf2"/>
+    <path d="M137 198 H179 M138 260 V291 M181 260 V291" fill="none"/>
+    <path d="M121 296 H143 M177 296 H199" fill="none"/>
+    <path d="M111 189 L72 211 L105 237 M205 189 L245 207 L218 235" fill="none"/>
+    <g fill="#d9e9df" stroke="#477460" stroke-width="3">
+      <rect x="101" y="220" width="77" height="42" rx="3" transform="rotate(-18 139 241)"/>
+      <rect x="117" y="212" width="77" height="42" rx="3" transform="rotate(-5 155 233)"/>
+      <rect x="150" y="206" width="77" height="42" rx="3" transform="rotate(13 188 227)"/>
+      <ellipse cx="188" cy="227" rx="10" ry="13" transform="rotate(13 188 227)" fill="#fff"/>
+      <path d="M164 215 L168 216 M208 235 L212 236"/>
+      <rect x="236" y="284" width="69" height="28" rx="3"/>
+      <rect x="232" y="276" width="69" height="28" rx="3"/>
+      <rect x="228" y="268" width="69" height="28" rx="3"/>
+      <ellipse cx="263" cy="282" rx="10" ry="8" fill="#fff"/>
+    </g>
+    <circle cx="105" cy="237" r="9" fill="#e8edf2"/>
+    <circle cx="219" cy="235" r="9" fill="#e8edf2"/>
+    <path d="M230 167 L239 156 M246 184 L260 180" fill="none" stroke-width="3"/>
+  </g>
+</svg>

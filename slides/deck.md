@@ -93,6 +93,10 @@ style: |
   section.refs .twocol { columns: 2; column-gap: 36px; }
   section.refs p { font-size: 14px; line-height: 1.32; margin: 0 0 5px; break-inside: avoid; }
   section.refs .note { font-size: 14px; color: #555; margin-top: 12px; columns: 1; }
+  section.closer { justify-content: center; text-align: center; }
+  section.closer p { font-size: 34px; line-height: 1.5; max-width: 940px; margin: 0 auto 22px; }
+  section.closer strong { font-size: 38px; }
+  section.closer img { display: block; margin: 0 auto 18px; }
   section.sources { font-size: 17px; line-height: 1.5; }
   section.sources h1 { font-size: 30px; margin-bottom: 14px; }
   section.sources p { margin: 0 0 6px; }
@@ -665,7 +669,7 @@ The receipts record the failures too. Five that cost me real time.
 
 <!--
 New 2026-09-19 on the speaker's instruction, between the cost slide and the editing slide. This is the slide that pays off "and then what went wrong with it" on the pipeline slide, and question 5 of the reviewer file two slides earlier. Do not apologise for any of it; these are the four things a person copying this workflow will hit in their first week.
-Every number is checked against the repo. 18.6M = input + cache creation + cache read + output summed over the 35 `result.json` files under `runs/`: 2,562 + 2,687,482 + 14,945,041 + 929,919 = 18,565,004. Nineteen to one = 17,635,085 read against 929,919 written, 18.96. The fact-check pass is `runs/025-factcheck`: 2,085,503 cache read, 26,460 output, $1.66, 314 s. Say aloud if asked why it is so lopsided: every turn re-sends the whole window, which is the point made on "What fills a context window".
+Every number is checked against the repo. 18.6M = input + cache creation + cache read + output summed over the 35 `result.json` files under `runs/`: 2,562 + 2,687,482 + 14,945,041 + 929,919 = 18,565,004. Nineteen to one = 17,635,085 read against 929,919 written, 18.96. The fact-check pass is `runs/025-factcheck`: 2,085,503 cache read, 26,460 output, $1.66, 314 s. Say aloud if asked why it is so lopsided: every turn re-sends the whole window, which is the point made on "What fills a context window". The aside to land here, lightly, after "nineteen read for every one written": this is also why I am showing you the receipts rather than running a hands-on exercise. One build cost $54.31 and 18.6 million tokens. A room of forty each building their own is about $2,200 and 740 million tokens, plus the wifi. You are welcome. Swap in the real headcount on the day. Keep this off the slide: the deck is posted at xoubish.github.io/multiGrits and every slide has to stand alone, so anything addressed to the people in the room stays spoken.
 Budget cap is `runs/006-revise`: `num_turns` 34, `total_cost_usd` 3.4482, `subtype: error_max_budget_usd`, `terminal_reason: budget_exhausted`, and `runs/006-revise/exit-code` contains 1. The cap was the then-default $3; it is now $5, and `run.sh` reads the result file instead of trusting the exit code. `runs/006-revise/changes.md` shows it had already applied 20 of 24 items when it stopped, which is why the half-changed deck is the real cost, not the $0.45 overshoot.
 Merge conflict is `runs/004-write`: `slide-writer` and `diagrammer` in `.worktrees/slides` and `.worktrees/diagrams`, disjoint output folders, conflicting on `runs/cost.tsv` because `log_result.py` appended to one shared file from inside both worktrees. Fixed by giving each run directory its own `cost-row.tsv`. This is the concrete form of the write contention named on the isolation axis slide; say that link aloud.
 The 613K of 1M figure is the same /context panel already shown on "What fills a context window", so point back at it rather than re-explaining. The honest version of the last bullet, if anyone presses: I did not meter the interactive sessions, so I cannot tell you what the deck really cost.
@@ -774,6 +778,23 @@ My practical conclusion:
 **Start simple. Split deliberately. Measure the gain.**
 
 <p class="source-credit">Evidence: <a href="https://arxiv.org/abs/2604.02460">Tran and Kiela (2026)</a>; <a href="https://arxiv.org/abs/2512.08296">Kim et al. (2026)</a>. The decision rule is my synthesis, not a universal benchmark result.</p>
+
+---
+
+<!-- _class: closer -->
+
+![w:400](illustrations/handshake.svg)
+
+I saved us a few thousand dollars and tokens by not asking the room to run through the example with me.
+
+**You are welcome.**
+
+<!--
+Final presented slide, new 2026-09-19 on the speaker's instruction. Illustration: handshake.svg, above the text, drawn 2026-09-19 at the speaker's request; the banknotes in the first version were removed on 2026-09-19, so it is just the two of them shaking hands. Do not point at it or explain it. It is a joke, so deliver it dry, let the laugh land, and stop. Do not show the arithmetic and do not explain it; the numbers below are only for a question afterwards.
+If challenged: building this deck once was 1,018 agent turns, 166 minutes of model time, 18.6 million tokens and $54.31, all from the 35 `result.json` files under `runs/`. Thirty people each doing it is about $1,630 in tokens, so "a few thousand" is carried by salary rather than tokens: thirty people times an afternoon is roughly 120 person-hours, which at any loaded IPAC rate is several thousand dollars. That is the conservative reading, which is why the slide says a few thousand and not a number.
+Thirty is the assumed headcount. If the room is much smaller, say "a couple of thousand" instead; the joke does not depend on the figure. Wording set by the speaker 2026-09-19; "a few thousand" carries the article the speaker's note left out. Note that "a few thousand" is right for the dollars and low for the tokens: thirty people each running the build is about 557 million tokens (30 x 18.565M), and even thirty people running only the small example is a few hundred thousand. If anyone calls that out, agree cheerfully and give the real figure; the understatement is part of the joke, not a claim.
+The serious version, if anyone asks it in Q&A: the whole pipeline is not runnable by a room in thirty minutes, but the small bounded piece is. `examples/exoplanet-lookup/` is one read-only agent over ten targets and cost $0.0751 to run (`examples/exoplanet-lookup/RESULT.md`), so thirty people running that is $2.25. Point them at it as the Monday first step, since the take-home example no longer has a slide of its own.
+-->
 
 ---
 

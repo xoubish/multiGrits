@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 12 1032 246" font-family="-apple-system, Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" viewBox="0 0 11 11" orient="auto"><path d="M0 0 L11 5.5 L0 11 Z" fill="#1e3a5f"/></marker></defs>
+  <g stroke="#1e3a5f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="18" y="20" width="856" height="40" rx="10" fill="#1e3a5f"/>
+    <text x="446" y="46" font-size="20" font-weight="600" fill="#fff" text-anchor="middle" stroke="none">pipeline/run.sh  ·  the script owns the order</text>
+    <path d="M94 60 L94 92" fill="none" marker-end="url(#a)"/>
+    <rect x="18" y="96" width="152" height="116" rx="9" fill="#e8edf2"/>
+    <text x="94" y="132" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">evidence-finder</text>
+    <text x="94" y="160" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">example-builder</text>
+    <text x="94" y="188" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">chronicler</text>
+    <text x="94" y="242" font-size="16" fill="#5e6b7a" text-anchor="middle" stroke="none">a chain</text>
+    <path d="M173 154 L188 154" fill="none" marker-end="url(#a)"/>
+    <path d="M268 60 L268 92" fill="none" marker-end="url(#a)"/>
+    <rect x="192" y="96" width="152" height="116" rx="9" fill="#e8edf2"/>
+    <text x="268" y="132" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">slide-writer</text>
+    <text x="268" y="160" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">diagrammer</text>
+    <text x="268" y="188" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">illustrator</text>
+    <text x="268" y="242" font-size="16" fill="#5e6b7a" text-anchor="middle" stroke="none">a fan-out, 3 worktrees</text>
+    <path d="M347 154 L362 154" fill="none" marker-end="url(#a)"/>
+    <path d="M442 60 L442 92" fill="none" marker-end="url(#a)"/>
+    <rect x="366" y="96" width="152" height="116" rx="9" fill="#e8edf2"/>
+    <text x="442" y="132" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">reviewer</text>
+    <text x="442" y="160" font-size="22" font-weight="600" fill="#1e3a5f" text-anchor="middle" stroke="none">⇅</text>
+    <text x="442" y="188" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">slide-writer</text>
+    <text x="442" y="242" font-size="16" fill="#5e6b7a" text-anchor="middle" stroke="none">a loop, up to 2 rounds</text>
+    <path d="M521 154 L536 154" fill="none" marker-end="url(#a)"/>
+    <path d="M616 60 L616 92" fill="none" marker-end="url(#a)"/>
+    <rect x="540" y="96" width="152" height="116" rx="9" fill="#e8edf2"/>
+    <text x="616" y="132" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">chronicler</text>
+    <text x="616" y="160" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">slide-writer</text>
+    <text x="616" y="188" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">fact-checker</text>
+    <text x="616" y="242" font-size="16" fill="#5e6b7a" text-anchor="middle" stroke="none">a chain</text>
+    <path d="M695 154 L710 154" fill="none" marker-end="url(#a)"/>
+    <path d="M790 60 L790 92" fill="none" marker-end="url(#a)"/>
+    <rect x="714" y="96" width="152" height="116" rx="9" fill="#e8edf2"/>
+    <text x="790" y="146" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">notes-writer</text>
+    <text x="790" y="174" font-size="17" font-weight="400" fill="#1e3a5f" text-anchor="middle" stroke="none">qa-skeptic</text>
+    <text x="790" y="242" font-size="16" fill="#5e6b7a" text-anchor="middle" stroke="none">a fan-out</text>
+    <path d="M874 154 L888 154" fill="none" marker-end="url(#a)"/>
+    <rect x="894" y="114" width="128" height="80" rx="9" fill="none" stroke-dasharray="7 5"/>
+    <text x="958" y="148" font-size="17" font-weight="600" fill="#1e3a5f" text-anchor="middle" stroke="none">the deck,</text>
+    <text x="958" y="172" font-size="17" font-weight="600" fill="#1e3a5f" text-anchor="middle" stroke="none">the handout</text>
+  </g>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <g fill="#e8edf2" stroke="#1e3a5f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- desk -->
+    <line x1="40" y1="330" x2="760" y2="330" fill="none"/>
+
+    <!-- left terminal -->
+    <rect x="70" y="90" width="230" height="170" rx="14"/>
+    <line x1="70" y1="122" x2="300" y2="122" fill="none"/>
+    <circle cx="94" cy="106" r="5" fill="#1e3a5f" stroke="none"/>
+    <circle cx="112" cy="106" r="5" fill="#1e3a5f" stroke="none"/>
+    <line x1="96" y1="156" x2="200" y2="156" fill="none"/>
+    <line x1="96" y1="184" x2="250" y2="184" fill="none"/>
+    <line x1="96" y1="212" x2="170" y2="212" fill="none"/>
+    <rect x="180" y="204" width="14" height="18" fill="#1e3a5f" stroke="none"/>
+    <!-- stand -->
+    <line x1="185" y1="262" x2="185" y2="330" fill="none"/>
+
+    <!-- right terminal -->
+    <rect x="500" y="90" width="230" height="170" rx="14"/>
+    <line x1="500" y1="122" x2="730" y2="122" fill="none"/>
+    <circle cx="524" cy="106" r="5" fill="#1e3a5f" stroke="none"/>
+    <circle cx="542" cy="106" r="5" fill="#1e3a5f" stroke="none"/>
+    <line x1="526" y1="156" x2="660" y2="156" fill="none"/>
+    <line x1="526" y1="184" x2="600" y2="184" fill="none"/>
+    <line x1="526" y1="212" x2="680" y2="212" fill="none"/>
+    <rect x="690" y="204" width="14" height="18" fill="#1e3a5f" stroke="none"/>
+    <!-- stand -->
+    <line x1="615" y1="262" x2="615" y2="330" fill="none"/>
+
+    <!-- the person in the middle, seen from behind, head turned toward the left screen -->
+    <circle cx="400" cy="250" r="40"/>
+    <path d="M320 430 V370 a80 80 0 0 1 160 0 V430 Z"/>
+    <!-- arms reaching to each keyboard -->
+    <line x1="330" y1="360" x2="240" y2="325" fill="none"/>
+    <line x1="470" y1="360" x2="560" y2="325" fill="none"/>
+
+    <!-- swivel arrow above the head: attention going back and forth -->
+    <path d="M340 190 A90 60 0 0 1 460 190" fill="none"/>
+    <polygon points="334,196 344,176 356,196" fill="#1e3a5f"/>
+    <polygon points="466,196 456,176 444,196" fill="#1e3a5f"/>
+
+    <!-- coffee mug on the desk -->
+    <rect x="300" y="290" width="36" height="40" rx="6"/>
+    <path d="M336 300 h12 a10 10 0 0 1 0 20 h-12" fill="none"/>
+  </g>
+</svg>
