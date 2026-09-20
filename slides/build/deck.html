@@ -2688,7 +2688,7 @@ section.sources p { margin: 0 0 6px; }
 <li>Files: shared, so two agents can write the same file; or one git worktree per agent, merged at the end.</li>
 <li>Neither is free. Isolated memories bring redundancy and communication overhead; shared stores bring clutter and write contention (Hu et al. 2026).</li>
 <li>A Claude Code subagent starts with a fresh context and receives only the delegation message (Anthropic 2026).</li>
-<li>Write contention is the failure in attempt one: two agents, one file.</li>
+<li>Write contention: two agents editing the same file can overwrite each other's changes.</li>
 </ul>
 <footer>Multi-agent workflows · GRITS AI workshop · September 2026</footer>
 </section>
@@ -3890,7 +3890,7 @@ section.sources h1 { font-size: 30px; margin-bottom: 14px; }
 section.sources p { margin: 0 0 6px; }
 ;" data-marpit-pagination-total="30">
 <h1 id="recipe-what-a-stage-is">Recipe: what a stage is</h1>
-<p>The pipeline is a sequence of stages. Every stage is the same four things, and the next four slides are those four things, in that order.</p>
+<p>The pipeline is a sequence of stages. Each stage has four parts.</p>
 <ul>
 <li><strong>Who does it.</strong> An agent file: <code>.claude/agents/reviewer.md</code>, holding the tools, the model, and what that agent always does.</li>
 <li><strong>What it is asked, this time.</strong> A prompt template: <code>pipeline/prompts/critique.md</code>, the task for this stage.</li>

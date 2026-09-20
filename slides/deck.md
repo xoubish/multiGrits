@@ -348,7 +348,7 @@ Transition: "The third axis: what the agents share."
 - Files: shared, so two agents can write the same file; or one git worktree per agent, merged at the end.
 - Neither is free. Isolated memories bring redundancy and communication overhead; shared stores bring clutter and write contention (Hu et al. 2026).
 - A Claude Code subagent starts with a fresh context and receives only the delegation message (Anthropic 2026).
-- Write contention is the failure in attempt one: two agents, one file.
+- Write contention: two agents editing the same file can overwrite each other's changes.
 
 <!--
 Entry 6, slide 4 of 4. 20 s of 140. Anthropic (2026), Subagents, Claude Code documentation: a subagent's context starts fresh with its system prompt, the delegation message, CLAUDE.md and a git snapshot, not the parent's history. Hu et al. 2026 §7.5: early multi-agent systems "relied on isolated local memories coupled with explicit message passing... [which] avoided direct interference between agents, [but] often suffered from redundancy, fragmented context, and high communication overhead"; centralized shared memory (blackboards, shared documents) "exposed new challenges, including memory clutter, write contention, and the lack of role- or permission-aware access control." A hybrid exists: private role-specific memories plus a shared store (Intrinsic Memory Agents).
@@ -474,7 +474,7 @@ Transition: "So what does each stage need to run?"
 
 # Recipe: what a stage is
 
-The pipeline is a sequence of stages. Every stage is the same four things, and the next four slides are those four things, in that order.
+The pipeline is a sequence of stages. Each stage has four parts.
 
 - **Who does it.** An agent file: `.claude/agents/reviewer.md`, holding the tools, the model, and what that agent always does.
 - **What it is asked, this time.** A prompt template: `pipeline/prompts/critique.md`, the task for this stage.
